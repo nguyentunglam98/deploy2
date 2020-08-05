@@ -16,7 +16,6 @@ import java.util.List;
  * lamnt98
  * 27/07
  */
-@Transactional
 @Repository
 public interface NewsletterRepository extends JpaRepository<Newsletter,Integer> {
     @Query(value = "select n from Newsletter n where n.status = 0 order by n.gim desc")

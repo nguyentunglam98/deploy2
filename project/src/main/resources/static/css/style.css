@@ -4,6 +4,10 @@ body {
     margin: auto;
 }
 
+.mobiletest-html {
+    overflow-x: auto !important;
+}
+
 a,
 a:hover {
     text-decoration: none;
@@ -109,9 +113,14 @@ a:hover {
     border-top: 1px solid #ffffff4f;
 }
 
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #ffffff4f;
+}
+
 .dropdown-toggle::after {
     border-top: 0;
     margin-left: 0;
+    display: none;
 }
 
 .nav-link {
@@ -123,40 +132,15 @@ a:hover {
     cursor: pointer;
     text-align: center;
     padding: 10px 20px !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .nav-link:hover {
     background: #ffffff4f;
     color: #FFF;
 }
-
-/*.nav-link:before {*/
-/*    top: 0px;*/
-/*    transform: translateY(10px);*/
-/*}*/
-
-/*.nav-link:after {*/
-/*    bottom: 0px;*/
-/*    transform: translateY(-10px);*/
-/*}*/
-
-/*.nav-link:before,*/
-/*.nav-link:after {*/
-/*    position: absolute;*/
-/*    left: 0px;*/
-/*    width: 100%;*/
-/*    height: 1px;*/
-/*    background: #FFF;*/
-/*    content: "";*/
-/*    opacity: 0;*/
-/*    transition: all 0.3s;*/
-/*}*/
-
-/*.nav-link:not(.active):hover:before,*/
-/*.nav-link:not(.active):hover:after {*/
-/*    opacity: 1;*/
-/*    transform: translateY(0px);*/
-/*}*/
 
 .nav-link i {
     margin-left: 10px;
@@ -236,12 +220,6 @@ a:hover {
     color: #FFFFFF;
 }
 
-@media (min-width: 992px) {
-    .nav-link {
-        text-align: center;
-    }
-}
-
 .barex {
     font-size: 30px !important;
     position: absolute;
@@ -283,7 +261,7 @@ a:hover {
     padding-top: 15px;
     background-color: #7a96ca;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 1rem;
 }
 
 .mega-menu ul li a {
@@ -318,28 +296,6 @@ ul.stander li a:hover, ul.stander li.active {
 
 .mega-menu:after {
     clear: both;
-}
-
-@media (max-width: 992px) {
-    .dropdown-menu {
-        display: none;
-        margin-top: 0;
-    }
-
-    .nav-link {
-        text-align: left;
-    }
-
-    .mega-menu {
-        display: none;
-        padding: 0;
-        width: 100%;
-        margin-top: 0;
-    }
-
-    .mega-menu.show {
-        position: static;
-    }
 }
 
 /*END Header*/
@@ -533,7 +489,7 @@ body.loading .modal-loading {
 }
 
 .search {
-    margin: 30px 0 20px 0;
+    margin: 20px 0 20px 0;
     align-items: center;
 }
 
@@ -590,8 +546,9 @@ tr.selected {
 }
 
 .table-paging {
-    padding: 15px 5px;
+    padding: 15px 0px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
 }
@@ -809,7 +766,6 @@ div.searchable {
     border-radius: 0px;
     padding: 20px 30px;
     box-sizing: border-box;
-    width: 80%;
     margin: 0 10%;
     position: relative;
 }
@@ -1059,6 +1015,7 @@ fieldset .note {
     text-align: center;
     border-collapse: collapse;
     margin-top: 30px;
+    min-width: 350px;
 }
 
 .table-err {
@@ -1119,12 +1076,6 @@ fieldset .note {
 .afternoon .week {
     font-weight: 500;
     background: #c2e9fe;
-}
-
-@media screen and (max-width: 600px) {
-    .timetable {
-        font-size: 13px;
-    }
 }
 
 /*Combobox search*/
@@ -1313,128 +1264,6 @@ fieldset .note {
 
 .afternoon.isOdd .week p:before {
     content: '(Tuần lẻ)';
-}
-
-/*Responsive table max-width:650px*/
-@media screen and (max-width: 700px) {
-    .div-space {
-        display: none !important;
-    }
-
-    .afternoon .week p {
-        transform: rotate(-90deg);
-    }
-
-    .afternoon .week p:before {
-        content: 'Chẵn';
-    }
-
-    .afternoon.isOdd .week p:before {
-        content: 'Lẻ';
-    }
-
-    .modal-body .panel-body,
-    .panel-collapse table {
-        width: 100%;
-    }
-
-    .search .d-inline-block.ml-2 {
-        display: block !important;
-        text-align: right;
-        margin-right: 5px;
-        margin-top: 15px;
-    }
-
-    .table-responsive-customer {
-        display: block;
-    }
-
-    .table-responsive-customer thead {
-        display: none;
-    }
-
-    .table-responsive-customer tbody {
-        display: block;
-    }
-
-    .table-responsive-customer tbody tr {
-        display: block;
-        position: relative;
-        border-top: 1px solid rgb(227, 227, 227);
-    }
-
-    .table-responsive-customer td:nth-of-type(1) {
-        position: absolute;
-        border: none;
-        padding-left: 0;
-        padding-right: 0;
-        margin-left: 13px;
-    }
-
-    .table-responsive-customer td:nth-of-type(2) {
-        display: block;
-        margin-left: 35px;
-        border: none;
-        max-width: 100%;
-
-    }
-
-    .table-responsive-customer td:nth-of-type(2) label {
-        font-weight: 500;
-    }
-
-    .table-responsive-customer td:nth-of-type(3) {
-        margin-left: 35px;
-    }
-
-    .table-responsive-customer td:nth-of-type(3),
-    .table-responsive-customer td:nth-of-type(4) {
-        display: inline-block;
-        text-align: left;
-        border: none;
-    }
-
-    .table-responsive-customer td:nth-of-type(3):before {
-        content: 'Điểm trừ: ';
-        font-weight: 500;
-    }
-
-    .table-responsive-customer td:nth-of-type(5):before {
-        content: 'Tổng điểm trừ: ';
-        font-weight: 500;
-    }
-
-    .table-responsive-customer td:nth-of-type(5) {
-        display: block;
-        margin-left: 35px;
-        border: none;
-        text-align: left;
-    }
-
-    .saveResult {
-        text-align: center !important;
-    }
-
-    .rankWeekBtn {
-        text-align: right;
-    }
-
-    .rankWeekBtn div {
-        margin: .5rem 0;
-    }
-
-    .rankWeekBtn div input {
-        margin-right: 0 !important;;
-    }
-
-    .rankWeekBtn .text-right input {
-        margin-bottom: 0.5rem;
-    }
-
-    .rankWeekBtn #download {
-        min-width: 157.516px;
-    }
-
 }
 
 /*Post*/
@@ -1757,4 +1586,187 @@ a.slide_btn {
     content: 'Tải tệp';
     font-size: 0.9rem;
     margin-left: 8px;
+}
+
+/*Responsive*/
+@media screen and (max-width: 576px) {
+    #msform fieldset {
+        padding: 20px 0px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .timetable {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .div-space {
+        display: none !important;
+    }
+
+    .afternoon .week p {
+        transform: rotate(-90deg);
+    }
+
+    .afternoon .week p:before {
+        content: 'Chẵn';
+    }
+
+    .afternoon.isOdd .week p:before {
+        content: 'Lẻ';
+    }
+
+    .modal-body .panel-body,
+    .panel-collapse table {
+        width: 100%;
+    }
+
+    .search .d-inline-block.ml-2 {
+        display: block !important;
+        text-align: right;
+        margin-right: 5px;
+        margin-top: 15px;
+    }
+
+    .table-responsive-customer {
+        display: block;
+    }
+
+    .table-responsive-customer thead {
+        display: none;
+    }
+
+    .table-responsive-customer tbody {
+        display: block;
+    }
+
+    .table-responsive-customer tbody tr {
+        display: block;
+        position: relative;
+        border-top: 1px solid rgb(227, 227, 227);
+    }
+
+    .table-responsive-customer td:nth-of-type(1) {
+        position: absolute;
+        border: none;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 13px;
+    }
+
+    .table-responsive-customer td:nth-of-type(2) {
+        display: block;
+        margin-left: 35px;
+        border: none;
+        max-width: 100%;
+
+    }
+
+    .table-responsive-customer td:nth-of-type(2) label {
+        font-weight: 500;
+    }
+
+    .table-responsive-customer td:nth-of-type(3) {
+        margin-left: 35px;
+    }
+
+    .table-responsive-customer td:nth-of-type(3),
+    .table-responsive-customer td:nth-of-type(4) {
+        display: inline-block;
+        text-align: left;
+        border: none;
+    }
+
+    .table-responsive-customer td:nth-of-type(3):before {
+        content: 'Điểm trừ: ';
+        font-weight: 500;
+    }
+
+    .table-responsive-customer td:nth-of-type(5):before {
+        content: 'Tổng điểm trừ: ';
+        font-weight: 500;
+    }
+
+    .table-responsive-customer td:nth-of-type(5) {
+        display: block;
+        margin-left: 35px;
+        border: none;
+        text-align: left;
+    }
+
+    .saveResult {
+        text-align: center !important;
+    }
+
+    .w-75 {
+        width: 100% !important;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .dropdown-menu {
+        display: none;
+        margin-top: 0;
+        background-color: #24468e;
+    }
+
+    .nav-link {
+        text-align: left;
+    }
+
+    .mega-menu {
+        display: none;
+        padding: 0;
+        width: 100%;
+        margin-top: 0;
+    }
+
+    .mega-menu.show {
+        position: static;
+    }
+
+    .rankWeekBtn {
+        text-align: right;
+    }
+
+    .rankWeekBtn div:first-child input {
+        margin-right: 0 !important;
+    }
+
+    .navbar-collapse {
+        position: absolute;
+        background-color: #4267b2;
+        top: 40px;
+        z-index: 1500;
+        left: 0;
+        right: 0;
+    }
+
+    .mega-menu {
+        background-color: #24468e;
+    }
+
+    .mega-title {
+        background-color: #1a3265;
+    }
+
+    .dropdown:hover .dropdown-menu {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .dropdown.show .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .barex {
+        display: none;
+    }
 }

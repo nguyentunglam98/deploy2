@@ -136,21 +136,11 @@ function search() {
                 pagingClick();
                 manageBtn();
             } else {
-                $('tbody').append(
-                    `<tr>
-                        <td colspan="7" class="userlist-result">
-                            ` + data.message.message + `
-                        </td>
-                    </tr>`
-                )
+                $('tbody').append(`<tr><td colspan="7" class="userlist-result">` + data.message.message + `</td></tr>`)
             }
         },
         failure: function (errMsg) {
-            $('tbody').append(
-                `<tr>
-                    <td colspan="7" class="userlist-result">` + errMsg + ` </td>
-                </tr>`
-            )
+            $('tbody').append(`<tr><td colspan="7" class="userlist-result">` + errMsg + ` </td></tr>`)
         },
         dataType: "json",
         contentType: "application/json"
@@ -178,25 +168,13 @@ $("#deleteAccount").click(function (e) {
             var messageCode = data.messageCode;
             var message = data.message;
             if (messageCode == 0) {
-                $('#deleteSuccess .modal-body').html("");
-                $('#deleteSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3 " src="img/img-success.png"/>
-                    <h5>` + message + `</h5>
-                `);
+                messageModal('deleteSuccess', 'img/img-success.png', message)
             } else {
-                $('#deleteSuccess .modal-body').html("");
-                $('#deleteSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3 " src="img/img-error.png"/>
-                    <h5>` + message + `</h5>
-                `);
+                messageModal('deleteSuccess', 'img/img-error.png', message)
             }
         },
         failure: function (errMsg) {
-            $('#deleteSuccess .modal-body').html("");
-            $('#deleteSuccess .modal-body').append(`
-                <img class="mb-3 mt-3 " src="img/img-error.png"/>
-                <h5>` + errMsg + `</h5>
-            `);
+            messageModal('deleteSuccess', 'img/img-error.png', errMsg)
         },
         dataType: "json",
         contentType: "application/json"
@@ -241,25 +219,13 @@ $("#resetPassword").click(function (e) {
                 var messageCode = data.messageCode;
                 var message = data.message;
                 if (messageCode == 0) {
-                    $('#resetSuccess .modal-body').html("");
-                    $('#resetSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3 " src="img/img-success.png"/>
-                    <h5>` + message + `</h5>
-                `);
+                    messageModal('resetSuccess', 'img/img-success.png', message);
                 } else {
-                    $('#resetSuccess .modal-body').html("");
-                    $('#resetSuccess .modal-body').append(`
-                        <img class="mb-3 mt-3 " src="img/img-error.png"/>
-                        <h5>` + message + `</h5>
-                    `);
+                    messageModal('resetSuccess', 'img/img-error.png', message);
                 }
             },
             failure: function (errMsg) {
-                $('#resetSuccess .modal-body').html("");
-                $('#resetSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3 " src="img/img-error.png"/>
-                    <h5>` + errMsg + `</h5>
-                `);
+                messageModal('resetSuccess', 'img/img-error.png', errMsg);
             },
             dataType: "json",
             contentType: "application/json"
@@ -269,48 +235,29 @@ $("#resetPassword").click(function (e) {
 
 /*Check user before delete account*/
 function checkUser() {
-    $('#deleteAccountModal').modal('show');
-    $('#deleteAccountModal .modal-body').html("");
     var userErr = localStorage.getItem("username");
     if (jQuery.inArray(userErr, list) != -1) {
-        $("#deleteAccountModal .modal-body").html("");
-        $('#deleteAccountModal .modal-body').append(`
-            <img class="mb-3 mt-3" src="img/img-error.png"/>
-            <h5>Bạn không thể xoá tài khoản <b class="error">` + userErr + `</b>!</h5>
-        `);
         $('#deleteAccountModal .modal-footer .btn-danger').addClass('hide');
         $('#deleteAccountModal .modal-footer .btn-primary').attr('value', 'ĐÓNG');
+        messageModal('deleteAccountModal', 'img/img-question.png', `Bạn không thể xoá tài khoản <b class="error">` + userErr + `</b>!`);
     } else if (list.length == 0) {
-        $("#deleteAccountModal .modal-body").html("");
-        $('#deleteAccountModal .modal-body').append(`
-            <img class="mb-3 mt-3" src="img/img-error.png"/>
-            <h5>Hãy chọn tài khoản mà bạn muốn xóa!</h5>`
-        );
         $('#deleteAccountModal .modal-footer .btn-danger').addClass('hide');
         $('#deleteAccountModal .modal-footer .btn-primary').attr('value', 'ĐÓNG');
+        messageModal('deleteAccountModal', 'img/img-error.png', 'Hãy chọn tài khoản mà bạn muốn xóa!');
     } else {
-        $("#deleteAccountModal .modal-body").html("");
-        $('#deleteAccountModal .modal-body').append(`
-            <img class="mb-3 mt-3" src="img/img-question.png"/>
-            <h5>Bạn có chắc muốn <b>XÓA</b> tài khoản này không?</h5>
-        `);
         $('#deleteAccountModal .modal-footer .btn-danger').removeClass('hide');
         $('#deleteAccountModal .modal-footer .btn-primary').attr('value', 'KHÔNG');
+        messageModal('deleteAccountModal', 'img/img-question.png', `Bạn có chắc muốn <b>XÓA</b> tài khoản này không?`);
     }
 }
 
 /*Check user before reset password*/
 function checkResetPassword() {
-    $('#resetPasswordModal').modal('show');
     if (list.length == 0) {
-        $("#resetPasswordModal .modal-body").html("");
         $("#resetPasswordModal .modal-header").addClass('hide');
-        $('#resetPasswordModal .modal-body').append(`
-            <img class="mb-3 mt-3" src="img/img-error.png"/>
-            <h5>Hãy chọn tài khoản mà bạn muốn đặt lại mật khẩu!</h5>
-        `);
         $('#resetPasswordModal .modal-footer .btn-danger').addClass('hide');
         $('#resetPasswordModal .modal-footer .btn-primary').attr('value', 'ĐÓNG');
+        messageModal('resetPasswordModal', 'img/img-error.png', 'Hãy chọn tài khoản mà bạn muốn đặt lại mật khẩu!');
     } else {
         $("#resetPasswordModal .modal-body").html("");
         $("#resetPasswordModal .modal-header").removeClass('hide');
@@ -327,12 +274,13 @@ function checkResetPassword() {
         `);
         $('#resetPasswordModal .modal-footer .btn-danger').removeClass('hide');
         $('#resetPasswordModal .modal-footer .btn-primary').attr('value', 'KHÔNG');
+        $('#resetPasswordModal').modal('show');
     }
 }
 
 /*Show or hide button manage*/
 function manageBtn() {
-    if (localStorage.getItem('roleID') == 1) {
+    if (roleID == 1) {
         $('.manageBtn').removeClass('hide');
         $('table thead th:first-child').removeClass('hide');
         $('tbody > tr > td:first-child').removeClass('hide')

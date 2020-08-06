@@ -104,21 +104,11 @@ function search() {
                     manageBtn();
                 }
             } else {
-                $('tbody').append(
-                    `<tr>
-                        <td colspan="6" class="userlist-result">
-                            ` + data.message.message + `
-                        </td>
-                    </tr>`
-                )
+                $('tbody').append(`<tr><td colspan="6" class="userlist-result">` + data.message.message + `</td></tr>`)
             }
         },
         failure: function (errMsg) {
-            $('tbody').append(
-                `<tr>
-                    <td colspan="6" class="userlist-result">` + errMsg + ` </td>
-                </tr>`
-            )
+            $('tbody').append(`<tr><td colspan="6" class="userlist-result">` + errMsg + `</td></tr>`)
         },
         dataType: "json",
         contentType: "application/json"
@@ -136,7 +126,7 @@ function getClassID() {
 
 /*Show or hide button manage*/
 function manageBtn() {
-    if (localStorage.getItem('roleID') != 1) {
+    if (roleID != 1) {
         $('.manageBtn').addClass('hide');
         $('table > thead > tr > th:last-child').addClass('hide');
         $('tbody > tr > td:last-child').addClass('hide');

@@ -1,3 +1,4 @@
+var currentYearId;
 var listCreate = [];
 var listEdit = [];
 var listEditOld = [];
@@ -18,7 +19,7 @@ $.ajax({
     success: function (data) {
         var messageCode = data.message.messageCode;
         var message = data.message.message;
-        var currentYearId = data.currentYearId;
+        currentYearId = data.currentYearId;
         if (messageCode == 0) {
             if (data.schoolYearList != null) {
                 $('#byYear').html('');
@@ -132,7 +133,7 @@ function search() {
     if (weekId != null && weekId != "" && weekId != "err") {
         $('#viewHistory').removeClass('hide');
     }
-    if (localStorage.getItem('roleID') == 1) {
+    if (roleID == 1) {
         $('#createRank').removeClass('hide');
     }
     console.log(JSON.stringify(infoSearch));
@@ -169,7 +170,7 @@ function search() {
                     var message = data.message.message;
                     var checkEdit = data.checkEdit;
                     if (messageCode == 0) {
-                        if (localStorage.getItem('roleID') == 1) {
+                        if (roleID == 1) {
                             if (checkEdit != null && checkEdit == 0) {
                                 $('#editGrades').removeClass('hide');
                                 $('#editRankBtn').removeClass('hide');
@@ -268,16 +269,16 @@ function search() {
 $('#search').click(function (e) {
     $('table tbody').html('');
     $('#searchGroupButton').html(`            
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 px-0">
-            <input type="button" id="download" class="btn btn-success mr-2 hide" value="Tải xuống"/>
-            <input type="button" id="viewHistory" class="btn btn-success mr-2 hide" value="Xem lịch sử"/>
-            <input type="button" class="btn btn-success mr-2 manageBtn hide" id="editGrades" value="Sửa điểm"/>
-            <input type="button" class="btn btn-danger mr-2 manageBtn hide" id="closeEditGrades" value="Hủy"/>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 px-0 text-right">
-            <input type="button" id="editRankBtn" class="btn btn-success ml-2 manageBtn hide" value="Sửa xếp hạng tuần"/>
-            <input type="button" id="createRank" class="btn btn-success ml-2 manageBtn hide" value="Tạo xếp hạng tuần"/>
-        </div>`);
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 flex-wrap px-0">
+        <input type="button" id="download" class="btn btn-success mr-2 my-1 hide" value="Tải xuống"/>
+        <input type="button" id="viewHistory" class="btn btn-success mr-2 my-1 hide" value="Xem lịch sử"/>
+        <input type="button" class="btn btn-success manageBtn mr-2 my-1 hide" id="editGrades" value="Sửa điểm"/>
+        <input type="button" class="btn btn-danger manageBtn mr-2 my-1 hide" id="closeEditGrades" value="Hủy"/>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 flex-wrap px-0 text-right">
+        <input type="button" id="editRankBtn" class="btn btn-success manageBtn ml-2 my-1 hide" value="Sửa xếp hạng tuần"/>
+        <input type="button" id="createRank" class="btn btn-success manageBtn ml-2 my-1 hide" value="Tạo xếp hạng tuần"/>
+    </div>`);
     search();
 })
 
@@ -354,9 +355,9 @@ $('#createNewRankBtn').on('click', function () {
     } else {
         $('.createNewRank-err').text('');
         var createRank = {
-            userName: localStorage.getItem('username'),
+            userName: username,
             week: weekName,
-            currentYearId: localStorage.getItem('currentYearId'),
+            currentYearId: currentYearId,
             dateList: listCreate
         }
         console.log(JSON.stringify(createRank));
@@ -375,7 +376,7 @@ $('#createNewRankBtn').on('click', function () {
                 var message = data.message;
                 if (messageCode == 0) {
                     $('#createNewRank').modal('hide');
-                    dialogModal('createSuccess', 'img/img-success.png', 'Tạo xếp hạng tuần thành công!');
+                    messageModal('createSuccess', 'img/img-success.png', 'Tạo xếp hạng tuần thành công!');
                     sessionStorage.removeItem('weekId');
                     sessionStorage.removeItem('weekName');
                     sessionStorage.setItem('weekName', weekName);
@@ -384,7 +385,7 @@ $('#createNewRankBtn').on('click', function () {
                 }
             },
             failure: function (errMsg) {
-                dialogModal('createSuccess', 'img/img-error.png', errMsg)
+                messageModal('createSuccess', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"
@@ -519,7 +520,7 @@ $('#editRankBtnModal').on('click', function () {
         var editRank = {
             weekId: $('#byWeek option:selected').val(),
             week: weekName,
-            userName: localStorage.getItem('username'),
+            userName: username,
             dateList: listEdit
         }
         console.log(JSON.stringify(editRank));
@@ -541,13 +542,13 @@ $('#editRankBtnModal').on('click', function () {
                     sessionStorage.removeItem('weekId');
                     sessionStorage.removeItem('weekName');
                     sessionStorage.setItem('weekName', weekName);
-                    dialogModal('editSuccess', 'img/img-success.png', 'Sửa xếp hạng tuần thành công!');
+                    messageModal('editSuccess', 'img/img-success.png', 'Sửa xếp hạng tuần thành công!');
                 } else {
                     $('.editRank-err').text(message);
                 }
             },
             failure: function (errMsg) {
-                dialogModal('editSuccess', 'img/img-error.png', errMsg)
+                messageModal('editSuccess', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"
@@ -615,7 +616,7 @@ function editGrade() {
             console.log(rankWeekList);
             if (JSON.stringify(rankOld) == JSON.stringify(rankWeekList)) {
                 $('#editSuccess .modal-footer').html(`<input type="button" class="btn btn-primary" value="ĐÓNG" data-dismiss="modal"/>`)
-                dialogModal('editSuccess', 'img/img-error.png', 'Chưa thay đổi dữ liệu.');
+                messageModal('editSuccess', 'img/img-error.png', 'Chưa thay đổi dữ liệu.');
             } else {
                 $(row).attr('contenteditable', 'false');
                 $(row).css('background-color', 'transparent');
@@ -624,7 +625,7 @@ function editGrade() {
                 $('#closeEditGrades').addClass('hide');
                 var newData = {
                     rankWeekList: rankWeekList,
-                    userName: localStorage.getItem('username')
+                    userName: username
                 }
                 $.ajax({
                     url: '/api/rankweek/updatescorerankweek',
@@ -643,19 +644,19 @@ function editGrade() {
                             sessionStorage.removeItem('weekName');
                             sessionStorage.removeItem('weekId');
                             sessionStorage.setItem('weekId', weekId);
-                            dialogModal('editSuccess', 'img/img-success.png', 'Sửa điểm thành công!');
+                            messageModal('editSuccess', 'img/img-success.png', 'Sửa điểm thành công!');
                         } else {
                             sessionStorage.removeItem('weekName');
                             sessionStorage.removeItem('weekId');
                             sessionStorage.setItem('weekId', weekId);
-                            dialogModal('editSuccess', 'img/img-error.png', message)
+                            messageModal('editSuccess', 'img/img-error.png', message)
                         }
                     },
                     failure: function (errMsg) {
                         sessionStorage.removeItem('weekName');
                         sessionStorage.removeItem('weekId');
                         sessionStorage.setItem('weekId', weekId);
-                        dialogModal('editSuccess', 'img/img-error.png', errMsg)
+                        messageModal('editSuccess', 'img/img-error.png', errMsg)
                     },
                     dataType: "json",
                     contentType: "application/json"
@@ -692,9 +693,9 @@ function validateInput(className, max) {
             $(this).css('font-weight', '500');
             $('#editSuccess .modal-footer').html(`<input type="button" class="btn btn-primary closeModalErr" value="ĐÓNG"/>`)
             if (isNaN(value)) {
-                dialogModal('editSuccess', 'img/img-error.png', 'Không được để trống trường này!');
+                messageModal('editSuccess', 'img/img-error.png', 'Không được để trống trường này!');
             } else {
-                dialogModal('editSuccess', 'img/img-error.png', 'Điểm nhập vào phải nhỏ hơn ' + max + '!');
+                messageModal('editSuccess', 'img/img-error.png', 'Điểm nhập vào phải nhỏ hơn ' + max + '!');
             }
             $('.closeModalErr').on('click', function () {
                 $input.focus();
@@ -756,7 +757,7 @@ function dowload() {
                 window.URL.revokeObjectURL(url);
             },
             failure: function (errMsg) {
-                dialogModal('downloadModal', 'img/img-error.png', errMsg)
+                messageModal('downloadModal', 'img/img-error.png', errMsg)
             },
             dataType: "binary",
             contentType: "application/json"
@@ -766,17 +767,8 @@ function dowload() {
 
 /*=====================================*/
 /*Set role*/
-if (localStorage.getItem('roleID') != 1) {
+if (roleID != 1) {
     $('.manageBtn').addClass('hide');
-}
-
-/*Dialog Modal*/
-function dialogModal(modalName, img, message) {
-    $('#' + modalName + ' .modal-body').html(`
-        <img class="mb-3 mt-3" src="` + img + `"/>
-        <h5>` + message + `</h5>
-    `)
-    $('#' + modalName).modal('show');
 }
 
 /*Remove checkbox when close modal*/
@@ -817,11 +809,11 @@ function viewHistory() {
                     $('#historyModal .modal-body').html(data.history);
                     $('#historyModal').modal('show');
                 } else {
-                    dialogModal('downloadModal', 'img/img-error.png', message)
+                    messageModal('downloadModal', 'img/img-error.png', message)
                 }
             },
             failure: function (errMsg) {
-                dialogModal('downloadModal', 'img/img-error.png', errMsg)
+                messageModal('downloadModal', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"

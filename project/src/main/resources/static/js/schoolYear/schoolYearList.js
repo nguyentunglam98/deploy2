@@ -23,12 +23,12 @@ $.ajax({
                     if (item.fromDate == null) {
                         fromDate = "-";
                     } else {
-                        fromDate = convertDate(item.fromDate,'-');
+                        fromDate = convertDate(item.fromDate, '-');
                     }
                     if (item.toDate == null) {
                         toDate = "-";
                     } else {
-                        toDate = convertDate(item.toDate,'-');
+                        toDate = convertDate(item.toDate, '-');
                     }
                     if (item.yearName == null) {
                         yearName = "-";
@@ -65,21 +65,11 @@ $.ajax({
                 manageBtn();
             }
         } else {
-            $('tbody').html("");
-            $('tbody').append(
-                `<tr>
-                    <td colspan="5" class="userlist-result">` + message + `</td>
-                </tr>`
-            )
+            $('tbody').html(`<tr><td colspan="5" class="userlist-result">` + message + `</td></tr>`)
         }
     },
     failure: function (errMsg) {
-        $('tbody').html("");
-        $('tbody').append(
-            `<tr>
-                <td colspan="5" class="userlist-result">` + errMsg + ` </td>
-            </tr>`
-        )
+        $('tbody').html(`<tr><td colspan="5" class="userlist-result">` + errMsg + `</td></tr>`)
     },
     dataType: "json",
     contentType: "application/json"
@@ -97,17 +87,12 @@ function getSchoolYearId() {
 /*Delete School Year*/
 function deleteYear() {
     var btnDelete = $('.btnDelete');
-    $(btnDelete).on('click', function (e) {
+    $(btnDelete).unbind().click(function () {
         schoolYearId = $(this).prop('name');
         console.log(schoolYearId);
+        messageModal('deleteModal', 'img/img-question.png', 'Bạn có muốn <b>XÓA</b> năm học này không?')
     });
-    $('#deleteModal .modal-body').html('');
-    $('#deleteModal .modal-body').append(`
-        <img class="mb-3 mt-3" src="img/img-question.png"/>
-        <h5>Bạn có muốn <b>XÓA</b> năm học này không?</h5>
-    `);
-
-    $('#btnDeleteModal').on('click', function () {
+    $('#btnDeleteModal').unbind().click(function () {
         var schoolYear = {
             schoolYearId: schoolYearId
         }
@@ -126,25 +111,13 @@ function deleteYear() {
                 var messageCode = data.messageCode;
                 var message = data.message;
                 if (messageCode == 0) {
-                    $("#deleteSuccess .modal-body").html("");
-                    $('#deleteSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3" src="img/img-success.png"/>
-                    <h5 id="message-delete">Xóa năm học thành công!</h5>
-                `);
+                    messageModal('deleteSuccess', 'img/img-success.png', 'Xóa năm học thành công!')
                 } else {
-                    $("#deleteSuccess .modal-body").html("");
-                    $('#deleteSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3" src="img/img-error.png"/>
-                    <h5>` + message + `</h5>
-                `);
+                    messageModal('deleteSuccess', 'img/img-error.png', message)
                 }
             },
             failure: function (errMsg) {
-                $("#deleteSuccess .modal-body").html("");
-                $('#deleteSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3" src="img/img-success.png"/>
-                    <h5>` + errMsg + `</h5>
-            `);
+                messageModal('deleteSuccess', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"
@@ -153,7 +126,7 @@ function deleteYear() {
 }
 
 function manageBtn() {
-    if (localStorage.getItem('roleID') != 1) {
+    if (roleID != 1) {
         $('.manageBtn').addClass('hide');
         $('thead th:last-child').addClass('hide');
         $('tbody tr td:last-child').addClass('hide');

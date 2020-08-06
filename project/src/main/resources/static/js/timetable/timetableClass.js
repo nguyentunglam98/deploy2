@@ -311,7 +311,7 @@ function addTimetable(id) {
                 </tr>
                 <tr class="afternoon">
                     <td rowspan="4" class="session"><p>CHIỀU</p></td>
-                    <td rowspan="2" class="week">(Tuần chẵn)</td>
+                    <td rowspan="2" class="week"><p></p></td>
                     <td class="slot">1</td>
                     <td class="data"></td>
                     <td class="data"></td>
@@ -330,7 +330,7 @@ function addTimetable(id) {
                     <td class="data"></td>
                 </tr>
                 <tr class="afternoon isOdd">
-                    <td rowspan="2" class="week">(Tuần lẻ)</td>
+                    <td rowspan="2" class="week"><p></p></td>
                     <td class="slot">1</td>
                     <td class="data"></td>
                     <td class="data"></td>

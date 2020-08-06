@@ -1,7 +1,7 @@
 var schoolYearId, oldFromYear, oldFromDate, oldToDate;
 var currentDate = moment().format('YYYY-MM-DD');
 var currentYear = moment().format('YYYY');
-console.log(currentYear)
+
 $(document).ready(function () {
     schoolYearId = sessionStorage.getItem("schoolYearId")
     var info = {
@@ -79,6 +79,7 @@ $("#editInfo").click(function (e) {
         $('.editSchoolYear-err').text("Hãy thay đổi thông tin.");
         return false;
     } else {
+        $('.editSchoolYear-err').text('')
         var newInfo = {
             schoolYearId: schoolYearId,
             fromDate: fromDate,
@@ -101,14 +102,13 @@ $("#editInfo").click(function (e) {
                 var messageCode = data.messageCode;
                 var message = data.message;
                 if (messageCode == 0) {
-                    $('.editSchoolYear-err').text("");
-                    $('#editInfoSuccess').modal('show');
+                    messageModal('editInfoSuccess', 'img/img-success.png', 'Thông tin sửa thành công!')
                 } else {
                     $('.editSchoolYear-err').text(message);
                 }
             },
             failure: function (errMsg) {
-                $('.editSchoolYear-err').text(errMsg);
+                messageModal('editInfoSuccess', 'img/img-success.png', errMsg);
             },
             dataType: "json",
             contentType: "application/json"

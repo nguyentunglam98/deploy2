@@ -7,6 +7,7 @@ var applyDate, teacherId;
 $(document).ready(function () {
     $("#teacher").select2();
 });
+
 /*Load years and list*/
 $.ajax({
     url: '/api/timetable/getapplydateandteacher',

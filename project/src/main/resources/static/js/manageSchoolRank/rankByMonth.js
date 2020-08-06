@@ -1,5 +1,5 @@
 var listCreate = [];
-var currentYearId = localStorage.getItem('currentYearId');
+var currentYearId
 /*=============Set data================*/
 /*Load year list*/
 $.ajax({
@@ -14,12 +14,12 @@ $.ajax({
     success: function (data) {
         var messageCode = data.message.messageCode;
         var message = data.message.message;
-        var yearIdCurrent = data.currentYearId;
+        currentYearId = data.currentYearId;
         if (messageCode == 0 || messageCode == 1) {
             if (data.schoolYearList != null) {
                 $('#byYear').html('');
                 $.each(data.schoolYearList, function (i, item) {
-                    if (yearIdCurrent == item.schoolYearId || currentYearId == item.schoolYearId) {
+                    if (currentYearId == item.schoolYearId) {
                         $('#byYear').append(`<option value="` + item.schoolYearId + `" selected="selected">` + item.yearName + `</option>`);
                     } else {
                         $('#byYear').append(`<option value="` + item.schoolYearId + `">` + item.yearName + `</option>`);
@@ -123,7 +123,7 @@ function search() {
     if (monthId != null && monthId != "" && monthId != "err") {
         $('#viewHistory').removeClass('hide');
     }
-    if (localStorage.getItem('roleID') == 1) {
+    if (roleID == 1) {
         $('#createRankBtn').removeClass('hide');
     }
     console.log(JSON.stringify(infoSearch));
@@ -158,7 +158,7 @@ function search() {
                     var message = data.message.message;
                     var checkEdit = data.checkEdit;
                     if (messageCode == 0) {
-                        if (localStorage.getItem('roleID') == 1) {
+                        if (roleID == 1) {
                             if (checkEdit != null && checkEdit == 0) {
                                 $('#editRankBtn').removeClass('hide');
                             } else {
@@ -230,15 +230,14 @@ function search() {
 $('#search').click(function (e) {
     $('table tbody').html('');
     $('#searchGroupButton').html(`                
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 px-0">
-            <input type="button" id="download" class="btn btn-success mr-2 hide" value="Tải xuống"/>
-            <input type="button" id="viewHistory" class="btn btn-success mr-2 hide" value="Xem lịch sử"/>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 px-0 text-right">
-            <input type="button" id="editRankBtn" class="btn btn-success ml-2 manageBtn hide" value="Sửa xếp hạng tháng"/>
-            <input type="button" id="createRankBtn" class="btn btn-success ml-2 manageBtn hide" value="Tạo xếp hạng tháng"/>
-        </div>
-    `);
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 flex-wrap px-0">
+        <input type="button" id="download" class="btn btn-success mr-2 my-1 hide" value="Tải xuống"/>
+        <input type="button" id="viewHistory" class="btn btn-success mr-2 my-1 hide" value="Xem lịch sử"/>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 flex-wrap px-0 text-right">
+        <input type="button" id="editRankBtn" class="btn btn-success manageBtn ml-2 my-1 hide" value="Sửa xếp hạng tháng"/>
+        <input type="button" id="createRankBtn" class="btn btn-success manageBtn ml-2 my-1 hide" value="Tạo xếp hạng tháng"/>
+    </div>`);
     search();
 });
 
@@ -321,7 +320,7 @@ $('#createNewRankBtn').on('click', function () {
     } else {
         $('.createNewRank-err').text('');
         var createRank = {
-            userName: localStorage.getItem('username'),
+            userName: username,
             month: monthName,
             currentYearId: currentYearId,
             weekList: listCreate
@@ -342,7 +341,7 @@ $('#createNewRankBtn').on('click', function () {
                 var message = data.message;
                 if (messageCode == 0) {
                     $('#createNewRank').modal('hide');
-                    dialogModal('messageModal', 'img/img-success.png', 'Tạo xếp hạng tháng thành công!');
+                    messageModal('messageModal', 'img/img-success.png', 'Tạo xếp hạng tháng thành công!');
                     sessionStorage.removeItem('monthName');
                     sessionStorage.setItem('monthName', monthName);
                 } else {
@@ -351,7 +350,7 @@ $('#createNewRankBtn').on('click', function () {
             },
             failure: function (errMsg) {
                 $('#createNewRank').modal('hide');
-                dialogModal('messageModal', 'img/img-error.png', errMsg)
+                messageModal('messageModal', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"
@@ -485,7 +484,7 @@ $('#editRankBtnModal').on('click', function () {
         var editRank = {
             monthId: $('#byMonth option:selected').val(),
             month: monthName,
-            userName: localStorage.getItem('username'),
+            userName: username,
             weekList: listEdit
         }
         console.log(JSON.stringify(editRank));
@@ -506,14 +505,14 @@ $('#editRankBtnModal').on('click', function () {
                     $('#editRank').modal('hide');
                     sessionStorage.removeItem('monthName');
                     sessionStorage.setItem('monthName', monthName);
-                    dialogModal('messageModal', 'img/img-success.png', 'Sửa xếp hạng tháng thành công!');
+                    messageModal('messageModal', 'img/img-success.png', 'Sửa xếp hạng tháng thành công!');
                 } else {
                     $('.editRank-err').text(message);
                 }
             },
             failure: function (errMsg) {
                 $('#editRank').modal('hide');
-                dialogModal('messageModal', 'img/img-error.png', errMsg)
+                messageModal('messageModal', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"
@@ -557,7 +556,7 @@ function download() {
             },
             statusCode: {
                 400: function (errMsg) {
-                    dialogModal('messageModal', 'img/img-error.png', 'Không thể tải được tập tin!')
+                    messageModal('messageModal', 'img/img-error.png', 'Không thể tải được tập tin!')
                 }
             },
             dataType: "binary",
@@ -568,17 +567,8 @@ function download() {
 
 /*=====================================*/
 /*Set role*/
-if (localStorage.getItem('roleID') != 1) {
+if (roleID != 1) {
     $('.manageBtn').addClass('hide');
-}
-
-/*Dialog Modal*/
-function dialogModal(modalName, img, message) {
-    $('#' + modalName + ' .modal-body').html(`
-        <img class="mb-3 mt-3" src="` + img + `"/>
-        <h5>` + message + `</h5>
-    `)
-    $('#' + modalName).modal('show');
 }
 
 /*Remove checkbox and input when close modal*/
@@ -619,11 +609,11 @@ function viewHistory() {
                     $('#historyModal .modal-body').html(data.history);
                     $('#historyModal').modal('show');
                 } else {
-                    dialogModal('messageModal', 'img/img-error.png', message)
+                    messageModal('messageModal', 'img/img-error.png', message)
                 }
             },
             failure: function (errMsg) {
-                dialogModal('messageModal', 'img/img-error.png', errMsg)
+                messageModal('messageModal', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"

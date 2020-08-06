@@ -70,14 +70,9 @@ $("#editInfo").click(function (e) {
         return false;
     } else {
         if (newStatus != oldStatus) {
-            $("#confirmEditModal .modal-body").html("");
-            $('#confirmEditModal .modal-body').append(`
-                <img class="mb-3 mt-3" src="img/img-error.png"/>
-                <h5>Bạn có chắc muốn <b>CẬP NHẬT</b> trạng thái của lớp này không?</h5>
-            `);
             $('#confirmEditModal .modal-footer .btn-danger').removeClass('hide');
             $('#confirmEditModal .modal-footer .btn-primary').attr('value', 'KHÔNG');
-            $('#confirmEditModal').modal('show');
+            messageModal('confirmEditModal', 'img/img-error.png', 'Bạn có chắc muốn <b>CẬP NHẬT</b> trạng thái của lớp này không?')
             $('#editClassModal').click(function (e) {
                 editClass(e);
             })
@@ -108,21 +103,22 @@ function editClass(e) {
             var messageCode = data.messageCode;
             var message = data.message;
             if (messageCode == 0) {
+                $('.classInfo-err').text("");
                 if (oldStatus != newStatus) {
                     $('#editInfoSuccess .modal-body').append(`
-                        <h5>Trạng thái của tài khoản cờ đỏ và lớp trưởng của lớp cũng đã thay đổi thành công.</h5>
+                        <h5>Trạng thái của tài khoản cờ đỏ và lớp trưởng của lớp cũng đã được thay đổi.</h5>
                     `);
                 }
                 oldIdentifierName = newClassIdentifier;
                 oldStatus = newStatus;
-                $('#editInfoSuccess').modal('show');
-                $('.classInfo-err').text("");
+                messageModal('editInfoSuccess', 'img/img-success.png', 'Thông tin sửa thành công!')
             } else {
                 $('.classInfo-err').text(message);
             }
         },
         failure: function (errMsg) {
-            $('.classInfo-err').text(errMsg);
+            $('.classInfo-err').text('');
+            messageModal('editInfoSuccess', 'img/img-error.png', errMsg)
         },
         dataType: "json",
         contentType: "application/json"

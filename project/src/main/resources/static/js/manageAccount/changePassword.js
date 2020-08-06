@@ -26,7 +26,7 @@ $(document).ready(function () {
         } else {
             $('.changePassword-err').text("");
             var password = {
-                userName: localStorage.getItem('username'),
+                userName: username,
                 oldPassword: oldpassword,
                 newPassword: newpassword
             };
@@ -46,13 +46,13 @@ $(document).ready(function () {
                     var message = data.message;
                     if (messageCode == 0) {
                         $('.changePassword-err').text("");
-                        $('#changePassword').modal('show');
+                        messageModal('changePassword', 'img/img-success.png', 'Mật khẩu thay đổi thành công!');
                     } else {
                         $('.changePassword-err').text(message);
                     }
                 },
                 failure: function (errMsg) {
-                    $('.changePassword-err').text(errMsg);
+                    messageModal('changePassword', 'img/img-success.png', errMsg);
                 },
                 dataType: "json",
                 contentType: "application/json"
@@ -66,7 +66,7 @@ $('#changePassword .modal-footer a').click(function () {
 });
 
 /*Check Role has create or not*/
-if (localStorage.getItem('roleID') == null) {
+if (roleID == null) {
     $('.changePassword-err').append(`Hãy <a href="login">ĐĂNG NHẬP</a> để có thể thay đổi mật khẩu!`);
     $('#confirm').prop('disabled', true);
 }

@@ -1,8 +1,11 @@
+/*Value default*/
+var roleID = localStorage.getItem("roleID");
+var username = localStorage.getItem("username");
+var pathname = $(location).attr('pathname');
+
 /*Set navigation bar*/
 $(document).ready(function () {
     var loginSuccess = localStorage.getItem("loginSuccess");
-    var roleID = localStorage.getItem("roleID");
-    var username = localStorage.getItem("username");
     if (loginSuccess == 0) {
         $("#loginSuccessMenu").addClass("show");
         $("#loginSuccessMenu .nav-link").html(username + `<i class="fa fa-caret-down"></i>`);
@@ -50,14 +53,51 @@ $(document).ready(function () {
         $(this).find('.mega-menu').toggleClass('show');
         $(this).find('.fa').toggleClass('up');
     })
-    $('#loginSuccessMenu').on('click', function () {
+    $('#loginSuccessMenu').click(function () {
         $('.mega-menu.show').removeClass('show');
         $('.dropdown-menu.show').not($(this).find('.dropdown-menu')).removeClass('show');
         $('.nav-link .fa').not($(this).find('.fa')).removeClass('up');
         $(this).find('.dropdown-menu').toggleClass('show');
         $(this).find('.fa').toggleClass('up');
     });
+
+    // /*Menu responsive*/
+    // if ($(document).width() < 992) {
+    //     $('.nav-item.dropdown .nav-link').not($('#loginSuccessMenu .nav-link')).append('<i class="fa fa-caret-down"></i>');
+    //     dropMenu();
+    // } else {
+    //     $('.nav-item.dropdown .nav-link').removeChild('i')
+    // }
+
+    /*Add active class on menu*/
+    $('#navbarMenu li a').each(function () {
+        var href = '/' + $(this).attr('href');
+        if (href == '//') {
+            href = '/';
+        }
+        if (href == pathname) {
+            if (pathname == '/') {
+                $('.homePage').addClass('active');
+            } else {
+                $('.homePage').removeClass('active');
+                $(this).closest('.nav-item').find('.nav-link').addClass('active');
+                $(this).addClass('active');
+            }
+        }
+    })
+
 });
+
+function dropMenu() {
+    var dropMenu = $('.dropdown-menu');
+    dropMenu.click(function () {
+        $('.mega-menu.show').removeClass('show');
+        $('.dropdown-menu.show').not($(this).find('.dropdown-menu')).removeClass('show');
+        $('.nav-link .fa').not($(this).find('.fa')).removeClass('up');
+        $(this).find('.dropdown-menu').toggleClass('show');
+        $(this).find('.fa').toggleClass('up');
+    })
+}
 
 /*Loading page*/
 $(document).on({
@@ -256,8 +296,16 @@ function lazyLoad() {
     });
 }
 
-// /*Clear session when leaving page*/
-var pathname = $(location).attr('pathname');
+/*Dialog message*/
+function messageModal(modalName, img, message) {
+    $('#' + modalName + ' .modal-body').html(`
+        <img class="my-3" src="` + img + `"/>
+        <h5>` + message + `</h5>
+    `)
+    $('#' + modalName).modal('show');
+}
+
+/*Clear session when leaving page*/
 if (pathname != '/teacherInformation') {
     sessionStorage.removeItem('teacherId');
 }

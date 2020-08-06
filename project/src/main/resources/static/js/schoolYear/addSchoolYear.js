@@ -30,6 +30,7 @@ $(document).ready(function () {
                 fromYear: $('#fromYear').val(),
                 toYear: $('#toYear').val(),
             }
+            $('.addSchoolYear-err').text('');
             console.log(JSON.stringify(schoolYear))
             $.ajax({
                 url: '/api/admin/addschoolyear',
@@ -45,28 +46,13 @@ $(document).ready(function () {
                     var messageCode = data.messageCode;
                     var message = data.message;
                     if (messageCode == 0) {
-                        $('#createSuccess').modal('show');
-                        $('#createSuccess .modal-body').html('');
-                        $('#createSuccess .modal-body').append(`
-                            <img class="mb-3 mt-3" src="img/img-success.png"/>
-                            <h5>Thêm năm học mới thành công!</h5>
-                        `);
+                        messageModal('createSuccess', 'img/img-success.png', 'Thêm năm học mới thành công!');
                     } else {
-                        $('#createSuccess').modal('show');
-                        $('#createSuccess .modal-body').html('');
-                        $('#createSuccess .modal-body').append(`
-                            <img class="mb-3 mt-3" src="img/img-error.png"/>
-                            <h5>` + message + `</h5>
-                        `);
+                        messageModal('createSuccess', 'img/img-error.png', message);
                     }
                 },
                 failure: function (errMsg) {
-                    $('#createSuccess').modal('show');
-                    $('#createSuccess .modal-body').html('');
-                    $('#createSuccess .modal-body').append(`
-                        <img class="mb-3 mt-3" src="img/img-error.png"/>
-                        <h5>` + errMsg + `</h5>
-                    `);
+                    messageModal('createSuccess', 'img/img-error.png', errMsg);
                 },
                 dataType: "json",
                 contentType: "application/json"
@@ -76,7 +62,7 @@ $(document).ready(function () {
     })
 })
 
-if (localStorage.getItem('roleID') != 1) {
+if (roleID != 1) {
     $('.addSchoolYear-err').text('Bạn không có quyền thêm năm học!');
     $('#submit').prop('disabled', true);
 }

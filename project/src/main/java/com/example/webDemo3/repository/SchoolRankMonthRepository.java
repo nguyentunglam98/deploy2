@@ -5,14 +5,12 @@ import com.example.webDemo3.entity.SchoolRankWeek;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /*
 kimpt142 - 23/07
  */
-@Repository
 public interface SchoolRankMonthRepository extends JpaRepository<SchoolRankMonth,Integer> {
     @Query(value="select srm from SchoolRankMonth srm where srm.schoolRankMonthId.MONTH_ID = :monthId "+
             " and (srm.schoolRankMonthId.schoolClass.classId = :classId or :classId is NULL) " +

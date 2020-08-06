@@ -1,6 +1,7 @@
 var oldFullName, oldIdentifier, oldPhone, oldEmail;
+var teacherId = sessionStorage.getItem("teacherId");
+
 $(document).ready(function () {
-    var teacherId = sessionStorage.getItem("teacherId");
     $('.teacherInfo-err').text("");
     var teacher = {
         teacherId: teacherId,
@@ -90,19 +91,15 @@ $("#editInfo").click(function (e) {
                 var messageCode = data.messageCode;
                 var message = data.message;
                 if (messageCode == 0) {
-                    $('#editInfoSuccess').modal('show')
-                    $('#editInfoSuccess .modal-body').html('');
-                    $('#editInfoSuccess .modal-body').append(`
-                        <img class="mb-3 mt-3" src="img/img-success.png"/>
-                        <h5>Thông tin sửa thành công!</h5>
-                    `);
+                    messageModal('editInfoSuccess', 'img/img-success.png', 'Thông tin sửa thành công!');
                     $('.teacherInfo-err').text("");
                 } else {
                     $('.teacherInfo-err').text(message);
                 }
             },
             failure: function (errMsg) {
-                $('.teacherInfo-err').text(errMsg);
+                $('.teacherInfo-err').text("");
+                messageModal('editInfoSuccess', 'img/img-success.png', errMsg);
             },
             dataType: "json",
             contentType: "application/json"

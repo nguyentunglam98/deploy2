@@ -39,14 +39,14 @@ $("#submit").click(function (e) {
                 var messageCode = data.messageCode;
                 var message = data.message;
                 if (messageCode == 0) {
-                    dialogModal('/img/img-success.png', "Thêm giáo viên thành công!");
                     $('.createTeacher-err').text("");
+                    messageModal('createSuccess', 'img/img-success.png', 'Thêm giáo viên thành công!')
                 } else {
                     $('.createTeacher-err').text(message);
                 }
             },
             failure: function (errMsg) {
-                $('.createTeacher-err').text(errMsg);
+                messageModal('createSuccess', 'img/img-error.png', errMsg);
             },
             dataType: "json",
             contentType: "application/json"
@@ -54,18 +54,8 @@ $("#submit").click(function (e) {
     }
 });
 
-/*Set dialog template*/
-function dialogModal(img, message) {
-    $('#createSuccess').modal('show');
-    $('#createSuccess .modal-body').html('');
-    $('#createSuccess .modal-body').append(`
-        <img class="mb-3 mt-3" src=` + img + `/>
-        <h5>` + message + `</h5>
-    `);
-}
-
 /*Check Role has create or not*/
-if (localStorage.getItem('roleID') != 1) {
+if (roleID != 1) {
     $('.createTeacher-err').text("Bạn không có quyền thêm giáo viên!");
     $('#submit').prop('disabled', true);
 }

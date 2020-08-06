@@ -5,6 +5,7 @@ var emailRegex = '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$';
 var phoneRegex = '^[0-9\\-\\+]{9,15}$';
 /*Call API for Role List*/
 $('.createAccount-err').text("");
+
 $.ajax({
     url: '/api/admin/rolelist',
     type: 'POST',
@@ -176,18 +177,13 @@ $("#submit").click(function (e) {
                 var message = data.message;
                 if (messageCode == 0) {
                     $('.createAccount-err').text("");
-                    $('#createSuccess').modal('show');
-                    $('#createSuccess .modal-body').html('');
-                    $('#createSuccess .modal-body').append(`
-                        <img class="mb-3 mt-3" src="img/img-success.png"/>
-                        <h5>Tạo tài khoản thành công!</h5>
-                    `);
+                    messageModal('createSuccess', 'img/img-success.png', 'Tạo tài khoản thành công!');
                 } else {
                     $('.createAccount-err').text(message);
                 }
             },
             failure: function (errMsg) {
-                $('.createAccount-err').text(errMsg);
+                messageModal('createSuccess', 'img/img-error.png', errMsg);
             },
             dataType: "json",
             contentType: "application/json"
@@ -223,7 +219,7 @@ $(".previous").click(function () {
 });
 
 /*Check Role has create or not*/
-if (localStorage.getItem('roleID') != 1) {
+if (roleID != 1) {
     $('.createAccount-err').text("Bạn không có quyền tạo tài khoản!");
     $('#next').prop('disabled', true);
 }

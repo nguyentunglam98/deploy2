@@ -22,18 +22,18 @@
 <div th:replace="fragments/header :: header"></div>
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-3 mx-auto">
+        <div class="col-lg-8 col-md-12 p-0 mx-auto">
             <div id="msform">
                 <h2 class="fs-title">Quản lý thời khóa biểu</h2>
-                <h3 class="fs-subtitle">Cập nhật thời kháo biểu khi có sự thay đổi</h3>
+                <h3 class="fs-subtitle mx-2">Cập nhật thời kháo biểu khi có sự thay đổi</h3>
                 <fieldset>
                     <form id="timetableform" th:action="@{manageTimetable}" method="post" enctype="multipart/form-data"
                           class="form">
                         <p class="note">(<span class="text-red">*</span>) Bắt buộc </p>
                         <div class="form-group row text-left">
-                            <label for="date-input" class="col-4 col-form-label">Ngày áp dụng <span
+                            <label for="date-input" class="col-sm-4 col-form-label">Ngày áp dụng <span
                                     class="text-red">*</span></label>
-                            <div class="col-8">
+                            <div class="col-sm-8">
                                 <input type="date" id="date-input" class="form-control" th:name="date"/>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                             <small id="fileHelp" class="form-text text-muted">Hỗ trợ định dạng XLSX, XLS.</small>
                         </div>
                         <div class="error input-err text-left"></div>
-                        <input th:type="submit" id="submit" class="btn btn-customer" value="THAY ĐỔI THỜI KHÓA BIỂU"/>
+                        <button th:type="submit" id="submit" class="btn btn-customer">THAY ĐỔI THỜI KHÓA BIỂU</button>
                     </form>
                 </fieldset>
             </div>

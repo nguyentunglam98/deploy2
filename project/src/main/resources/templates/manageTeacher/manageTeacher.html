@@ -48,10 +48,10 @@
             </div>
         </div>
         <div class="table-title-2 manageBtn">
-            <div class="col-sm-12 px-0 d-flex justify-content-end align-items-center">
-                <input type="button" class="btn btn-success mx-2" data-toggle="modal" onclick="checkTeacher()"
+            <div class="row mx-0 justify-content-end">
+                <input type="button" class="btn btn-success ml-2 my-1" data-toggle="modal" onclick="checkTeacher()"
                        value="Xóa"/>
-                <a th:href="@{createTeacher}" class="btn btn-success mr-0">
+                <a th:href="@{createTeacher}" class="btn btn-success ml-2 my-1 mr-0">
                     <span>Thêm giáo viên</span>
                 </a>
             </div>
@@ -86,8 +86,7 @@
         <div class="modal-content">
             <div class="modal-body text-center"></div>
             <div class="modal-footer">
-                <input type="submit" class="btn btn-danger" data-toggle="modal" data-target="#deleteSuccess"
-                       id="deleteTeacher" data-dismiss="modal" value="CÓ">
+                <input type="submit" class="btn btn-danger" id="deleteTeacher" data-dismiss="modal" value="CÓ">
                 <input type="button" class="btn btn-primary" data-dismiss="modal" value="KHÔNG">
             </div>
         </div>

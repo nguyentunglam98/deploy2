@@ -47,6 +47,7 @@ $("#submit").click(function (e) {
         $('.createClass-err').text("Hãy nhập tên định danh!");
         return false;
     } else {
+        $('.createClass-err').text('');
         var addClass = {
             classIdentifier: classIdentifier,
             grade: grade,
@@ -70,30 +71,14 @@ $("#submit").click(function (e) {
                 var message = data.message.message;
                 var listUser = data.userList;
                 if (messageCode == 2) {
-                    $("#createSuccess .modal-body").html("");
-                    $("#createSuccess .modal-body").append(`
-                        <img class="mb-3 mt-3" src="img/img-error.png"/>
-                        <h5>` + message + `</h5>
-                        <h5>Nếu muốn tiếp tục sử dụng thì chỉnh sửa <a href="editClass" id="saveSession">TẠI ĐÂY</a></h5>
-                    `)
-                    $('#createSuccess').modal('show');
+                    messageModal('createSuccess', 'img/img-error.png', message + `<h5>Nếu muốn tiếp tục sử dụng thì chỉnh sửa <a href="editClass" id="saveSession">TẠI ĐÂY</a></h5>`)
                     $('#saveSession').on('click', function () {
                         sessionStorage.setItem("classId", data.classId);
                     })
                 } else if (messageCode == 0) {
-                    if (listUser == null) {
-                        $("#createSuccess .modal-body").html("");
-                        $("#createSuccess .modal-body").append(`
-                            <img class="mb-3 mt-3" src="img/img-success.png"/>
-                            <h5>Tạo lớp thành công!</h5>
-                        `)
-                    } else {
-                        $("#createSuccess .modal-body").html("");
-                        $("#createSuccess .modal-body").append(`
-                        <img class="mb-3 mt-3" src="img/img-success.png"/>
-                        <h5>Tạo lớp thành công!</h5>
-                        `);
+                    if (listUser != null) {
                         var index = 1;
+                        messageModal('createSuccess', 'img/img-success.png', 'Tạo lớp thành công!')
                         for (var i = 0; i < data.userList.length; i++) {
                             var roleAcc = data.userList[i].role.roleId;
                             var roleName;
@@ -113,15 +98,16 @@ $("#submit").click(function (e) {
                                 </div>
                             `);
                         }
+                    } else {
+                        messageModal('createSuccess', 'img/img-success.png', 'Tạo lớp thành công!')
                     }
-                    $('#createSuccess').modal('show');
-
                 } else {
                     $('.createClass-err').text(message);
                 }
             },
             failure: function (errMsg) {
-                $('.createClass-err').text(errMsg);
+                $('.createClass-err').text('');
+                messageModal('createSuccess', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"
@@ -130,7 +116,7 @@ $("#submit").click(function (e) {
 });
 
 /*Check Role has create or not*/
-if (localStorage.getItem('roleID') != 1) {
+if (roleID != 1) {
     $('.createClass-err').text("Bạn không có quyền thêm lớp!");
     $('#submit').prop('disabled', true);
 }

@@ -5,14 +5,12 @@ import com.example.webDemo3.entity.SchoolRankYear;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /*
 kimpt142 - 23/07
  */
-@Repository
 public interface SchoolRankYearRepository extends JpaRepository<SchoolRankYear,Integer> {
     @Query(value = "select distinct srw.schoolRankYearId.YEAR_ID from SchoolRankYear srw")
     List<Integer> getAllDistinctYearId();

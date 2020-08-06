@@ -4,8 +4,6 @@ $('#date-input').val(moment().format('YYYY-MM-DD'));
 $('#submit').on('click', function () {
     date = $('#date-input').val();
     var form = $('#inputFile')[0].files[0];
-    console.log(form);
-    console.log(date);
     if (date.trim() == "") {
         $('.input-err').text("Hãy điền ngày áp dụng.");
         return false;
@@ -37,19 +35,13 @@ $("#timetableform").submit(function (e) {
                 dialogErr('#overrideTimetableModal', data.message);
             } else if (data.messageCode == 2) {
                 //gọi dialog confirm có muốn ghi đè không nếu có thì gọi update();
-                $('#overrideTimetableModal').modal('show');
-                $('#overrideTimetableModal .modal-body').html('');
-                $('#overrideTimetableModal .modal-body').append(`
-                    <img class="mb-3 mt-3" src="https://img.icons8.com/flat_round/100/000000/error--v1.png"/>
-                    <h5>Ngày áp dụng của Thời khóa biểu đã tồn tại.</h5>
-                    <h6>Thời khóa biểu này sẽ bị ghi đè lên thời khóa biểu trước đó.</h6>
-                    <h5>Bạn có muốn ghi đè không?</h5>
-                `);
-                $('#overrideTimetableModal .modal-footer').html('');
-                $('#overrideTimetableModal .modal-footer').append(`
+                $('#overrideTimetableModal .modal-footer').html(`
                     <input type="button" class="btn btn-danger" data-dismiss="modal" id="overrideTimetable" value="CÓ">
                     <input type="button" class="btn btn-primary" data-dismiss="modal" value="KHÔNG">
                 `);
+                messageModal('overrideTimetableModal', 'img/img-error.png', `Ngày áp dụng của Thời khóa biểu đã tồn tại.</h5>
+                    <h6>Thời khóa biểu này sẽ bị ghi đè lên thời khóa biểu trước đó.</h6>
+                    <h5>Bạn có muốn ghi đè không?`)
                 overrideTimetable();
             } else {
                 dialogErr('#overrideTimetableModal', data.message);
@@ -76,22 +68,15 @@ function update() {
     var formData = new FormData(form[0]);
     $.ajax({
         type: "POST",
-        //url: "manageTimetable",
         url: "/api/timetable/update",
         data: formData,//form.serialize(), // serializes the form's elements.
         async: false,
         success: function (data) {
             if (data.messageCode == 0) {
-                $('#overrideSuccess').modal('show');
-                $('#overrideSuccess .modal-body').html('');
-                $('#overrideSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3" src="https://img.icons8.com/material/100/007bff/ok--v1.png"/>
-                    <h5>Thay đổi Thời khóa biểu thành công!</h5>
-                `);
-                $('#overrideSuccess .modal-footer').html('');
-                $('#overrideSuccess .modal-footer').append(`
+                $('#overrideSuccess .modal-footer').html(`
                     <a type="button" class="btn btn-primary" href="manageTimetable">ĐÓNG</a>
                 `);
+                messageModal('overrideSuccess', 'img/img-success.png', 'Thay đổi Thời khóa biểu thành công!')
             } else {
                 dialogErr('#overrideSuccess', data.message);
             }
@@ -120,7 +105,7 @@ function dialogErr(model, mess) {
     `);
 }
 
-if (localStorage.getItem('roleID') != 1 && localStorage.getItem('roleID') != 2) {
+if (roleID != 1 && roleID != 2) {
     $('.input-err').text('Bạn không có quyền thêm thời khóa biểu!');
     $('#submit').prop('disabled', true);
 }

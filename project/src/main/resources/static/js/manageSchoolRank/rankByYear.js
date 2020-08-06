@@ -68,7 +68,7 @@ function search() {
         $('tbody').append(`<tr><td colspan="4" class="userlist-result">Không có năm học nào trong dữ liệu.</td></tr>`);
         $('#editRankBtn').addClass('hide');
     } else {
-        if (localStorage.getItem('roleID') == 1) {
+        if (roleID == 1) {
             $('#editRankBtn').removeClass('hide');
         }
         $('table').dataTable({
@@ -235,7 +235,7 @@ $('#createNewRankBtn').on('click', function () {
         $('.createNewRank-err').text('');
         var createRank = {
             yearId: yearId,
-            userName: localStorage.getItem('username'),
+            userName: username,
             semesterList: listCreate
         }
         console.log(JSON.stringify(createRank));
@@ -254,7 +254,7 @@ $('#createNewRankBtn').on('click', function () {
                 var message = data.message;
                 if (messageCode == 0) {
                     $('#createNewRank').modal('hide');
-                    dialogModal('messageModal', 'img/img-success.png', 'Tạo xếp hạng năm học thành công!');
+                    messageModal('messageModal', 'img/img-success.png', 'Tạo xếp hạng năm học thành công!');
                     sessionStorage.removeItem('yearId');
                     sessionStorage.setItem('yearId', yearId);
                 } else {
@@ -263,7 +263,7 @@ $('#createNewRankBtn').on('click', function () {
             },
             failure: function (errMsg) {
                 $('#createNewRank').modal('hide');
-                dialogModal('messageModal', 'img/img-error.png', errMsg)
+                messageModal('messageModal', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"
@@ -386,7 +386,7 @@ $('#editRankBtnModal').on('click', function () {
         $('.editRank-err').text('');
         var editRank = {
             yearId: $('#byYear option:selected').val(),
-            userName: localStorage.getItem('username'),
+            userName: username,
             semesterList: listEdit
         }
         console.log(JSON.stringify(editRank));
@@ -407,14 +407,14 @@ $('#editRankBtnModal').on('click', function () {
                     $('#editRank').modal('hide');
                     sessionStorage.removeItem('yearId');
                     sessionStorage.setItem('yearId', $('#byYear option:selected').val());
-                    dialogModal('messageModal', 'img/img-success.png', 'Sửa xếp hạng năm học thành công!');
+                    messageModal('messageModal', 'img/img-success.png', 'Sửa xếp hạng năm học thành công!');
                 } else {
                     $('.editRank-err').text(message);
                 }
             },
             failure: function (errMsg) {
                 $('#editRank').modal('hide');
-                dialogModal('messageModal', 'img/img-error.png', errMsg)
+                messageModal('messageModal', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"
@@ -456,7 +456,7 @@ $("#download").click(function () {
         },
         statusCode: {
             400: function (errMsg) {
-                dialogModal('messageModal', 'img/img-error.png', 'Không thể tải được tập tin!')
+                messageModal('messageModal', 'img/img-error.png', 'Không thể tải được tập tin!')
             }
         },
         dataType: "binary",
@@ -466,17 +466,8 @@ $("#download").click(function () {
 
 /*=====================================*/
 /*Set role*/
-if (localStorage.getItem('roleID') != 1) {
+if (roleID != 1) {
     $('.manageBtn').addClass('hide');
-}
-
-/*Dialog Modal*/
-function dialogModal(modalName, img, message) {
-    $('#' + modalName + ' .modal-body').html(`
-        <img class="mb-3 mt-3" src="` + img + `"/>
-        <h5>` + message + `</h5>
-    `)
-    $('#' + modalName).modal('show');
 }
 
 /*Remove checkbox and input when close modal*/
@@ -515,11 +506,11 @@ $("#viewHistory").click(function () {
                 $('#historyModal .modal-body').html(data.history);
                 $('#historyModal').modal('show');
             } else {
-                dialogModal('messageModal', 'img/img-error.png', message)
+                messageModal('messageModal', 'img/img-error.png', message)
             }
         },
         failure: function (errMsg) {
-            dialogModal('messageModal', 'img/img-error.png', errMsg)
+            messageModal('messageModal', 'img/img-error.png', errMsg)
         },
         dataType: "json",
         contentType: "application/json"

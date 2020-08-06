@@ -1,17 +1,16 @@
-var roleId = localStorage.getItem("roleID");
 var oldFullName, oldPhone, oldEmail;
 
 $(document).ready(function () {
     var account = {
-        userName: localStorage.getItem("username")
+        userName: username
     }
-    if (roleId == 3 || roleId == 4) {
+    if (roleID == 3 || roleID == 4) {
         $("#editInfo").addClass('hide');
         $("#fullNameDiv").addClass('hide');
         $("#phoneDiv").addClass('hide');
         $("#emailDiv").addClass('hide');
     }
-    if (roleId != 3 && roleId != 4) {
+    if (roleID != 3 && roleID != 4) {
         $('#classDiv').addClass('hide');
     }
     $.ajax({
@@ -44,16 +43,14 @@ $(document).ready(function () {
 });
 
 $("#editInfo").click(function () {
-    if (roleId != 3 && roleId != 4) {
+    if (roleID != 3 && roleID != 4) {
         $('#fullName').prop('disabled', false);
         $('#phone').prop('disabled', false);
         $('#email').prop('disabled', false);
     }
     $('#editInfo').attr('value', 'XONG');
 
-    $("#editInfo").click(function () {
-        $('#editInfo').attr('data-target', '#editInfoSuccess');
-        $('#editInfoSuccess').addClass('fade');
+    $("#editInfo").unbind().click(function () {
         var emailRegex = '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$';
         var phoneRegex = '^[0-9\\-\\+]{9,15}$';
         var fullName = $('#fullName').val().trim();
@@ -74,7 +71,7 @@ $("#editInfo").click(function () {
             $('#phone').prop('disabled', true);
             $('#email').prop('disabled', true);
             var info = {
-                userName: localStorage.getItem("username"),
+                userName: username,
                 fullName: fullName,
                 phone: phone,
                 email: email
@@ -93,25 +90,13 @@ $("#editInfo").click(function () {
                     var messageCode = data.messageCode;
                     var message = data.message;
                     if (messageCode == 0) {
-                        $('.modal-body').html('');
-                        $('.modal-body').append(`
-                            <img class="mb-3 mt-3" src="https://img.icons8.com/material/100/007bff/ok--v1.png"/>
-                            <h5>Thông tin sửa thành công!</h5>
-                        `);
+                        messageModal('editInfoSuccess','img/img-success.png','Thông tin sửa thành công!')
                     } else {
-                        $('.modal-body').html('');
-                        $('.modal-body').append(`
-                            <img class="mb-3 mt-3" src="https://img.icons8.com/flat_round/100/000000/error--v1.png"/>
-                            <h5>` + message + `</h5>
-                        `);
+                        messageModal('editInfoSuccess','img/img-error.png',message)
                     }
                 },
                 failure: function (errMsg) {
-                    $('.modal-body').html('');
-                    $('.modal-body').append(`
-                        <img class="mb-3 mt-3" src="https://img.icons8.com/flat_round/100/000000/error--v1.png"/>
-                        <h5>` + errMsg + `</h5>
-                    `);
+                    messageModal('editInfoSuccess','img/img-error.png',errMsg)
                 },
                 dataType: "json",
                 contentType: "application/json"
@@ -121,7 +106,7 @@ $("#editInfo").click(function () {
 });
 
 /*Check Role has create or not*/
-if (roleId == null) {
+if (roleID == null) {
     $('.userInfo-err').append(`Hãy <a href="login">ĐĂNG NHẬP</a> để có thể sửa thông tin!`);
     $('#editInfo').prop('disabled', true);
 }

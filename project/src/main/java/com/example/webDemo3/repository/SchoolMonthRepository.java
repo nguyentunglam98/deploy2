@@ -6,14 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /*
 kimpt142 - 23/07
  */
-@Repository
 public interface SchoolMonthRepository extends JpaRepository<SchoolMonth,Integer> {
 
     @Query(value="select sm from SchoolMonth sm where sm.monthId <> 0 and sm.yearId = :yearId order by sm.createDate desc")

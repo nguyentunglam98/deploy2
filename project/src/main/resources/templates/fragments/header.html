@@ -50,33 +50,36 @@
         <!--                </a>-->
         <!--            </div>-->
         <!--        </div>-->
-        <div class="container justify-content-end">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="container justify-content-end position-relative">
+            <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbarMenu"
+                    aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars text-white"></i>
             </button>
 
-            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
                 <ul class="navbar-nav pull-left">
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/}">TRANG CHỦ</a>
+                        <a class="nav-link homePage" th:href="@{/}">TRANG CHỦ</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">THỜI KHÓA BIỂU</a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" th:href="@{timetableClass}">Thời khóa biểu của lớp</a>
                             <a class="dropdown-item" th:href="@{timetableTeacher}">Thời khóa biểu của giáo viên</a>
-                            <a id="scheduleManagerMenu" class="dropdown-item" th:href="@{manageTimetable}">Quản lý thời khóa biểu</a>
+                            <a id="scheduleManagerMenu" class="dropdown-item" th:href="@{manageTimetable}">Quản lý thời
+                                khóa biểu</a>
                         </div>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">TRỰC TUẦN</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item hide" th:href="@{gradingToEmulation}" id="gradingToEmulationMenu">Chấm điểm thi đua</a>
+                            <a class="dropdown-item hide" th:href="@{gradingToEmulation}" id="gradingToEmulationMenu">Chấm
+                                điểm thi đua</a>
                             <a class="dropdown-item" th:href="@{violationList}">Xem nội quy trường học</a>
                             <a class="dropdown-item" th:href="@{assignEmulation}">Xem phân công trực tuần</a>
-                            <a class="dropdown-item" th:href="@{manageViolationEnteringTime}">Xem thời gian thực thi chấm điểm</a>
+                            <a class="dropdown-item" th:href="@{manageViolationEnteringTime}">Xem thời gian thực thi
+                                chấm điểm</a>
                             <a class="dropdown-item" th:href="@{violationListOfClass}">Xem danh vi phạm theo ngày</a>
                             <a class="dropdown-item" th:href="@{viewRequest}">Xem yêu cầu thay đổi vi phạm</a>
                             <a class="dropdown-item" th:href="@{history}">Xem lịch sử vi phạm</a>
@@ -119,8 +122,8 @@
                                     <ul class="stander">
                                         <li><a th:href="@{manageAccount}">Quản lý tài khoản</a></li>
                                         <li><a th:href="@{createAccount}">Tạo tài khoản</a></li>
-                                        <li><a th:href="@{userInformation}">Thông tin cá nhân</a></li>
-                                        <li><a th:href="@{changePassword}">Thay đổi mật khẩu</a></li>
+                                        <!--                                        <li><a th:href="@{userInformation}">Thông tin cá nhân</a></li>-->
+                                        <!--                                        <li><a th:href="@{changePassword}">Thay đổi mật khẩu</a></li>-->
                                     </ul>
                                 </div>
                                 <div class="col-md-3 position-relative float-left">
@@ -158,7 +161,7 @@
                         <a class="nav-link" th:href="@{login}">ĐĂNG NHẬP</a>
                     </li>
                     <li class="nav-item dropdown" id="loginSuccessMenu">
-                        <a class="nav-link" href="#" ></a>
+                        <a class="nav-link" href="#"></a>
                         <div class="dropdown-menu">
                             <a th:href="@{userInformation}" class="dropdown-item">Thông tin tài khoản</a>
                             <a th:href="@{changePassword}" class="dropdown-item">Đổi mật khẩu</a>

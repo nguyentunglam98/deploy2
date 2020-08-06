@@ -94,23 +94,11 @@ function search() {
                 pagingClick();
                 manageBtn();
             } else {
-                $('tbody').append(
-                    `<tr>
-                        <td colspan="7" class="userlist-result">
-                            ` + data.message.message + `
-                        </td>
-                    </tr>`
-                )
+                $('tbody').append(`<tr><td colspan="7" class="userlist-result">` + data.message.message + `</td></tr>`);
             }
         },
         failure: function (errMsg) {
-            $('tbody').append(
-                `<tr>
-                        <td colspan="7" class="userlist-result">
-                            ` + errMsg + `
-                        </td>
-                    </tr>`
-            )
+            $('tbody').append(`<tr><td colspan="7" class="userlist-result">` + errMsg + `</td></tr>`);
         },
         dataType: "json",
         contentType: "application/json"
@@ -137,25 +125,13 @@ $("#deleteTeacher").click(function (e) {
             var messageCode = data.messageCode;
             var message = data.message;
             if (messageCode == 0) {
-                $("#deleteSuccess .modal-body").html("");
-                $('#deleteSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3" src="img/img-success.png"/>
-                    <h5>` + message + `</h5>
-                `);
+                messageModal('deleteSuccess', 'img/img-success.png', message)
             } else {
-                $("#deleteSuccess .modal-body").html("");
-                $('#deleteSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3" src="img/img-error.png"/>
-                    <h5>` + message + `</h5>
-                `);
+                messageModal('deleteSuccess', 'img/img-error.png', message)
             }
         },
         failure: function (errMsg) {
-            $("#deleteSuccess .modal-body").html("");
-            $('#deleteSuccess .modal-body').append(`
-                <img class="mb-3 mt-3" src="img/img-error.png"/>
-                <h5>` + errMsg + `</h5>
-            `);
+            messageModal('deleteSuccess', 'img/img-error.png', errMsg)
         },
         dataType: "json",
         contentType: "application/json"
@@ -167,21 +143,13 @@ function checkTeacher() {
     $('#deleteTeacherModal').modal('show');
     $('#deleteTeacherModal .modal-body').html("");
     if (list.length == 0) {
-        $("#deleteTeacherModal .modal-body").html("");
-        $('#deleteTeacherModal .modal-body').append(`
-            <img class="mb-3 mt-3" src="img/img-error.png"/>
-            <h5>Hãy chọn giáo viên mà bạn muốn xóa!</h5>
-        `);
         $('#deleteTeacherModal .modal-footer .btn-danger').addClass('hide');
         $('#deleteTeacherModal .modal-footer .btn-primary').attr('value', 'ĐÓNG');
+        messageModal('deleteTeacherModal', 'img/img-error.png', 'Hãy chọn giáo viên mà bạn muốn xóa!')
     } else {
-        $("#deleteTeacherModal .modal-body").html("");
-        $('#deleteTeacherModal .modal-body').append(`
-            <img class="mb-3 mt-3" src="img/img-question.png"/>
-            <h5>Bạn có chắc muốn <b>XÓA</b> giáo viên này không?</h5>
-        `);
         $('#deleteTeacherModal .modal-footer .btn-danger').removeClass('hide');
         $('#deleteTeacherModal .modal-footer .btn-primary').attr('value', 'KHÔNG');
+        messageModal('deleteTeacherModal', 'img/img-question.png', `Bạn có chắc muốn <b>XÓA</b> giáo viên này không?`)
     }
 }
 
@@ -196,7 +164,7 @@ function getTeacherID() {
 
 /*Show or hide button manage*/
 function manageBtn() {
-    if (localStorage.getItem('roleID') != 1) {
+    if (roleID != 1) {
         $('.manageBtn').addClass('hide');
         $('table thead th:first-child').addClass('hide');
         $('tbody > tr > td:first-child').addClass('hide');

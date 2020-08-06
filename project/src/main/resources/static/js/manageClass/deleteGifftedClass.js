@@ -1,4 +1,5 @@
 var giftedClassId;
+
 $(document).ready(function () {
     $.ajax({
         url: '/api/admin/giftedclasslist',
@@ -23,12 +24,10 @@ function changeSelected() {
 
 $('#deleteGC').click(function (e) {
     if (giftedClassId == null || giftedClassId == 0) {
-        $('.giftedClass-err').text("");
-        $('.giftedClass-err').text("Hãy chọn hệ chuyên để xóa !");
+        $('.giftedClass-err').text("Hãy chọn hệ chuyên để xóa!");
     } else {
         $('.giftedClass-err').text("");
-        $('#deleteGifftedClassModal').addClass('fade');
-        $('#deleteGC').attr('data-target', '#deleteGifftedClassModal');
+        messageModal('deleteGifftedClassModal', 'img/img-question.png', 'Bạn có chắc muốn <b>XÓA</b> hệ chuyên này không?')
         $("#deleteGifftedClass").click(function (e) {
             deleteGifted(e);
         });
@@ -56,27 +55,19 @@ function deleteGifted(e) {
             var messageCode = data.messageCode;
             var message = data.message;
             if (messageCode == 0) {
-                $("#deleteSuccess .modal-body").html("");
-                $('#deleteSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3" src="img/img-success.png"/>
-                    <h5>Xoá hệ chuyên thành công !</h5>
-                `);
                 $("#deleteSuccess .modal-footer input").addClass('hide');
                 $("#deleteSuccess .modal-footer a").removeClass('hide');
-                $('#deleteSuccess').css('display', 'block');
-                $('.giftedClass-err').text("");
+                messageModal('deleteSuccess', 'img/img-success.png', 'Xoá hệ chuyên thành công!')
             } else {
-                $("#deleteSuccess .modal-body").html("");
-                $('#deleteSuccess .modal-body').append(`
-                    <img class="mb-3 mt-3" src="img/img-error.png"/>
-                    <h5>` + message + `</h5>
-                `);
                 $("#deleteSuccess .modal-footer input").removeClass('hide');
                 $("#deleteSuccess .modal-footer a").addClass('hide');
+                messageModal('deleteSuccess', 'img/img-error.png', message);
             }
         },
         failure: function (errMsg) {
-            console.log(errMsg);
+            $("#deleteSuccess .modal-footer input").removeClass('hide');
+            $("#deleteSuccess .modal-footer a").addClass('hide');
+            messageModal('deleteSuccess', 'img/img-error.png', errMsg);
         },
         dataType: "json",
         contentType: "application/json"
@@ -84,7 +75,7 @@ function deleteGifted(e) {
 }
 
 /*Check Role has create or not*/
-if (localStorage.getItem('roleID') != 1) {
+if (roleID != 1) {
     $('.giftedClass-err').text("Bạn không có quyền xóa hệ chuyên!");
     $('#deleteGC').prop('disabled', true);
 }

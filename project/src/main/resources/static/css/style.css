@@ -196,14 +196,13 @@ a:hover {
 
 .widget_search input[type=search] {
     height: 28px;
-    width: 166px;
+    max-width: 166px;
     border-radius: 0;
     background-color: rgba(255, 255, 255, 0.2);
     border: none;
     font-family: Open Sans;
     font-size: 16px;
     line-height: 16px;
-    width: 166px;
     color: rgba(255, 255, 255, 0.7);
     padding-left: 24px;
 }
@@ -1707,6 +1706,28 @@ a.slide_btn {
     .select2-container {
         width: 100% !important;
     }
+
+    .slide_viewer {
+        height: 105px;
+    }
+
+    .content-wrap {
+        padding-top: 30px;
+    }
+
+    .content-wrap .container, .content-wrap .container .post-gird, .content-wrap .container .flex-wrap {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .card-120 img {
+        height: 200px !important;
+    }
+    .contact-number {
+        padding: 2px 0;
+    }
 }
 
 @media screen and (max-width: 992px) {
@@ -1769,4 +1790,11 @@ a.slide_btn {
     .barex {
         display: none;
     }
+
+    /*.myHeader {*/
+    /*    position: fixed;*/
+    /*    top: 0;*/
+    /*    width: 100%;*/
+    /*    z-index: 1000;*/
+    /*}*/
 }

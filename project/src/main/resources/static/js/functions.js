@@ -85,7 +85,6 @@ $(document).ready(function () {
             }
         }
     })
-
 });
 
 function dropMenu() {
@@ -98,6 +97,12 @@ function dropMenu() {
         $(this).find('.fa').toggleClass('up');
     })
 }
+
+// /*Fixed header*/
+// $(document).change(function () {
+//     var divHeight = $('header .navbar').height();
+//     $('header').css('height', divHeight + 'px');
+// })
 
 /*Loading page*/
 $(document).on({

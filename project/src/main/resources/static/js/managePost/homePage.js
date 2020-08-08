@@ -125,7 +125,7 @@ $.ajax({
                                 </div>
                                 <div class="card-block">
                                     <h3 class="card-title">` + item.header + `</h3>
-                                    <div class="card-date">` + item.createDate + `</div>
+                                    <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     <div class="card-text hide content-hide">` + item.content + `</div>
                                     <div class="card-text">` + limitedText(item.content) + `</div>
                                 </div>
@@ -142,7 +142,7 @@ $.ajax({
                                     </div>
                                     <div class="card-block">
                                         <h3 class="card-title">` + item.header + `</h3>
-                                        <div class="card-date">` + item.createDate + `</div>
+                                        <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     </div>
                                 </a>
                             </div>
@@ -156,7 +156,7 @@ $.ajax({
                                     </div>
                                     <div class="card-block">
                                         <h3 class="card-title">` + item.header + `</h3>
-                                        <div class="card-date">` + item.createDate + `</div>
+                                        <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     </div>
                                 </a>
                             </div>
@@ -244,7 +244,7 @@ function search() {
                                 </div>
                                 <div class="card-block">
                                     <h3 class="card-title">` + item.header + `</h3>
-                                    <div class="card-date">` + item.createDate + `</div>
+                                    <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     <div class="card-text">` + limitedText(item.content) + `</div>
                                 </div>
                             </a>
@@ -260,7 +260,7 @@ function search() {
                                     </div>
                                     <div class="card-block">
                                         <h3 class="card-title">` + item.header + `</h3>
-                                        <div class="card-date">` + item.createDate + `</div>
+                                        <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     </div>
                                 </a>
                             </div>
@@ -274,7 +274,7 @@ function search() {
                                     </div>
                                     <div class="card-block">
                                         <h3 class="card-title">` + item.header + `</h3>
-                                        <div class="card-date">` + item.createDate + `</div>
+                                        <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     </div>
                                 </a>
                             </div>

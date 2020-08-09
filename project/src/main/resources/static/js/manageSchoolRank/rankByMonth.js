@@ -116,21 +116,22 @@ setTimeout(search, 500);
 /*Set data to table*/
 function search() {
     var monthId = $('#byMonth option:selected').val();
-    var infoSearch = {
-        monthId: monthId,
-        classId: $('#byClass option:selected').val(),
-    }
+
     if (monthId != null && monthId != "" && monthId != "err") {
         $('#viewHistory').removeClass('hide');
     }
     if (roleID == 1) {
         $('#createRankBtn').removeClass('hide');
     }
-    console.log(JSON.stringify(infoSearch));
     if ($('#byMonth option:selected').val() == 'err') {
         $('tbody').append(`<tr><td colspan="4" class="userlist-result">Không có tháng nào trong dữ liệu.</td></tr>`);
         $('#editRankBtn').addClass('hide');
     } else {
+        var infoSearch = {
+            monthId: monthId,
+            classId: $('#byClass option:selected').val(),
+        }
+        console.log(JSON.stringify(infoSearch));
         $('table').dataTable({
             destroy: true,
             searching: false,

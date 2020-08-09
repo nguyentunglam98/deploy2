@@ -59,11 +59,6 @@ setTimeout(search, 500);
 
 /*Set data to table*/
 function search() {
-    var infoSearch = {
-        yearId: $('#byYear option:selected').val(),
-        classId: $('#byClass option:selected').val()
-    }
-    console.log(JSON.stringify(infoSearch));
     if ($('#byYear option:selected').val() == 'err') {
         $('tbody').append(`<tr><td colspan="4" class="userlist-result">Không có năm học nào trong dữ liệu.</td></tr>`);
         $('#editRankBtn').addClass('hide');
@@ -71,6 +66,11 @@ function search() {
         if (roleID == 1) {
             $('#editRankBtn').removeClass('hide');
         }
+        var infoSearch = {
+            yearId: $('#byYear option:selected').val(),
+            classId: $('#byClass option:selected').val()
+        }
+        console.log(JSON.stringify(infoSearch));
         $('table').dataTable({
             destroy: true,
             searching: false,

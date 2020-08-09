@@ -73,7 +73,7 @@ function search() {
     };
     console.log(JSON.stringify(inforSearch));
     if (fromDate == 'err' || classId == 'err') {
-        $('tbody').append(`<tr><td colspan="3" class="userlist-result">Danh sách trống.</td></tr>`);
+        $('tbody').html(`<tr><td colspan="3" class="userlist-result">Danh sách trống.</td></tr>`);
         $('table').dataTable();
     } else {
         $('table').dataTable({
@@ -91,7 +91,7 @@ function search() {
                 dataType: "json",
                 contentType: "application/json",
                 failure: function (errMsg) {
-                    $('tbody').append(`<tr><td colspan="3" class="userlist-result"> ` + errMsg + ` </td></tr>`)
+                    $('tbody').html(`<tr><td colspan="3" class="userlist-result"> ` + errMsg + ` </td></tr>`)
                 },
                 dataSrc: function (data) {
                     var dataSrc = null;
@@ -104,7 +104,7 @@ function search() {
                             return false;
                         }
                     } else {
-                        $('tbody').append(`<tr><td colspan="3" class="userlist-result"> ` + message + ` </td></tr>`)
+                        $('tbody').html(`<tr><td colspan="3" class="userlist-result"> ` + message + ` </td></tr>`)
                         return false;
                     }
                     return dataSrc;
@@ -131,42 +131,46 @@ $("#search").click(function () {
 /*Download button*/
 $("#download").click(function () {
     var fromDate = $('#fromDate option:selected').val();
-    var download = {
-        fromDate: fromDate,
-        classId: "",
-        redStar: ""
+    if (fromDate == 'err') {
+        messageModal('downloadModal', 'img/img-error.png', 'Chưa chọn ngày tải xuống!')
+    } else {
+        var download = {
+            fromDate: fromDate,
+            classId: "",
+            redStar: ""
+        }
+        console.log(JSON.stringify(download))
+        $.ajax({
+            url: '/api/assignRedStar/download',
+            type: 'POST',
+            data: JSON.stringify(download),
+            xhrFields: {
+                responseType: 'blob'
+            },
+            beforeSend: function () {
+                $('body').addClass("loading")
+            },
+            complete: function () {
+                $('body').removeClass("loading")
+            },
+            success: function (data) {
+                var a = document.createElement('a');
+                var url = window.URL.createObjectURL(data);
+                var name = "Phân-công-trực-tuần-" + fromDate + '.xls';
+                a.href = url;
+                a.download = name;
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            },
+            failure: function (errMsg) {
+                messageModal('downloadModal', 'img/img-error.png', 'Không thể tải xuống!')
+            },
+            dataType: "binary",
+            contentType: "application/json"
+        });
     }
-    console.log(JSON.stringify(download))
-    $.ajax({
-        url: '/api/assignRedStar/download',
-        type: 'POST',
-        data: JSON.stringify(download),
-        xhrFields: {
-            responseType: 'blob'
-        },
-        beforeSend: function () {
-            $('body').addClass("loading")
-        },
-        complete: function () {
-            $('body').removeClass("loading")
-        },
-        success: function (data) {
-            var a = document.createElement('a');
-            var url = window.URL.createObjectURL(data);
-            var name = "Phân-công-trực-tuần-" + fromDate + '.xls';
-            a.href = url;
-            a.download = name;
-            document.body.append(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
-        },
-        failure: function (errMsg) {
-            dialogModal('downloadModal', 'img/img-error.png', 'Không thể tải xuống!')
-        },
-        dataType: "binary",
-        contentType: "application/json"
-    });
 });
 
 /*Check Date*/
@@ -193,7 +197,7 @@ function checkDate() {
                 createAssign(request);
             } else if (messageCode == 1) {
                 $('#addAssign').modal('hide');
-                dialogModal('addSuccess', 'img/img-error.png', message)
+                messageModal('addSuccess', 'img/img-error.png', message)
             } else if (messageCode == 2) {
                 $('#addAssign').modal('hide');
                 $('#overrideConfirm .modal-body').html(`
@@ -202,12 +206,12 @@ function checkDate() {
                 $('#overrideConfirm').modal('show');
             } else {
                 $('#addAssign').modal('hide');
-                dialogModal('addSuccess', 'img/img-error.png', message)
+                messageModal('addSuccess', 'img/img-error.png', message)
             }
         },
         failure: function (errMsg) {
             $('#overrideConfirm').modal('hide');
-            dialogModal('addSuccess', 'img/img-error.png', errMsg)
+            messageModal('addSuccess', 'img/img-error.png', errMsg)
         },
         dataType: "json",
         contentType: "application/json"
@@ -235,15 +239,15 @@ function createAssign(request) {
             if (messageCode == 0) {
                 $('#overrideConfirm').modal('hide');
                 $('#addSuccess .modal-footer').html(`<a href="assignEmulation" class="btn btn-primary">ĐÓNG</a>`);
-                dialogModal('addSuccess', 'img/img-success.png', 'Tạo phân công thành công!')
+                messageModal('addSuccess', 'img/img-success.png', 'Tạo phân công thành công!')
             } else {
                 $('#overrideConfirm').modal('hide');
-                dialogModal('addSuccess', 'img/img-error.png', message)
+                messageModal('addSuccess', 'img/img-error.png', message)
             }
         },
         failure: function (errMsg) {
             $('#overrideConfirm').modal('hide');
-            dialogModal('addSuccess', 'img/img-error.png', errMsg)
+            messageModal('addSuccess', 'img/img-error.png', errMsg)
         },
         dataType: "json",
         contentType: "application/json"
@@ -264,54 +268,49 @@ $('#createAssignBtn').on('click', function () {
 /*Delete Assign*/
 function deleteAssign() {
     var date = $('#fromDate option:selected').val();
-    var request = {
-        date: date,
-    }
-    $('#overrideConfirm .modal-body').html(`
+    if (date == 'err') {
+        messageModal('addSuccess', 'img/img-error.png', 'Chưa chọn ngày xóa!')
+    } else {
+        var request = {
+            date: date,
+        }
+        $('#overrideConfirm .modal-body').html(`
         <img class="mb-3 mt-3" src="img/img-question.png"/>
         <h5>Bạn có muốn <b>XÓA</b> phân công sau ngày ` + convertDate(date, '/') + ` không?</h5>`);
-    $('#overrideConfirm').modal('show');
-    $('#confirmApplied').unbind().click(function () {
-        $.ajax({
-            url: '/api/assignRedStar/delete',
-            type: 'POST',
-            data: JSON.stringify(request),
-            beforeSend: function () {
-                $('body').addClass("loading")
-            },
-            complete: function () {
-                $('body').removeClass("loading")
-            },
-            success: function (data) {
-                var messageCode = data.messageCode;
-                var message = data.message;
-                if (messageCode == 0) {
+        $('#overrideConfirm').modal('show');
+        $('#confirmApplied').unbind().click(function () {
+            $.ajax({
+                url: '/api/assignRedStar/delete',
+                type: 'POST',
+                data: JSON.stringify(request),
+                beforeSend: function () {
+                    $('body').addClass("loading")
+                },
+                complete: function () {
+                    $('body').removeClass("loading")
+                },
+                success: function (data) {
+                    var messageCode = data.messageCode;
+                    var message = data.message;
+                    if (messageCode == 0) {
+                        $('#overrideConfirm').modal('hide');
+                        $('#addSuccess .modal-footer').html(`<a href="assignEmulation" class="btn btn-primary">ĐÓNG</a>`);
+                        messageModal('addSuccess', 'img/img-success.png', 'Xóa phân công thành công!')
+                    } else {
+                        $('#overrideConfirm').modal('hide');
+                        messageModal('addSuccess', 'img/img-error.png', message)
+                    }
+                },
+                failure: function (errMsg) {
                     $('#overrideConfirm').modal('hide');
-                    $('#addSuccess .modal-footer').html(`<a href="assignEmulation" class="btn btn-primary">ĐÓNG</a>`);
-                    dialogModal('addSuccess', 'img/img-success.png', 'Xóa phân công thành công!')
-                } else {
-                    $('#overrideConfirm').modal('hide');
-                    dialogModal('addSuccess', 'img/img-error.png', message)
-                }
-            },
-            failure: function (errMsg) {
-                $('#overrideConfirm').modal('hide');
-                dialogModal('addSuccess', 'img/img-error.png', errMsg)
-            },
-            dataType: "json",
-            contentType: "application/json"
-        });
+                    messageModal('addSuccess', 'img/img-error.png', errMsg)
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
 
-    })
-}
-
-/*Dialog Modal*/
-function dialogModal(modalName, img, message) {
-    $('#' + modalName + ' .modal-body').html(`
-        <img class="mb-3 mt-3" src="` + img + `"/>
-        <h5>` + message + `</h5>
-    `)
-    $('#' + modalName).modal('show');
+        })
+    }
 }
 
 if (localStorage.getItem('roleID') != 1) {

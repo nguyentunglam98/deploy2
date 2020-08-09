@@ -29,7 +29,7 @@
     <div class="table-wrapper">
         <div class="table-title">
             <h2>DANH SÁCH LỖI THEO NGÀY</h2>
-            <div class="search row align-items-baseline">
+            <div class="search row align-items-end">
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0">
                     <div class="form-group text-left mb-1">
                         <label>Lớp:</label>
@@ -42,14 +42,18 @@
                         <input type="date" class="form-control w-75" id="datetime">
                     </div>
                 </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0">
+                    <div class="form-group text-right mb-1 mt-3">
+                        <button class="btn btn-search mr-0" id="search">Tìm kiếm</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="table-title-2 pt-0">
             <div class="row mx-0 justify-content-end">
-                <a th:href="@{gradingToEmulation}" class="btn btn-success manageBtn">
+                <a th:href="@{gradingToEmulation}" class="btn btn-success manageBtn mr-0">
                     <span>Thêm vi phạm mới</span>
                 </a>
-                <button class="btn btn-search mr-0" id="search">Tìm kiếm</button>
             </div>
         </div>
         <div class="violation-by-date"></div>

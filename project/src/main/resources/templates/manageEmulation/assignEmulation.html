@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>.::Xem phân công trực tuần::.</title>
     <link th:href="@{/img/logo.png}" rel="shortcut icon" type="image/x-icon"/>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 
     <!-- jQuery library -->
     <script th:src="@{/js/public/jquery-3.5.1.min.js}"></script>
@@ -54,14 +54,17 @@
                 </div>
             </div>
         </div>
-        <div class="table-title-2 pt-0">
-            <div class="row mx-0 justify-content-end">
-                <a href="#addAssign" class="btn btn-success manageBtn mr-0" data-toggle="modal">Tạo phân công</a>
-                <button class="btn btn-success ml-2 manageBtn" onclick="deleteAssign()">Xóa phân công</button>
-                <button class="btn btn-success mr-0 ml-2" id="download">Tải xuống</button>
-                <button class="btn btn-search mr-0 ml-2" id="search">Tìm kiếm</button>
+        <div class="table-title-2 btnResponsive row p-0 m-0 mb-4">
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 flex-wrap px-0">
+                <button class="btn btn-success mr-2 my-1" id="download">Tải xuống</button>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 flex-wrap px-0 text-right">
+                <a href="#addAssign" class="btn btn-success manageBtn ml-2 mr-0 my-1" data-toggle="modal">Tạo phân công</a>
+                <button class="btn btn-success ml-2 my-1 manageBtn" onclick="deleteAssign()">Xóa phân công</button>
+                <button class="btn btn-search ml-2 mr-0 my-1" id="search">Tìm kiếm</button>
             </div>
         </div>
+
         <table class="table table-bordered text-center" id="myTable">
             <thead class="thead-light">
             <tr>

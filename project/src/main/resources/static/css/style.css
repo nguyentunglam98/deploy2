@@ -254,10 +254,8 @@ a:hover {
 .mega-title {
     color: #eee;
     margin-top: 0px;
-    padding-left: 15px;
-    padding-bottom: 13px;
+    padding: 10px 20px;
     text-transform: uppercase;
-    padding-top: 15px;
     background-color: #7a96ca;
     font-weight: 500;
     font-size: 1rem;
@@ -1194,6 +1192,10 @@ fieldset .note {
     margin-bottom: 10px;
 }
 
+.violation-by-date .violation-description:first-child {
+    margin-top: 0 !important;
+}
+
 .violation-description {
     padding: 20px;
     border: 1px solid #ddd;
@@ -1437,7 +1439,6 @@ a.slide_btn {
 }
 
 .card-block .card-text {
-    font-family: Open Sans;
     font-style: normal;
     font-size: 14px;
     color: #212121;
@@ -1588,9 +1589,45 @@ a.slide_btn {
 }
 
 /*Responsive*/
+@media screen and (max-width: 330px) {
+    .contact-number a {
+        font-weight: 300;
+        margin: 0 5px;
+        font-size: 13px;
+    }
+
+    .contact-number .icon {
+        display: none;
+    }
+    .content-wrap{
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
 @media screen and (max-width: 576px) {
     #msform fieldset {
         padding: 20px 0px;
+    }
+
+    .violation-by-date .violation-date,
+    .violation-by-date .violation-details,
+    .violation-by-date .violation-substract-grade,
+    .violation-by-date .violation-quantity,
+    .violation-by-date .violation-total {
+        width: 100%;
+    }
+
+    .violation-by-date .violation-action {
+        position: static;
+        margin-top: 15px;
+        text-align: right;
+    }
+
+    .contact-number {
+        float: right;
+        flex: 0 1 auto;
+        height: 24px;
     }
 }
 
@@ -1601,6 +1638,10 @@ a.slide_btn {
 }
 
 @media screen and (max-width: 768px) {
+    .container {
+        max-width: 100%;
+    }
+
     .div-space {
         display: none !important;
     }
@@ -1725,6 +1766,7 @@ a.slide_btn {
     .card-120 img {
         height: 200px !important;
     }
+
     .contact-number {
         padding: 2px 0;
     }
@@ -1741,6 +1783,10 @@ a.slide_btn {
         text-align: left;
     }
 
+    .nav-item {
+        border-top: 1px solid #ffffff4f;
+    }
+
     .mega-menu {
         display: none;
         padding: 0;
@@ -1752,11 +1798,11 @@ a.slide_btn {
         position: static;
     }
 
-    .rankWeekBtn {
+    .rankWeekBtn, .btnResponsive {
         text-align: right;
     }
 
-    .rankWeekBtn div:first-child input {
+    .rankWeekBtn div:first-child input, .btnResponsive div:first-child button {
         margin-right: 0 !important;
     }
 
@@ -1767,6 +1813,7 @@ a.slide_btn {
         z-index: 1500;
         left: 0;
         right: 0;
+        border: 1px solid #ffffff4f;
     }
 
     .mega-menu {
@@ -1775,6 +1822,19 @@ a.slide_btn {
 
     .mega-title {
         background-color: #1a3265;
+        margin-bottom: 0;
+        border-top: 1px solid #ffffff4f;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .stander {
+        display: none;
+    }
+
+    .stander li {
+        border-top: 1px solid #ffffff4f;
     }
 
     .dropdown:hover .dropdown-menu {
@@ -1782,7 +1842,7 @@ a.slide_btn {
         visibility: hidden;
     }
 
-    .dropdown.show .dropdown-menu {
+    .dropdown .dropdown-menu.show {
         opacity: 1;
         visibility: visible;
     }
@@ -1791,10 +1851,10 @@ a.slide_btn {
         display: none;
     }
 
-    /*.myHeader {*/
-    /*    position: fixed;*/
-    /*    top: 0;*/
-    /*    width: 100%;*/
-    /*    z-index: 1000;*/
-    /*}*/
+    .myHeader {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
 }

@@ -1,7 +1,5 @@
 /*Value defaul*/
 $('#datetime').val(moment().format('YYYY-MM-DD'));
-var roleId = localStorage.getItem('roleID');
-var username = localStorage.getItem('username');
 var classId, date;
 if (sessionStorage.getItem('classIdGrading') == null) {
     classId = 1;
@@ -19,7 +17,7 @@ var infoSearch = {
     username: username,
     classId: classId,
     date: date,
-    roleId: roleId
+    roleId: roleID
 }
 var editViolation = "";
 
@@ -81,7 +79,7 @@ $("#search").click(function () {
         username: username,
         classId: classId,
         date: date,
-        roleId: roleId
+        roleId: roleID
     }
     console.log(JSON.stringify(infoSearch))
     $(".violation-by-date").html("");
@@ -218,13 +216,19 @@ function search() {
                     totalSubstractGrade();
                 } else {
                     $(".violation-by-date").html(`<h3 class="text-center mt-3">` + message + `</h3>`);
+                    $('.violation-total-grade').addClass('hide');
+                    $('.violation-total-grade .totalGrade').text('');
                 }
             } else {
                 $(".violation-by-date").html(`<h3 class="text-center mt-3">` + message + `</h3>`);
+                $('.violation-total-grade').addClass('hide');
+                $('.violation-total-grade .totalGrade').text('');
             }
         },
         failure: function (errMsg) {
             $(".violation-by-date").html(`<h3 class="text-center mt-3">` + errMsg + `</h3>`);
+            $('.violation-total-grade').addClass('hide');
+            $('.violation-total-grade .totalGrade').text('');
         },
         dataType: "json",
         contentType: "application/json"
@@ -301,7 +305,7 @@ function editModalBtn(violationClassId, classId, createDate, description, substr
                 classId: classId,
                 editDate: moment().format('YYYY-MM-DD'),
                 createDate: createDate,
-                roleId: roleId,
+                roleId: roleID,
                 newQuantity: newQuantity,
                 reason: reason,
                 oldQuantity: quantity
@@ -364,13 +368,13 @@ function confirmEditBtn() {
                 var messageCode = data.messageCode;
                 var message = data.message;
                 if (messageCode == 0) {
-                    dialogModal("img/img-success.png", "Tạo yêu cầu thay đổi thành công!");
+                    messageModal("saveSuccess","img/img-success.png", "Tạo yêu cầu thay đổi thành công!");
                 } else {
-                    dialogModal("img/img-error.png", message);
+                    messageModal("saveSuccess","img/img-error.png", message);
                 }
             },
             failure: function (errMsg) {
-                dialogModal("img/img-error.png", errMsg);
+                messageModal("saveSuccess","img/img-error.png", errMsg);
             },
             dataType: "json",
             contentType: "application/json"
@@ -428,10 +432,10 @@ function editModal(violationDate, className, description, note, createBy, substr
             <span class="text-red editInfo-err"></span>
         </div>
     `)
-    if (roleId == 1 || roleId == 3) {
+    if (roleID == 1 || roleID == 3) {
         $('#editModalBtn').val("CHỈNH SỬA");
     }
-    if (roleId == 4) {
+    if (roleID == 4) {
         $('#editModalBtn').val("TẠO YÊU CẦU THAY ĐỔI");
     }
 }
@@ -467,28 +471,18 @@ function deleteRequest() {
                 var messageCode = data.messageCode;
                 var message = data.message;
                 if (messageCode == 0) {
-                    dialogModal("img/img-success.png", "Hủy yêu cầu thay đổi thành công!");
+                    messageModal("saveSuccess","img/img-success.png", "Hủy yêu cầu thay đổi thành công!");
                 } else {
-                    dialogModal("img/img-error.png", message);
+                    messageModal("saveSuccess","img/img-error.png", message);
                 }
             },
             failure: function (errMsg) {
-                dialogModal("img/img-error.png", errMsg);
+                messageModal("saveSuccess","img/img-error.png", errMsg);
             },
             dataType: "json",
             contentType: "application/json"
         });
     })
-}
-
-/*Set dialog template*/
-function dialogModal(img, message) {
-    $('#saveSuccess .modal-body').html('');
-    $('#saveSuccess .modal-body').append(`
-        <img class="mb-3 mt-3" src=` + img + `/>
-        <h5>` + message + `</h5>
-    `);
-    $('#saveSuccess').modal('show');
 }
 
 /*Button Increase*/
@@ -517,8 +511,9 @@ function decreaseBtn(substract, total, $total) {
     });
 }
 
-/*Caculation total substract substract*/
+/*Calculation total subtract*/
 function totalSubstractGrade() {
+    $('.violation-total-grade').removeClass('hide');
     var total = 0;
     var substractGrade = $('.violation-total span:last-child');
     $(substractGrade).each(function () {
@@ -540,13 +535,13 @@ $('.closeModal').on('click', function () {
         username: username,
         classId: classId,
         date: date,
-        roleId: roleId
+        roleId: roleID
     }
     console.log(JSON.stringify(infoSearch))
     $(".violation-by-date").html("");
     search();
 })
 
-if (roleId != 1) {
+if (roleID != 1) {
     $('.manageBtn').addClass('hide');
 }

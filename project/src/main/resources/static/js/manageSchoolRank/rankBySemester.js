@@ -116,21 +116,21 @@ setTimeout(search, 500);
 /*Set data to table*/
 function search() {
     var semesterId = $('#bySemester option:selected').val();
-    var infoSearch = {
-        semesterId: semesterId,
-        classId: $('#byClass option:selected').val()
-    }
     if (semesterId != null && semesterId != "" && semesterId != "err") {
         $('#viewHistory').removeClass('hide');
     }
     if (roleID == 1) {
         $('#createRankBtn').removeClass('hide');
     }
-    console.log(JSON.stringify(infoSearch));
     if ($('#bySemester option:selected').val() == 'err') {
         $('tbody').append(`<tr><td colspan="4" class="userlist-result">Không có học kỳ nào trong dữ liệu.</td></tr>`);
         $('#editRankBtn').addClass('hide');
     } else {
+        var infoSearch = {
+            semesterId: semesterId,
+            classId: $('#byClass option:selected').val()
+        }
+        console.log(JSON.stringify(infoSearch));
         $('table').dataTable({
             destroy: true,
             searching: false,

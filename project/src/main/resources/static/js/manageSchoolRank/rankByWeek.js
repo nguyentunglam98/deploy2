@@ -126,22 +126,22 @@ setTimeout(search, 500);
 /*Set data to table*/
 function search() {
     var weekId = $('#byWeek option:selected').val();
-    var infoSearch = {
-        weekId: weekId,
-        classId: $('#byClass option:selected').val()
-    }
     if (weekId != null && weekId != "" && weekId != "err") {
         $('#viewHistory').removeClass('hide');
     }
     if (roleID == 1) {
         $('#createRank').removeClass('hide');
     }
-    console.log(JSON.stringify(infoSearch));
     if ($('#byWeek option:selected').val() == 'err') {
         $('#editRankBtn').addClass('hide');
         $('#editGrades').addClass('hide');
         $('tbody').append(`<tr><td colspan="7" class="userlist-result">Không có tuần trong dữ liệu.</td></tr>`)
     } else {
+        var infoSearch = {
+            weekId: weekId,
+            classId: $('#byClass option:selected').val()
+        }
+        console.log(JSON.stringify(infoSearch));
         $('table').dataTable({
             destroy: true,
             searching: false,
@@ -256,7 +256,7 @@ function search() {
             drawCallback: function (settings) {
                 settings.oLanguage.sEmptyTable = "Danh sách xếp hạng tuần trống."
             }
-        })
+        });
     }
     viewHistory();
     dowload();

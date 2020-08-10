@@ -87,22 +87,17 @@ a:hover {
     border-radius: 0;
 }
 
-#loginSuccessMenu .dropdown-menu.show {
+.dropdown-menu.show {
     opacity: 1;
     visibility: visible;
 }
 
-.dropdown:hover .dropdown-menu {
+.dropdown.show .dropdown-menu {
     opacity: 1;
     visibility: visible;
 }
 
-#loginSuccessMenu .dropdown-menu {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.dropdown-item:hover {
+.dropdown-item:hover, .dropdown-item:active, .dropdown-item:focus {
     color: #ffffff;
     background: #ffffff4f;
 }
@@ -131,7 +126,7 @@ a:hover {
     z-index: 0;
     cursor: pointer;
     text-align: center;
-    padding: 10px 20px !important;
+    padding: 10px 15px !important;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -147,7 +142,7 @@ a:hover {
 }
 
 /*hide navbar*/
-#adminMenu, #scheduleManagerMenu, #loginSuccessMenu {
+#scheduleManagerMenu {
     display: none;
 }
 
@@ -1376,7 +1371,7 @@ a.slide_btn {
 /*Home page*/
 .content-wrap {
     padding: 20px;
-    padding-top: 55px;
+    padding-top: 40px;
     margin: auto;
 }
 
@@ -1393,13 +1388,17 @@ a.slide_btn {
     color: black;
 }
 
+.w-1130 {
+    max-width: 1130px !important;
+}
+
 .card .img-post {
     overflow: hidden;
 
 }
 
 .content-wrap .card img {
-    height: 300px;
+    height: 310px;
     object-fit: cover;
     vertical-align: middle;
     width: 100%;
@@ -1440,7 +1439,6 @@ a.slide_btn {
 
 .card-block .card-text {
     font-style: normal;
-    font-size: 14px;
     color: #212121;
     margin-top: 12px;
 }
@@ -1452,10 +1450,11 @@ a.slide_btn {
 .card img, .flex-card img {
     transition: .3s ease-in-out;
     transform: scale(1);
+    border-radius: 0;
 }
 
-.card-120 img {
-    height: 120px !important;
+.card-140 img {
+    height: 140px !important;
 }
 
 .card-200 img {
@@ -1599,9 +1598,21 @@ a.slide_btn {
     .contact-number .icon {
         display: none;
     }
-    .content-wrap{
+
+    .content-wrap {
         padding-right: 0;
         padding-left: 0;
+    }
+
+    .table-wrapper {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    #msform {
+        margin: 15px;
     }
 }
 
@@ -1624,10 +1635,112 @@ a.slide_btn {
         text-align: right;
     }
 
+    #viewRequestPage .panel-heading,
+    #violationList .panel-heading {
+        display: block;
+    }
+
+    #viewRequestPage .violation-date,
+    #viewRequestPage .violation-class,
+    #viewRequestPage .violation-details,
+    #viewRequestPage .violation-author,
+    #viewRequestPage .violation-status {
+        width: 100%;
+    }
+
+    #viewRequestPage .violation-btn {
+        margin-top: -25px;
+    }
+
+    #viewRequestPage .panel-collapse .modal-body {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #viewRequestPage .panel-collapse .modal-body .ml-4 {
+        margin-left: 0 !important;
+    }
+
+    #viewRequestPage .panel-collapse .modal-body .panel-body {
+        padding-left: 15px;
+    }
+
     .contact-number {
         float: right;
         flex: 0 1 auto;
         height: 24px;
+    }
+
+    .panel-post-content {
+        display: block;
+    }
+
+    .panel-post-content .post-img {
+        max-width: 100%;
+    }
+
+    .panel-post-content img {
+        max-height: 180px;
+    }
+
+    #violationList .panel-heading div .align-items-center:first-child {
+        display: block !important;
+    }
+
+    #violationList .panel-heading div .align-items-center:first-child h5 {
+        display: none;
+    }
+
+    #violationList .panel-heading div .align-items-center:first-child:before {
+        content: 'Nội quy theo dõi: ';
+        font-weight: 500;
+    }
+
+    #violationList .table-responsive, #violationList .table-responsive tbody {
+        display: block;
+    }
+
+    #violationList .table-responsive thead {
+        display: none;
+    }
+
+    #violationList .table-responsive tbody tr {
+        display: block;
+        position: relative;
+        border-top: 1px solid rgb(227, 227, 227);
+    }
+
+    #violationList .table-responsive tbody td {
+        border: none;
+    }
+
+    #violationList .table-responsive th {
+        display: none;
+    }
+
+    #violationList .table-responsive td:nth-of-type(1) {
+        display: block;
+        border: none;
+        max-width: 100%;
+    }
+
+    #violationList .table-responsive td:nth-of-type(2),
+    #violationList .table-responsive td:nth-of-type(3) {
+        display: inline-block;
+    }
+
+    #violationList .table-responsive td:nth-of-type(2) {
+        width: 50%;
+    }
+
+    #violationList .table-responsive td:nth-of-type(1):before {
+        content: 'Vi phạm: ';
+        font-weight: 500;
+    }
+
+    #violationList .table-responsive td:nth-of-type(2):before {
+        content: 'Điểm trừ: ';
+        font-weight: 500;
     }
 }
 
@@ -1658,6 +1771,7 @@ a.slide_btn {
         content: 'Lẻ';
     }
 
+    .modal-body .panel-title,
     .modal-body .panel-body,
     .panel-collapse table {
         width: 100%;
@@ -1763,7 +1877,12 @@ a.slide_btn {
         margin-right: 0;
     }
 
-    .card-120 img {
+    .content-wrap .container {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    .card-140 img {
         height: 200px !important;
     }
 
@@ -1851,10 +1970,44 @@ a.slide_btn {
         display: none;
     }
 
+    .submenu.show {
+        background: #4267b2;
+    }
+
     .myHeader {
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 1000;
+    }
+}
+
+@media (min-width: 992px) {
+    .dropdown-menu li {
+        position: relative;
+    }
+
+    .nav-item .submenu {
+        display: none;
+        position: absolute;
+        left: 100%;
+        top: 0;
+    }
+
+    .nav-item .submenu-left {
+        right: 100%;
+        left: auto;
+    }
+
+    .dropdown-menu > li:hover > .submenu {
+        display: block;
+    }
+
+    .dropdown-menu > li.show > .submenu {
+        display: block;
+    }
+
+    .submenu .dropdown-item {
+        border-left: 1px solid #ffffff4f;
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Repository
 public interface NewsletterRepository extends JpaRepository<Newsletter,Integer> {
-    @Query(value = "select n from Newsletter n where n.status = 0 order by n.gim desc")
+    @Query(value = "select n from Newsletter n where n.status = 0 and n.gim = 0")
     Page<Newsletter> loadAllLetter(Pageable paging);
 
     @Query(value = "select n from Newsletter n where (:header is NULL or n.header like %:header%) and n.status = 0 ")

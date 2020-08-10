@@ -190,8 +190,8 @@ function search() {
                                     <div class="hide quantityNew">` + quantityNew + `</div>
                                     <div class="hide quantity">` + quantity + `</div>
                                     <div class="hide history">` + history + `</div>
-                                    <input type="button" class="btn btn-danger edit-btn" id="editBtn" data-toggle="modal" name="` + checkEdit + `" value="CHỈNH SỬA"/>
-                                    <input type="button" class="btn btn-primary history-btn" data-toggle="modal" name="` + checkHistory + `" value="LỊCH SỬ SỬA"/>
+                                    <input type="button" class="btn btn-danger edit-btn my-1" id="editBtn" data-toggle="modal" name="` + checkEdit + `" value="CHỈNH SỬA"/>
+                                    <input type="button" class="btn btn-primary history-btn my-1" data-toggle="modal" name="` + checkHistory + `" value="LỊCH SỬ SỬA"/>
                                 </div>
                             </div>
                         `);

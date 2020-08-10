@@ -3,6 +3,7 @@ package com.example.webDemo3.service.impl.manageNewletterServiceImpl;
 import com.example.webDemo3.constant.Constant;
 import com.example.webDemo3.dto.MessageDTO;
 import com.example.webDemo3.dto.manageNewsletterResponseDto.NewsletterListResponseDto;
+import com.example.webDemo3.dto.manageNewsletterResponseDto.NewsletterPageResponseDto;
 import com.example.webDemo3.dto.manageNewsletterResponseDto.ViewDetailLetterResponseDto;
 import com.example.webDemo3.dto.request.manageNewsletterRequestDto.LoadHomePageRequestDto;
 import com.example.webDemo3.dto.request.manageNewsletterRequestDto.SearchLetterRequestDto;
@@ -16,6 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * lamnt98 - 27/07
@@ -34,9 +38,9 @@ public class manageNewsletterSerivceImpl implements manageNewsletterService {
      * @return NewsletterListResponseDto
      */
     @Override
-    public NewsletterListResponseDto getAllLetter(LoadHomePageRequestDto requestDto) {
+    public NewsletterPageResponseDto getAllLetter(LoadHomePageRequestDto requestDto) {
 
-        NewsletterListResponseDto responseDto = new NewsletterListResponseDto();
+        NewsletterPageResponseDto responseDto = new NewsletterPageResponseDto();
 
         Integer pageNumber = requestDto.getPageNumber();
         MessageDTO message = new MessageDTO();
@@ -45,27 +49,44 @@ public class manageNewsletterSerivceImpl implements manageNewsletterService {
         Page<Newsletter> pagedResult = null;
         Pageable paging;
         Integer pageSize = Constant.PAGE_SIZE;
+        Integer totalPage = null;
+        List<Newsletter> newsletterList = new ArrayList<>();
+
 
         try{
-
+            newsletterList = newsletterRepository.findAllNewsletterGim();
             //check pageNumber null or not
             if(pageNumber == null){
                 pageNumber = 0;
+            }
+
+            if(newsletterList.size() == 0){
+                pageSize++;
             }
 
             paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).descending());
 
             pagedResult = newsletterRepository.loadAllLetter(paging);
 
-            //check result when get list
-            if(pagedResult==null || pagedResult.getTotalElements() == 0){
+            for(Newsletter newsletter : pagedResult){
+                newsletterList.add(newsletter);
+            }
+
+            if(pagedResult != null){
+                totalPage = pagedResult.getTotalPages();
+            }else{
+                totalPage = 1;
+            }
+
+            if(newsletterList == null || newsletterList.size() == 0){
                 message = Constant.NEWSLETTERLIST_EMPTY;
                 responseDto.setMessage(message);
                 return responseDto;
             }
 
             message = Constant.SUCCESS;
-            responseDto.setListLetter(pagedResult);
+            responseDto.setTotalPage(totalPage);
+            responseDto.setListLetter(newsletterList);
             responseDto.setMessage(message);
 
         }catch (Exception e){
@@ -84,8 +105,8 @@ public class manageNewsletterSerivceImpl implements manageNewsletterService {
      * @return NewsletterListResponseDto
      */
     @Override
-    public NewsletterListResponseDto searchLetter(SearchLetterRequestDto requestDto) {
-        NewsletterListResponseDto responseDto = new NewsletterListResponseDto();
+    public NewsletterPageResponseDto searchLetter(SearchLetterRequestDto requestDto) {
+        NewsletterPageResponseDto responseDto = new NewsletterPageResponseDto();
 
         String header = requestDto.getHeader().trim();
         MessageDTO message = new MessageDTO();
@@ -93,8 +114,10 @@ public class manageNewsletterSerivceImpl implements manageNewsletterService {
         String orderByProperty = "createDate";
         Page<Newsletter> pagedResult = null;
         Pageable paging;
-        Integer pageSize = Constant.PAGE_SIZE;
+        Integer pageSize = Constant.PAGE_SIZE + 1;
         Integer pageNumber = requestDto.getPageNumber();
+        Integer totalPage = null;
+        List<Newsletter> newsletterList = new ArrayList<>();
 
         try{
             //check pageNumber null or not
@@ -118,8 +141,15 @@ public class manageNewsletterSerivceImpl implements manageNewsletterService {
                 return responseDto;
             }
 
+            totalPage = pagedResult.getTotalPages();
+
+            for(Newsletter newsletter : pagedResult){
+                newsletterList.add(newsletter);
+            }
+
             message = Constant.SUCCESS;
-            responseDto.setListLetter(pagedResult);
+            responseDto.setTotalPage(totalPage);
+            responseDto.setListLetter(newsletterList);
             responseDto.setMessage(message);
         }catch (Exception e){
             message.setMessageCode(1);

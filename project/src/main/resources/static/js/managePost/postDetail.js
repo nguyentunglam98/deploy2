@@ -1,9 +1,9 @@
 /*Value default*/
-var roleID = localStorage.getItem("roleID");
 var newsletterId = sessionStorage.getItem('newsletterId');
 var request = {
     newsletterId: newsletterId
 }
+
 /*View detail post*/
 $.ajax({
     url: "/api/newsletter/viewletter",
@@ -26,6 +26,7 @@ $.ajax({
                 $('.post-content-text').html(data.newsletter.content);
                 $('.post-action .newsletterId').text(data.newsletter.newsletterId);
                 $('.post-action .status').text(data.newsletter.status);
+                $('.post-action .author').text(data.newsletter.userName);
                 var imgContent = $('.post-content-text img');
                 imgContent.each(function () {
                     $(this).addClass('lazy');
@@ -74,28 +75,29 @@ $.ajax({
 /*Display button action*/
 function displayButton() {
     var status = $('.post-action .status').text();
+    var author = $('.post-action .author').text();
     if (roleID == 1) {
         if (status == 2) {
-            // $('.btn-delete').addClass('hide');
             $('.btn-edit').addClass('hide');
-            // $('.btn-reject').removeClass('hide');
             $('.btn-accept').removeClass('hide');
         } else if (status == 0) {
             $('.btn-delete').removeClass('hide');
             $('.btn-edit').removeClass('hide');
-            // $('.btn-reject').addClass('hide');
             $('.btn-accept').addClass('hide');
         } else if (status == 1) {
-            // $('.btn-delete').addClass('hide');
             $('.btn-edit').addClass('hide');
-            // $('.btn-reject').addClass('hide');
             $('.btn-accept').removeClass('hide');
         }
-    } else {
+    } else if (username == author) {
         if (status == 2) {
-            // $('.btn-delete').removeClass('hide');
+            $('.btn-delete').removeClass('hide');
             $('.btn-edit').removeClass('hide');
+        } else {
+            $('.btn-delete').addClass('hide');
+            $('.btn-edit').addClass('hide');
         }
+    } else {
+        $('.btn-delete').addClass('hide');
     }
 }
 

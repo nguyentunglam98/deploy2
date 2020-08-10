@@ -13,7 +13,8 @@ $.ajax({
         var messageCode = data.message.messageCode;
         var message = data.message.message;
         if (messageCode == 0) {
-            if (data.listEmteringTime != null) {
+            console.log(data.listEmteringTime)
+            if (data.listEmteringTime.length != 0) {
                 $('tbody').html("");
                 $.each(data.listEmteringTime, function (i, item) {
                     var violationEnteringTimeId, roleName, dayName, startTime, endTime;
@@ -58,6 +59,8 @@ $.ajax({
                         </tr>
                     `);
                 });
+            } else {
+                $('tbody').html(`<tr><td colspan="5" class="userlist-result">Chưa có thời gian chấm điểm.</td></tr>`)
             }
         } else {
             $('tbody').html(`<tr><td colspan="5" class="userlist-result">` + message + `</td></tr>`)

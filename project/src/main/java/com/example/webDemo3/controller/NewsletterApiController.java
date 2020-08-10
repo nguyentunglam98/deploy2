@@ -2,6 +2,7 @@ package com.example.webDemo3.controller;
 
 import com.example.webDemo3.dto.MessageDTO;
 import com.example.webDemo3.dto.manageNewsletterResponseDto.AddNewsletterResponseDto;
+import com.example.webDemo3.dto.manageNewsletterResponseDto.NewsletterPageResponseDto;
 import com.example.webDemo3.dto.request.manageNewsletterRequestDto.*;
 import com.example.webDemo3.service.manageNewsletterService.HandleNewsletterService;
 import com.example.webDemo3.dto.manageNewsletterResponseDto.NewsletterListResponseDto;
@@ -83,7 +84,7 @@ public class NewsletterApiController {
      * @return NewsletterListResponseDto
      */
     @PostMapping("/loadhomepage")
-    public NewsletterListResponseDto loadHomePage(@RequestBody LoadHomePageRequestDto model)
+    public NewsletterPageResponseDto loadHomePage(@RequestBody LoadHomePageRequestDto model)
     {
         return  manageNewsletterService.getAllLetter(model);
     }
@@ -96,7 +97,7 @@ public class NewsletterApiController {
      * @return NewsletterListResponseDto
      */
     @PostMapping("/searchletter")
-    public NewsletterListResponseDto searchLetter(@RequestBody SearchLetterRequestDto model)
+    public NewsletterPageResponseDto searchLetter(@RequestBody SearchLetterRequestDto model)
     {
         return  manageNewsletterService.searchLetter(model);
     }

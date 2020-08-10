@@ -52,7 +52,7 @@ $(document).ready(function () {
                                 </div>
                             </div>
                             <div class="panel-collapse collapse in" id="collapse` + typeId + `">
-                                <table class="table table-hover">
+                                <table class="table table-hover table-responsive">
                                     <thead>
                                     <th style="width: 5%"></th>
                                     <th>Vi phạm</th>

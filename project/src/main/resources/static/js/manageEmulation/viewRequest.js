@@ -187,8 +187,8 @@ function search() {
                                             </div>
                                             <div class="hide violationClassId">` + item.violationClassId + `</div>
                                             <div class="col-md-12 text-right mt-4">
-                                                <input type="submit" name="` + requestId + `" class="btn btn-primary accept-request" data-toggle="modal" value="XÁC NHẬN">
-                                                <input type="button" name="` + requestId + `" class="btn btn-danger ml-3 reject-request" data-toggle="modal" value="TỪ CHỐI">
+                                                <input type="submit" name="` + requestId + `" class="btn btn-primary accept-request my-1" data-toggle="modal" value="XÁC NHẬN">
+                                                <input type="button" name="` + requestId + `" class="btn btn-danger ml-3 reject-request my-1" data-toggle="modal" value="TỪ CHỐI">
                                             </div>
                                         </div>
                                     </div>

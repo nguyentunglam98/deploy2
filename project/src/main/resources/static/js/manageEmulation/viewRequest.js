@@ -1,6 +1,4 @@
 $('#inputDate').prop('max', moment().format('YYYY-MM-DD'));
-var username = localStorage.getItem('username');
-var roleId = localStorage.getItem('roleID');
 var inforSearch = {
     classId: null,
     status: 0,
@@ -77,7 +75,7 @@ search();
 
 /*Set data to container*/
 function search() {
-    if (roleId == 4) {
+    if (roleID == 4) {
         inforSearch.createBy = username;
         $('#createBy').val(username);
         $('#createBy').prop('disabled', true);
@@ -194,7 +192,7 @@ function search() {
                                     </div>
                                 </div>
                             `);
-                            if (status == "Chấp nhận" || status == "Từ chối" || roleId != 1) {
+                            if (status == "Chấp nhận" || status == "Từ chối" || roleID != 1) {
                                 var dataTargetID = "#" + dataTarget;
                                 $(dataTargetID).find('.accept-request').parent().addClass('hide');
                             }

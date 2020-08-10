@@ -1,8 +1,6 @@
 /*Set value default*/
 var violationList = [];
 var list = [];
-var roleId = localStorage.getItem('roleID');
-var username = localStorage.getItem('username');
 $('#datetime').val(moment().format('YYYY-MM-DD'));
 $('#datetime').prop('max', moment().format('YYYY-MM-DD'));
 
@@ -43,7 +41,7 @@ $.ajax({
                                     <span>` + item.name + `</span>
                                 </span>
                                 <div class="d-flex align-items-center">
-                                    <h6 class="my-0 mr-2">Điểm trừ:</h6>
+                                    <h6 class="my-0 mr-2">Điểm:</h6>
                                     <span>` + item.totalGrade + `</span>
                                 </div>
                             </div>
@@ -119,12 +117,11 @@ $('#saveGrading').on('click', function () {
     getValueCheckbox();
     if (violationList.length != 0) {
         for (var i = 0; i < violationList.length; i++) {
-            if(classId == "err") {
-                dialogErr("/img/img-error.png", "Hãy chọn lớp.");
+            if (classId == "err") {
+                messageModal('saveSuccess', "/img/img-error.png", "Hãy chọn lớp.");
                 return false;
-            }
-            else if (violationList[i].note == "") {
-                dialogErr("/img/img-error.png", "Hãy điền đủ ghi chú cho các lỗi.");
+            } else if (violationList[i].note == "") {
+                messageModal('saveSuccess', "/img/img-error.png", "Hãy điền đủ ghi chú cho các lỗi.");
                 return false;
             } else {
                 $('#confirmModal').modal('show');
@@ -166,7 +163,7 @@ $('#saveGrading').on('click', function () {
                         username: username,
                         classId: classId,
                         date: $('#datetime').val(),
-                        roleId: roleId,
+                        roleId: roleID,
                         yearId: localStorage.getItem('currentYearId'),
                         violationList: violationList
                     }
@@ -185,18 +182,18 @@ $('#saveGrading').on('click', function () {
                             var messageCode = data.messageCode;
                             var message = data.message;
                             if (messageCode == 0) {
-                                dialogErr("/img/img-success.png", "Thông tin đã lưu thành công!");
+                                messageModal('saveSuccess', "/img/img-success.png", "Thông tin đã lưu thành công!");
                                 $('#saveSuccess .modal-footer').html(`
                                     <a href="violationListOfClass" class="btn btn-danger">XEM VI PHẠM</a> 
                                     <a href="gradingToEmulation" class="btn btn-primary">ĐÓNG</a> `);
                                 sessionStorage.setItem('classIdGrading', classId);
                                 sessionStorage.setItem('dateGrading', $('#datetime').val());
                             } else {
-                                dialogErr("/img/img-error.png", message);
+                                messageModal('saveSuccess', "/img/img-error.png", message);
                             }
                         },
                         failure: function (errMsg) {
-                            dialogErr("/img/img-error.png", errMsg);
+                            messageModal('saveSuccess', "/img/img-error.png", errMsg);
                         },
                         dataType: "json",
                         contentType: "application/json"
@@ -205,7 +202,7 @@ $('#saveGrading').on('click', function () {
             }
         }
     } else {
-        dialogErr("/img/img-error.png", 'Hãy chọn lỗi.');
+        messageModal('saveSuccess', "/img/img-error.png", 'Hãy chọn lỗi.');
     }
 })
 
@@ -239,13 +236,14 @@ function getValueCheckbox() {
 
 /*Set class for red star*/
 function getClass() {
-    if (roleId == 3) {
+    if (roleID == 3) {
         $('#datetime').prop('disabled', true);
         $('#classList').prop('disabled', true);
         var request = {
             username: username,
             applyDate: $('#datetime').val()
         }
+        console.log(JSON.stringify(request))
         $.ajax({
             url: '/api/emulation/getClassIdOfRedStar',
             type: 'POST',
@@ -280,16 +278,6 @@ function getClass() {
     }
 }
 
-/*Set dialog template*/
-function dialogErr(img, message) {
-    $('#saveSuccess').modal('show');
-    $('#saveSuccess .modal-body').html('');
-    $('#saveSuccess .modal-body').append(`
-        <img class="mb-3 mt-3" src=` + img + `/>
-        <h5>` + message + `</h5>
-    `);
-}
-
 /*Button Increase*/
 function increaseBtn() {
     $('.btn-increase').on('click', function () {
@@ -321,7 +309,7 @@ function decreaseBtn() {
 }
 
 /*Set role*/
-if (roleId != 1 && roleId != 3 && roleId != 5) {
+if (roleID != 1 && roleID != 3 && roleID != 5) {
     $('#classList').prop('disabled', true);
     $('#datetime').prop('disabled', true);
     $('#saveGrading').prop('disabled', true);

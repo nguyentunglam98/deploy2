@@ -104,8 +104,11 @@ a:hover {
 
 .dropdown-item {
     color: #ffffff;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-top: 1px solid #ffffff4f;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .dropdown-item.active, .dropdown-item:active {

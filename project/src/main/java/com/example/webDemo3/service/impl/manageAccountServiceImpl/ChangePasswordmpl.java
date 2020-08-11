@@ -7,6 +7,7 @@ import com.example.webDemo3.entity.User;
 import com.example.webDemo3.repository.UserRepository;
 import com.example.webDemo3.service.manageAccountService.ChangePasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,9 @@ public class ChangePasswordmpl implements ChangePasswordService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * lamnt98
@@ -44,11 +48,12 @@ public class ChangePasswordmpl implements ChangePasswordService {
                     /**
                      * check oldpassword and update newpassword
                      */
-                    if(!newUser.getPassword().equals(user.getOldPassword())){
+                    if(!passwordEncoder.matches(user.getOldPassword(),newUser.getPassword())){
+                    //if(!newUser.getPassword().equals(user.getOldPassword())){
                         message = Constant.WRONG_PASSWORD;
                     }
                     else{
-                        newUser.setPassword(user.getNewPassword());
+                        newUser.setPassword(passwordEncoder.encode(user.getNewPassword()));
                         userRepository.save(newUser);
                         message = Constant.CHANGE_PASS_SUCCESS;
                     }

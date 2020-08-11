@@ -68,7 +68,7 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" th:href="@{timetableClass}">Thời khóa biểu của lớp</a>
                             <a class="dropdown-item" th:href="@{timetableTeacher}">Thời khóa biểu của giáo viên</a>
-                            <a id="scheduleManagerMenu" class="dropdown-item" th:href="@{manageTimetable}">Quản lý thời
+                            <a id="scheduleManagerMenu" class="dropdown-item" th:href="@{manageTimetable}">Thay đổi thời
                                 khóa biểu</a>
                         </div>
                     </li>
@@ -79,8 +79,8 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item hide" th:href="@{gradingToEmulation}" id="gradingToEmulationMenu">Chấm
                                 điểm thi đua</a>
-                            <a class="dropdown-item" th:href="@{violationListOfClass}">Xem danh vi phạm theo ngày</a>
-                            <a class="dropdown-item" th:href="@{viewRequest}">Xem yêu cầu thay đổi vi phạm</a>
+                            <a class="dropdown-item" th:href="@{violationListOfClass}">Xem danh sách vi phạm theo ngày</a>
+                            <a class="dropdown-item hide" th:href="@{viewRequest}" id="viewRequestMenu">Xem yêu cầu thay đổi vi phạm</a>
                             <a class="dropdown-item" th:href="@{history}">Xem lịch sử vi phạm</a>
                         </div>
                     </li>

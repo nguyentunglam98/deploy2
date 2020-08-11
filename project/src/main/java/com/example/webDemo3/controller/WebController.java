@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WebController {
 
-    @Autowired
-    private UserRepository userRepository;
-
-
     @GetMapping("/") // Nếu người dùng request tới địa chỉ "/"
     public String index(Model model) {
-//        model.addAttribute("userList", userRepository.findAll());
         return "index"; // Trả về file index.html
     }
 
     @GetMapping("/test")
     public String test(Model model) {
         return "test";
+    }
+
+    @GetMapping("/error")
+    public String error(Model model) {
+        return "error";
     }
 
     /*Module 1: Quản lý tài khoản*/

@@ -5,27 +5,37 @@ var pathname = $(location).attr('pathname');
 
 /*Set navigation bar*/
 $(document).ready(function () {
+    getAuthen();
     var loginSuccess = localStorage.getItem("loginSuccess");
     if (loginSuccess == 0) {
         $("#loginSuccessMenu").removeClass("hide");
-        $("#loginSuccessMenu .nav-link").html(username + `<i class="fa fa-caret-down"></i>`);
         $('#loginMenu').css('display', 'none');
+        //ROLEID_REDSTAR
+        if (roleID == 3) {
+            $("#loginSuccessMenu .nav-link").html(`<span><p class="m-0" style="font-size: 15px">` + username + `</p><p class="m-0" style="font-size: 12px">(Chấm lớp 10 Toán)</p></span><i class="fa fa-caret-down"></i>`);
+            $('#loginSuccessMenu .nav-link').attr('style', 'padding-top: 0!important; padding-bottom: 0!important');
+        } else {
+            $("#loginSuccessMenu .nav-link").html(username + `<i class="fa fa-caret-down"></i>`);
+        }
         //ROLEID_ADMIN
         if (roleID == 1) {
             $("#adminMenu").removeClass("hide");
-            $('#gradingToEmulationMenu').removeClass('hide');
         }
-        //ROLEID_TIMETABLE_MANAGER
-        if (roleID == 2) {
+        //ROLEID_TIMETABLE_MANAGER || ROLEID_ADMIN
+        if (roleID == 2 || roleID == 1) {
             $("#scheduleManagerMenu").addClass("show");
         }
-        //ROLEID_REDSTAR || ROLEID_SUMMERIZEGROUP
-        if (roleID == 3 || roleID == 5) {
+        //ROLEID_REDSTAR || ROLEID_SUMMERIZEGROUP || ROLEID_ADMIN
+        if (roleID == 3 || roleID == 5 || roleID == 1) {
             $('#gradingToEmulationMenu').removeClass('hide');
         }
         //ROLEID_MONITOR || ROLEID_CLUBLEADER
         if (roleID == 4 || roleID == 6) {
             $('#sendPostMenu').removeClass('hide');
+        }
+        //ROLEID_MONITOR || ROLEID_ADMIN
+        if (roleID == 4 || roleID == 1) {
+            $('#viewRequestMenu').removeClass('hide');
         }
     } else {
         $('#loginMenu').css('display', 'block');
@@ -34,7 +44,8 @@ $(document).ready(function () {
         $("#scheduleManagerMenu").removeClass("show");
     }
     $("#logout").click(function () {
-        localStorage.clear();
+        //localStorage.clear();
+        logout();
     })
 
     // Responsive menu
@@ -178,6 +189,22 @@ function pagingClick() {
     })
 }
 
+function pagingHomepage() {
+    $('.table-paging input').on('click', function (event) {
+        var value = ($(this).val() - 1);
+        if ($(this).val() == "Sau") {
+            value = $('.table-paging__page_cur').val();
+        } else if ($(this).val() == "Trước") {
+            value = $('.table-paging__page_cur').val() - 2;
+        }
+        homePage.pageNumber = value;
+        console.log(JSON.stringify(homePage))
+        $('tbody').html("");
+        $('.table-paging').html("");
+        loadHomepage();
+    })
+}
+
 function paging(inforSearch, totalPages) {
     var pageNumber = parseInt(inforSearch.pageNumber)
     $('.table-paging').append(
@@ -295,6 +322,67 @@ function messageModal(modalName, img, message) {
         <h5>` + message + `</h5>
     `)
     $('#' + modalName).modal('show');
+}
+
+/*Logout*/
+function logout() {
+    $.ajax({
+        type: 'POST',
+        url: "/api/user/logout",
+        // data: JSON.stringify(user),
+        beforeSend: function () {
+            $('body').addClass("loading")
+        },
+        complete: function () {
+            $('body').removeClass("loading")
+        },
+        success: function (data) {
+            if (data != null && data.messageCode === 0) {
+                localStorage.clear();
+                // localStorage.removeItem("userInfo")
+                // this.$cookies.remove("access_token")
+                // this.$cookies.remove("token_provider")
+                // window.location.href = "/"
+            }
+        },
+        failure: function (errMsg) {
+            $('.login-err').text(errMsg);
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+}
+
+/*Authen*/
+function getAuthen() {
+    $.ajax({
+        type: 'POST',
+        url: "/api/user/get-authentication",
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+        },
+
+        // data: JSON.stringify(user),
+        beforeSend: function () {
+            $('body').addClass("loading")
+        },
+        complete: function () {
+            $('body').removeClass("loading")
+        },
+        success: function (data) {
+            if (data != null && data.messageCode == 1) {
+                localStorage.clear();
+            }
+        },
+        failure: function (errMsg) {
+            $('.login-err').text(errMsg);
+        },
+        dataType: "json",
+        contentType: "application/json"
+        // Authorization: 'Bearer ' + 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTU5NjA5NzYxMSwiZXhwIjoxNTk2NzAyNDExfQ.bCFuTQOk1Kl9ARmrT83HTOQOMOFbFb6aLY_uEXiJTXBMz3tdlh3RMFPz70-sCKzNgTZ8bFJlzGeeHs5PgGAeNQ'
+    });
 }
 
 /*Clear session when leaving page*/

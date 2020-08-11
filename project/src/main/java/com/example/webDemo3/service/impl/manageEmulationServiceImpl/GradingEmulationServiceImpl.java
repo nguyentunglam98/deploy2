@@ -133,7 +133,7 @@ public class GradingEmulationServiceImpl implements GradingEmulationService {
         }
 
         SchoolYear schoolYearOfDate = schoolYearRepository.findSchoolYearsByDate(date);
-        if(schoolYearOfDate!= null && schoolYearOfDate.getYearID() != currentYearId){
+        if(schoolYearOfDate == null || schoolYearOfDate.getYearID() != currentYearId){
             message = Constant.ADD_VIOLATION_NOT_CURRENTYEAR;
             return message;
         }

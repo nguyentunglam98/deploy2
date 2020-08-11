@@ -37,7 +37,7 @@ $(document).ready(function () {
                                     <div class="d-flex align-items-center"><h5 class="my-0 mr-2">Nội quy theo dõi: </h5>` + name + `</div>
                                     <div class="d-flex align-items-center"><h6 class="my-0 mr-2">Điểm:</h6>` + totalGrade + `</div>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-end align-items-center">
                                     <span class="bt-table-field mx-2 manageBtn">
                                         <a href="editViolationType" class="bt-table-edit" title="Sửa" id="` + typeId + `">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>

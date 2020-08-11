@@ -8,6 +8,7 @@ import com.example.webDemo3.repository.UserRepository;
 import com.example.webDemo3.service.manageAccountService.ResetPassService;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,9 @@ public class ResetPassServiceImpl implements ResetPassService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * kimpt142
@@ -57,7 +61,7 @@ public class ResetPassServiceImpl implements ResetPassService {
      */
     private MessageDTO resetPassword(String[] userNameList, String password) throws Exception{
         MessageDTO message = new MessageDTO();
-
+        password = passwordEncoder.encode(password);
         try {
             for (String username : userNameList) {
                 User user = userRepository.findUserByUsername(username);

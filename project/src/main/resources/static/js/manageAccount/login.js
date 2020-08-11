@@ -32,6 +32,7 @@ function login() {
             username: $('#username').val(),
             password: $('#password').val(),
         };
+        console.log(JSON.stringify(user))
         $.ajax({
             type: 'POST',
             url: "/api/user/login",
@@ -51,6 +52,7 @@ function login() {
                     localStorage.setItem("loginSuccess", messageCode);
                     localStorage.setItem("roleID", roleID);
                     localStorage.setItem("currentYearId", data.currentYearId);
+                    localStorage.setItem("accessToken", data.accessToken);
                     $("#loginSuccess-menu").addClass("show");
                     $('#login').css('display', 'none');
                     if (roleID == 1) {

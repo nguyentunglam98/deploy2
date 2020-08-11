@@ -107,11 +107,15 @@ public class ViolationOfClassServiceImpl implements ViolationOfClassService {
                         violationClassDto.setViolationClassRequest(violationClassRequestDto);
                         violationClassDto.setCheckEdit(2);
                     } else {
-                        message = validateEmulationService.checkRoleForEditViolationClass(username, roleId, classId, date);
-                        if (message.getMessageCode() == 0) {
-                            checkEdit = 0;
-                        } else {
+                        if(roleId == Constant.ROLEID_REDSTAR && !item.getCreateBy().equalsIgnoreCase(username)) {
                             checkEdit = 1;
+                        }else {
+                            message = validateEmulationService.checkRoleForEditViolationClass(username, roleId, classId, date);
+                            if (message.getMessageCode() == 0) {
+                                checkEdit = 0;
+                            } else {
+                                checkEdit = 1;
+                            }
                         }
                         violationClassDto.setCheckEdit(checkEdit);
                     }

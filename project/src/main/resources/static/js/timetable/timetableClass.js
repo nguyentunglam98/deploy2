@@ -28,9 +28,9 @@ $.ajax({
                 $('#appyDateList').html("");
                 $.each(data.appyDateList, function (i, item) {
                     if (item == data.currentDate) {
-                        $('#appyDateList').append(`<option value="` + item + `" selected>` + convertDate(item,'/') + `</option>`);
+                        $('#appyDateList').append(`<option value="` + item + `" selected>` + convertDate(item, '/') + `</option>`);
                     } else {
-                        $('#appyDateList').append(`<option value="` + item + `">` + convertDate(item,'/') + `</option>`);
+                        $('#appyDateList').append(`<option value="` + item + `">` + convertDate(item, '/') + `</option>`);
                     }
                 });
                 applyDate = $('#appyDateList option:selected').val();
@@ -249,8 +249,9 @@ function afternoonTimetable(pos, afternoon) {
 
 function addTimetable(id) {
     $('#timetablePlus').append(`
-    <table class="timetable table-bordered" id="timetable` + id + `">
-                <thead>
+    <div class="scrollable-table">
+        <table class="timetable table-bordered" id="timetable` + id + `">
+            <thead>
                 <tr class="timtable-title">
                     <th colspan="2" style="width: 15%">Buổi</th>
                     <th style="width: 10%">Tiết</th>
@@ -261,8 +262,8 @@ function addTimetable(id) {
                     <th>Thứ 6</th>
                     <th>Thứ 7</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 <tr class="morning">
                     <td rowspan="5" colspan="2" class="session"><p>SÁNG</p></td>
                     <td class="slot">1</td>
@@ -348,7 +349,7 @@ function addTimetable(id) {
                     <td class="data"></td>
                     <td class="data"></td>
                 </tr>
-                </tbody>
-            </table>
-    `)
+            </tbody>
+        </table>
+    </div>`)
 }

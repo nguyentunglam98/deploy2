@@ -89,35 +89,46 @@ $('.slider').each(function () {
     advance();
 });
 
+var homePage = {
+    pageNumber: 0
+}
+var inforSearch = {
+    header: "",
+    pageNumber: 0
+}
+
+loadHomepage();
+
 /*Load Homepage*/
-$.ajax({
-    url: "/api/newsletter/loadhomepage",
-    type: "POST",
-    data: JSON.stringify({pageNumber: 0}),
-    beforeSend: function () {
-        $('body').addClass("loading")
-    },
-    complete: function () {
-        $('body').removeClass("loading")
-    },
-    success: function (data) {
-        var messageCode = data.message.messageCode;
-        var message = data.message.message;
-        if (messageCode == 0) {
-            if (data.listLetter != null) {
-                var totalPages = data.totalPage;
-                if (totalPages > 1) {
-                    $('.table-paging').removeClass('hide');
-                    paging(inforSearch, totalPages);
-                }
-                var count = 0;
-                $('.container-header .flex-wrap').html('')
-                $('.container-paging .flex-wrap').html('');
-                $('.homepage-message').text('');
-                $('.content-wrap').removeClass('hide');
-                $.each(data.listLetter, function (i, item) {
-                    if (i == 0) {
-                        $('.container-header .card-pin').html(`
+function loadHomepage() {
+    $.ajax({
+        url: "/api/newsletter/loadhomepage",
+        type: "POST",
+        data: JSON.stringify(homePage),
+        beforeSend: function () {
+            $('body').addClass("loading")
+        },
+        complete: function () {
+            $('body').removeClass("loading")
+        },
+        success: function (data) {
+            var messageCode = data.message.messageCode;
+            var message = data.message.message;
+            if (messageCode == 0) {
+                if (data.listLetter != null) {
+                    var totalPages = data.totalPage;
+                    if (totalPages > 1) {
+                        $('.table-paging').removeClass('hide');
+                        paging(homePage, totalPages);
+                    }
+                    var count = 0;
+                    $('.container-header .flex-wrap').html('')
+                    $('.container-paging .flex-wrap').html('');
+                    $('.homepage-message').text('');
+                    $('.content-wrap').removeClass('hide');
+                    $.each(data.listLetter, function (i, item) {
+                        if (i == 0) {
+                            $('.container-header .card-pin').html(`
                             <a href="postDetail" class="card" id="` + item.newsletterId + `">
                                 <div class="img-post">
                                     <img class="lazy card-img-top" data-original="` + item.headerImage + `">
@@ -130,10 +141,10 @@ $.ajax({
                                 </div>
                             </a>
                         `);
-                    } else {
-                        count++;
-                        if (count <= 4) {
-                            $('.container-header .flex-wrap').append(`
+                        } else {
+                            count++;
+                            if (count <= 4) {
+                                $('.container-header .flex-wrap').append(`
                             <div class="post-gird col-md-6">
                                 <a href="postDetail" class="card card-140" id="` + item.newsletterId + `">
                                     <div class="img-post">
@@ -146,8 +157,8 @@ $.ajax({
                                 </a>
                             </div>
                         `);
-                        } else {
-                            $('.container-paging .flex-wrap').append(`
+                            } else {
+                                $('.container-paging .flex-wrap').append(`
                             <div class="post-gird col-md-4">
                                 <a href="postDetail" class="card card-200" id="` + item.newsletterId + `">
                                     <div class="img-post">
@@ -160,35 +171,31 @@ $.ajax({
                                 </a>
                             </div>
                             `);
+                            }
                         }
-                    }
-                });
-                pagingClick();
-                getNewsletterId();
-                lazyLoad();
+                    });
+                    pagingHomepage();
+                    getNewsletterId();
+                    lazyLoad();
+                } else {
+                    $('.homepage-message').text('Danh sách bài viết trống.');
+                    $('.content-wrap:not(:last-child)').addClass('hide');
+                    $('.table-paging').addClass('hide');
+                }
             } else {
-                $('.homepage-message').text('Danh sách bài viết trống.');
                 $('.content-wrap:not(:last-child)').addClass('hide');
                 $('.table-paging').addClass('hide');
+                $('.homepage-message').text(message);
             }
-        } else {
+        },
+        failure: function (errMsg) {
             $('.content-wrap:not(:last-child)').addClass('hide');
             $('.table-paging').addClass('hide');
-            $('.homepage-message').text(message);
-        }
-    },
-    failure: function (errMsg) {
-        $('.content-wrap:not(:last-child)').addClass('hide');
-        $('.table-paging').addClass('hide');
-        $('.homepage-message').text(errMsg);
-    },
-    dataType: "json",
-    contentType: "application/json"
-});
-
-var inforSearch = {
-    header: "",
-    pageNumber: 0
+            $('.homepage-message').text(errMsg);
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
 }
 
 $('#searchLetter').keypress(function (e) {

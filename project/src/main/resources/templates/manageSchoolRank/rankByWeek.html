@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>.::Xếp hạng thi đua theo tuần::.</title>
     <link th:href="@{/img/logo.png}" rel="shortcut icon" type="image/x-icon"/>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 
     <!-- jQuery library -->
     <script th:src="@{/js/public/jquery-3.5.1.min.js}"></script>
@@ -72,20 +72,22 @@
                        value="Tạo xếp hạng tuần"/>
             </div>
         </div>
-        <table class="table table-bordered table-edit mt-3 w-100">
-            <thead class="thead-light">
-            <tr class="align-items-center">
-                <th>Lớp</th>
-                <th>Điểm nề nếp</th>
-                <th>Điểm học tập</th>
-                <th>Điểm phong trào</th>
-                <th>Điểm lao động</th>
-                <th>Tổng điểm</th>
-                <th>Xếp hạng</th>
-            </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div class="scrollable-table">
+            <table class="table table-bordered table-edit mt-3 w-100">
+                <thead class="thead-light">
+                <tr class="align-items-center">
+                    <th>Lớp</th>
+                    <th>Điểm nề nếp</th>
+                    <th>Điểm học tập</th>
+                    <th>Điểm phong trào</th>
+                    <th>Điểm lao động</th>
+                    <th>Tổng điểm</th>
+                    <th>Xếp hạng</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 </div>
 

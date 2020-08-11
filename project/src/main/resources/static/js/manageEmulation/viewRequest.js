@@ -282,6 +282,7 @@ function acceptRequest() {
                         <h5>` + message + `</h5>
                     `);
                     } else {
+                        $('#modalSuccess').modal('show');
                         $('#modalSuccess .modal-body').html(`
                         <img class="mb-3 mt-3" src="/img/img-error.png"/>
                         <h5>` + message + `</h5>
@@ -289,6 +290,7 @@ function acceptRequest() {
                     }
                 },
                 failure: function (errMsg) {
+                    $('#modalSuccess').modal('show');
                     $('#modalSuccess .modal-body').html(`
                     <img class="mb-3 mt-3" src="/img/img-error.png"/>
                     <h5>` + errMsg + `</h5>
@@ -340,6 +342,7 @@ function rejectRequest() {
                         <h5>` + message + `</h5>
                     `);
                     } else {
+                        $('#modalSuccess').modal('show');
                         $('#modalSuccess .modal-body').html(`
                         <img class="mb-3 mt-3" src="/img/img-error.png"/>
                         <h5>` + message + `</h5>
@@ -347,6 +350,7 @@ function rejectRequest() {
                     }
                 },
                 failure: function (errMsg) {
+                    $('#modalSuccess').modal('show');
                     $('#modalSuccess .modal-body').html(`
                     <img class="mb-3 mt-3" src="/img/img-error.png"/>
                     <h5>` + errMsg + `</h5>

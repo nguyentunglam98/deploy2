@@ -1,3 +1,4 @@
+var spaceRegex = /^\S+$/;
 $(document).ready(function () {
     $("#confirm").click(function (e) {
         $('.changePassword-err').text("");
@@ -22,6 +23,12 @@ $(document).ready(function () {
             return false;
         } else if (newpassword != confirmpassword) {
             $('.changePassword-err').text("Mật khẩu xác nhận không đúng.");
+            return false;
+        } else if (newpassword.length <= 6) {
+            $('.changePassword-err').text("Mật khẩu phải chứa nhiều hơn 6 ký tự.");
+            return false;
+        } else if (!newpassword.match(spaceRegex)) {
+            $('.changePassword-err').text("Mật khẩu không được chứa khoảng trắng.");
             return false;
         } else {
             $('.changePassword-err').text("");

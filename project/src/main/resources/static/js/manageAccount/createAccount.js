@@ -3,6 +3,7 @@ var current_fs, next_fs, previous_fs;
 var left, opacity, scale;
 var emailRegex = '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$';
 var phoneRegex = '^[0-9\\-\\+]{9,15}$';
+var spaceRegex = /^\S+$/;
 /*Call API for Role List*/
 $('.createAccount-err').text("");
 
@@ -144,6 +145,12 @@ $("#submit").click(function (e) {
         return false;
     } else if (passWord != confirmPassword) {
         $('.createAccount-err').text("Mật khẩu xác nhận không đúng.");
+        return false;
+    } else if (passWord.length <= 6) {
+        $('.changePassword-err').text("Mật khẩu phải chứa nhiều hơn 6 ký tự.");
+        return false;
+    } else if (!passWord.match(spaceRegex)) {
+        $('.changePassword-err').text("Mật khẩu không được chứa khoảng trắng.");
         return false;
     } else if (phone != "" && !phone.match(phoneRegex)) {
         $('.createAccount-err').text("SĐT không đúng định dạng.");

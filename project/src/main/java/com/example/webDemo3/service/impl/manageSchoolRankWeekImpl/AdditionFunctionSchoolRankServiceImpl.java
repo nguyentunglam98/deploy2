@@ -1,10 +1,9 @@
-package com.example.webDemo3.service.impl.manageSchoolRankImpl;
+package com.example.webDemo3.service.impl.manageSchoolRankWeekImpl;
 
-import com.example.webDemo3.service.manageSchoolRank.AdditionFunctionSchoolRankService;
+import com.example.webDemo3.service.manageSchoolRankWeek.AdditionFunctionSchoolRankService;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 

@@ -101,7 +101,9 @@ function search() {
                     if (messageCode == 0) {
                         if (data.listAssignTask.length != 0) {
                             dataSrc = data.listAssignTask;
-                            $('#deleteBtn').removeClass('hide');
+                            if (roleID == 1) {
+                                $('#deleteBtn').removeClass('hide');
+                            }
                             $('#download').removeClass('hide');
                         } else {
                             return false;

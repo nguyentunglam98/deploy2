@@ -2,25 +2,20 @@
 var roleID = localStorage.getItem("roleID");
 var username = localStorage.getItem("username");
 var editor = CKEDITOR.replace('post-editor-text-content', {
-    cloudServices_uploadUrl: 'https://73438.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73438.cke-cs.com/token/dev/de62f27633e0ccc284486ba070dbacf5b61e59390a805c23d58fc080b306',
+    cloudServices_uploadUrl: 'https://73999.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://73999.cke-cs.com/token/dev/26d99879d9d20ba5d60497fc1556aa7f821ea78b8cc4c0df6f9f056e7b4e',
     width: '100%',
     height: 500,
     extraPlugins: 'easyimage',
 });
 var imageCover = CKEDITOR.replace('imageCover', {
-    cloudServices_uploadUrl: 'https://73438.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73438.cke-cs.com/token/dev/de62f27633e0ccc284486ba070dbacf5b61e59390a805c23d58fc080b306',
+    cloudServices_uploadUrl: 'https://73999.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://73999.cke-cs.com/token/dev/26d99879d9d20ba5d60497fc1556aa7f821ea78b8cc4c0df6f9f056e7b4e',
     width: 250,
     height: 200,
     extraPlugins: 'easyimage',
-    // extraPlugins: 'autogrow',
     removePlugins: 'image',
     removeDialogTabs: 'link:advanced',
-    // autoGrow_minHeight: 50,
-    // autoGrow_maxHeight: 600,
-    // autoGrow_bottomSpace: 0,
-    // removePlugins: 'resize',
     toolbar: [
         {
             name: 'insert',
@@ -119,15 +114,22 @@ function addNewPost(request) {
 var loadFile = function (event) {
     var form = $('#form-post');
     var formData = new FormData(form[0]);
-    formData.append('ckCsrfToken', 'CKJl3IP2xVAP5q9s6O86yt3C6fCzO4ChvpHIaj53');
-
+    // formData.append('ckCsrfToken', 'xaTDx3QM1m3tTc3Uk4OYgkqgd0g1ZtcEbfhQod2a7s2rxMSzf9RhlXjMJVSV');
+    var CSTimestamp = Date.now();
+    const apiSecret = 'xaTDx3QM1m3tTc3Uk4OYgkqgd0g1ZtcEbfhQod2a7s2rxMSzf9RhlXjMJVSV';
     $.ajax({
         type: "POST",
-        url: "https://73438.cke-cs.com/easyimage/upload/",
+        url: "https://73999.cke-cs.com/api/v4/RQAfsTJxHLsH61eo6z1M/editors",
         data: formData,
         async: false,
         headers: {
-            authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoIjp7ImNvbGxhYm9yYXRpb24iOnsiKiI6eyJyb2xlIjoid3JpdGVyIn19fSwidXNlciI6eyJlbWFpbCI6InZlYXplbWVAZXhhbXBsZS5jb20iLCJuYW1lIjoiTHVyYSBXYWxrZXIifSwic3ViIjoiZGV2LXVzZXItQnBBb2NjQUU1aFZTVEVUYWJ2RjEiLCJpc0RldlRva2VuIjp0cnVlLCJ0aW1lc3RhbXAiOjE1OTYwMTAyMTc5NjcsInNpZ25hdHVyZSI6IjA5NDk3OWU4ODVkOWY5NzlhOWJmMDk0NDZmZjg2ZjBhYzIzYmZmMzhlNzdhNzRiYjQ4ZDM3OGYyNGU4YTY1YTUiLCJhdWQiOiJCcEFvY2NBRTVoVlNURVRhYnZGMSIsImp0aSI6ImluYkYtUnJySWU3eDkxc212dDdWSXBjZWh3X2xmNWdYIiwiaWF0IjoxNTk2MDEwMjE3fQ.teiHdZp-YsLlsGU0lTu5k3-sVFBFrv_Od8640h4g9Ic',
+            'X-CS-Signature': generateSignature(apiSecret, "POST", "https://73999.cke-cs.com/api/v4/RQAfsTJxHLsH61eo6z1M/editors", CSTimestamp, {
+                bundle: formData,
+                config: {
+                    cloudServices: "2019-11-30-build-f4a4c2"
+                }
+            }),
+            'X-CS-Timestamp': CSTimestamp
         },
         beforeSend: function () {
             $('body').addClass("loading")
@@ -150,3 +152,17 @@ var loadFile = function (event) {
         processData: false,
     });
 };
+
+function generateSignature(apiSecret, method, uri, timestamp, body) {
+    const url = url.parse(uri).path;
+
+    const hmac = crypto.createHmac('SHA256', apiSecret);
+
+    hmac.update(`${method.toUpperCase()}${url}${timestamp}`);
+
+    if (body) {
+        hmac.update(Buffer.from(JSON.stringify(body)));
+    }
+
+    return hmac.digest('hex');
+}

@@ -1,4 +1,4 @@
-package com.example.webDemo3.service.manageSchoolRank;
+package com.example.webDemo3.service.manageSchoolRankWeek;
 
 import java.sql.Date;
 

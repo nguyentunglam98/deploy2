@@ -13,10 +13,10 @@ $(document).ready(function () {
         $('#loginMenu').css('display', 'none');
         //ROLEID_REDSTAR
         if (roleID == 3) {
-            if (asignedClass != null) {
+            if (asignedClass != "null") {
                 $("#loginSuccessMenu .nav-link").html(`<span><p class="m-0" style="font-size: 15px">` + username + `</p><p class="m-0" style="font-size: 12px">(Chấm lớp ` + asignedClass + `)</p></span><i class="fa fa-caret-down"></i>`);
             } else {
-                $("#loginSuccessMenu .nav-link").html(`<span><p class="m-0" style="font-size: 15px">` + username + `</p><p class="m-0" style="font-size: 12px">(Chưa được phân công)</p></span><i class="fa fa-caret-down"></i>`);
+                $("#loginSuccessMenu .nav-link").html(`<span><p class="m-0" style="font-size: 15px">` + username + `</p><p class="m-0" style="font-size: 12px">(Không có lớp chấm)</p></span><i class="fa fa-caret-down"></i>`);
             }
             $('#loginSuccessMenu .nav-link').attr('style', 'padding-top: 0!important; padding-bottom: 0!important');
         } else {
@@ -215,61 +215,64 @@ function paging(inforSearch, totalPages) {
     $('.table-paging').append(
         `<input type="button" class="table-paging__page btn-prev" id="prevPage" value="Trước"/>`
     );
-    if (pageNumber < 4) {
-        var newTotalPages = (totalPages <= 4) ? (totalPages) : (4);
-        for (var i = 0; i < newTotalPages; i++) {
-            if (i == pageNumber) {
-                $('.table-paging').append(
-                    `<input type="button" value="` + (i + 1) + `" class="table-paging__page table-paging__page_cur"/>`
-                );
-            } else {
-                $('.table-paging').append(
-                    `<input type="button" value="` + (i + 1) + `" class="table-paging__page"/>`
-                );
-            }
-        }
-        if (newTotalPages < totalPages) {
-            $('.table-paging').append(
-                `<input type="button" value="..." class="table-paging__page" disabled/>`
-            );
-        }
-    } else {
+
+    if(pageNumber == 0){
+        $('.table-paging').append(
+            `<input type="button" value="` + (1) + `" class="table-paging__page table-paging__page_cur"/>`
+        );
+    }
+    else {
         $('.table-paging').append(
             `<input type="button" value="` + (1) + `" class="table-paging__page"/>`
         );
-        $('.table-paging').append(
-            `<input type="button" value="` + (2) + `" class="table-paging__page"/>`
-        );
+    }
+    if(pageNumber > 2) {
         $('.table-paging').append(
             `<input type="button" value="..." class="table-paging__page" disabled/>`
         );
-        var pageEnd = (pageNumber + 2 < totalPages) ? (pageNumber + 2) : (totalPages);
-        for (var i = pageNumber - 1; i < pageEnd; i++) {
-            if (i == pageNumber) {
-                $('.table-paging').append(
-                    `<input type="button" value="` + (i + 1) + `" class="table-paging__page table-paging__page_cur"/>`
-                );
-            } else {
-                $('.table-paging').append(
-                    `<input type="button" value="` + (i + 1) + `" class="table-paging__page"/>`
-                );
-            }
-        }
-        if (pageEnd < totalPages) {
+    }
+    for (var i = pageNumber; i <= pageNumber + 2; i++) {
+        if(i <= 1 || i >= totalPages) continue;
+        if (i - 1 == pageNumber) {
             $('.table-paging').append(
-                `<input type="button" value="..." class="table-paging__page" disabled/>`
+                `<input type="button" value="` + (i) + `" class="table-paging__page table-paging__page_cur"/>`
+            );
+        } else {
+            $('.table-paging').append(
+                `<input type="button" value="` + (i) + `" class="table-paging__page"/>`
             );
         }
     }
+
+    if(pageNumber + 2 < totalPages -1) {
+        $('.table-paging').append(
+            `<input type="button" value="..." class="table-paging__page" disabled/>`
+        );
+    }
+
+    if(totalPages > 1){
+        if(pageNumber == totalPages -1 ){
+            $('.table-paging').append(
+                `<input type="button" value="` + (totalPages) + `" class="table-paging__page table-paging__page_cur"/>`
+            );
+        }
+        else{
+            $('.table-paging').append(
+                `<input type="button" value="` + (totalPages) + `" class="table-paging__page"/>`
+            );
+        }
+    }
+
     $('.table-paging').append(
         `<input type="button" class="table-paging__page btn-next" id="nextPage" value="Sau"/>`
     );
-    if (inforSearch.pageNumber == 0) {
+    var pageNumInfo = parseInt(inforSearch.pageNumber);
+    if ( pageNumInfo == 0) {
         $('#prevPage').prop('disabled', true);
     } else {
         $('#prevPage').prop('disabled', false);
     }
-    if ((inforSearch.pageNumber + 1) == totalPages) {
+    if ((pageNumInfo + 1) == totalPages) {
         $('#nextPage').prop('disabled', true);
     } else {
         $('#nextPage').prop('disabled', false);

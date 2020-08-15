@@ -6,16 +6,16 @@ var request = {
     newsletterId: newsletterId
 }
 var editor = CKEDITOR.replace('post-editor-text-content', {
-    cloudServices_uploadUrl: 'https://73438.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73438.cke-cs.com/token/dev/de62f27633e0ccc284486ba070dbacf5b61e59390a805c23d58fc080b306',
+    cloudServices_uploadUrl: 'https://73999.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://73999.cke-cs.com/token/dev/26d99879d9d20ba5d60497fc1556aa7f821ea78b8cc4c0df6f9f056e7b4e',
     width: '100%',
     height: 500,
     extraPlugins: 'easyimage',
 });
 var oldHeader, oldHeaderImage, oldContent, oldGim, createDate, status;
 var imageCover = CKEDITOR.replace('imageCover', {
-    cloudServices_uploadUrl: 'https://73438.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73438.cke-cs.com/token/dev/de62f27633e0ccc284486ba070dbacf5b61e59390a805c23d58fc080b306',
+    cloudServices_uploadUrl: 'https://73999.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://73999.cke-cs.com/token/dev/26d99879d9d20ba5d60497fc1556aa7f821ea78b8cc4c0df6f9f056e7b4e',
     width: 250,
     height: 200,
     extraPlugins: 'easyimage',

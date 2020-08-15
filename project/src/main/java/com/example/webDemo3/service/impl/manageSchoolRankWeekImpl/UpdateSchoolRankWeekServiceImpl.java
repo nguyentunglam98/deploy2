@@ -1,4 +1,4 @@
-package com.example.webDemo3.service.impl.manageSchoolRankImpl;
+package com.example.webDemo3.service.impl.manageSchoolRankWeekImpl;
 
 import com.example.webDemo3.constant.Constant;
 import com.example.webDemo3.dto.MessageDTO;
@@ -12,10 +12,9 @@ import com.example.webDemo3.exception.MyException;
 import com.example.webDemo3.repository.ClassRepository;
 import com.example.webDemo3.repository.SchoolRankWeekRepository;
 import com.example.webDemo3.repository.SchoolWeekRepository;
-import com.example.webDemo3.service.manageSchoolRank.AdditionFunctionSchoolRankService;
-import com.example.webDemo3.service.manageSchoolRank.SortSchoolRankWeekService;
-import com.example.webDemo3.service.manageSchoolRank.UpdateSchoolRankWeekService;
-import org.apache.poi.ss.usermodel.Sheet;
+import com.example.webDemo3.service.manageSchoolRankWeek.AdditionFunctionSchoolRankService;
+import com.example.webDemo3.service.manageSchoolRankWeek.SortSchoolRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.UpdateSchoolRankWeekService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

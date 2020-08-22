@@ -241,7 +241,7 @@ public class ValidateEmulationServiceImpl implements ValidateEmulationService {
                 && date.compareTo(rankedDate) > 0 )){
             return true;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -260,7 +260,7 @@ public class ValidateEmulationServiceImpl implements ValidateEmulationService {
         {
             return true;
         }
-        return false;
+        return true;
     }
 
     /**

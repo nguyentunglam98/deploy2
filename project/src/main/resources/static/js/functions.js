@@ -1,4 +1,4 @@
-/*Value default*/
+/*Value default1*/
 var roleID = localStorage.getItem("roleID");
 var username = localStorage.getItem("username");
 var pathname = $(location).attr('pathname');

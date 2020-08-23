@@ -198,7 +198,7 @@ public class ViolationOfClassServiceImpl implements ViolationOfClassService {
                         String history = violationClass.getHistory();
                         String newHistory = additionalFunctionService.addHistory(history, reason, username, violationClass.getQuantity());
                         if (newQuantity == 0) {
-                            violationClass.setStatus(0);
+                            violationClass.setQuantity(0);
                             violationClass.setHistory(newHistory);
                             violationClassRepository.save(violationClass);
                         } else {

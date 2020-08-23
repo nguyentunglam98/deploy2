@@ -126,11 +126,6 @@ public class GradingEmulationServiceImpl implements GradingEmulationService {
             }
         }
 
-        if(validateEmulationService.checkRankedDate(classId, date)){
-            message = Constant.DATE_RANKED;
-            return message;
-        }
-
         SchoolYear schoolYearOfDate = schoolYearRepository.findSchoolYearsByDate(date);
         if(schoolYearOfDate == null || schoolYearOfDate.getYearID() != currentYearId){
             message = Constant.ADD_VIOLATION_NOT_CURRENTYEAR;

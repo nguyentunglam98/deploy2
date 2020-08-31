@@ -26,7 +26,6 @@ $("#timetableform").submit(function (e) {
         type: 'POST',
         data: JSON.stringify(input),
         success: function (data) {
-            console.log(data);
             if (data.messageCode == 0) {
                 $('.input-err').text("");
                 update();
@@ -71,6 +70,12 @@ function update() {
         url: "/api/timetable/update",
         data: formData,//form.serialize(), // serializes the form's elements.
         async: false,
+        beforeSend: function () {
+            $('body').addClass("loading")
+        },
+        complete: function () {
+            $('body').removeClass("loading")
+        },
         success: function (data) {
             if (data.messageCode == 0) {
                 $('#overrideSuccess .modal-footer').html(`

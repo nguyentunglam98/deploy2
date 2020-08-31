@@ -19,13 +19,8 @@ var imageCover = CKEDITOR.replace('imageCover', {
     width: 250,
     height: 200,
     extraPlugins: 'easyimage',
-    // extraPlugins: 'autogrow',
     removePlugins: 'image',
     removeDialogTabs: 'link:advanced',
-    // autoGrow_minHeight: 50,
-    // autoGrow_maxHeight: 600,
-    // autoGrow_bottomSpace: 0,
-    // removePlugins: 'resize',
     toolbar: [
         {
             name: 'insert',
@@ -91,6 +86,12 @@ $('#savePost').on('click', function () {
     var newHeader = $('#titleName').val().trim();
     // var newHeaderImage = $('#imagePreview').attr('src');
     var newHeaderImage = imageCover.getData();
+    if (!newHeaderImage.includes('src=')) {
+        $('.editPost-err').text('Ảnh bìa của bài viết không đúng định dạng.');
+        return false;
+    } else {
+        newHeaderImage = newHeaderImage.split('src=')[1].split('"')[1];
+    }
     var newContent = editor.getData();
     var newGim;
     if ($('input[type="checkbox"]').prop("checked") == true) {
@@ -113,7 +114,6 @@ $('#savePost').on('click', function () {
         return false;
     } else {
         $('.editPost-err').text('');
-        newHeaderImage = newHeaderImage.split('src=')[1].split('"')[1];
         var request = {
             newsletter: {
                 newsletterId: newsletterId,
@@ -136,7 +136,6 @@ $('#savePost').on('click', function () {
                 messageModal('messageModal', 'img/img-question.png', 'Bạn có muốn <b>GHIM</b> bài viết này không?<h6>Bài viết được ghim trước đó sẽ bị bỏ ghim!</h6>');
                 $('#newGim').on('click', function () {
                     request.newsletter.gim = newGim;
-                    console.log(JSON.stringify(request));
                     editPost(request);
                 })
             } else {
@@ -147,12 +146,10 @@ $('#savePost').on('click', function () {
                 messageModal('messageModal', 'img/img-question.png', 'Bạn có muốn <b>BỎ GHIM</b> bài viết này không?');
                 $('#newGim').on('click', function () {
                     request.newsletter.gim = newGim;
-                    console.log(JSON.stringify(request));
                     editPost(request);
                 })
             }
         } else {
-            console.log(JSON.stringify(request));
             editPost(request);
         }
     }

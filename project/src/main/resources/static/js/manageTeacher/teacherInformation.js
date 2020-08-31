@@ -74,7 +74,6 @@ $("#editInfo").click(function (e) {
             phone: phone,
             email: email
         }
-        console.log(JSON.stringify(info));
         e.preventDefault();
         $.ajax({
             url: '/api/admin/editteacherinformation',
@@ -87,7 +86,6 @@ $("#editInfo").click(function (e) {
                 $('body').removeClass("loading")
             },
             success: function (data) {
-                console.log(data);
                 var messageCode = data.messageCode;
                 var message = data.message;
                 if (messageCode == 0) {

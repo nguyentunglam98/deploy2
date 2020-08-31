@@ -221,6 +221,20 @@ public class ValidateEmulationServiceImpl implements ValidateEmulationService {
                 return Constant.SUCCESS;
             }
         }
+        // summerizing group can edit violation of class
+        else if(roleId == Constant.ROLEID_SUMMERIZEGROUP){
+            if(!sdf.format(currentDate).equalsIgnoreCase(sdf.format(date))){
+                message = Constant.MONITOR_NOT_EDIT_TODAY;
+                return message;
+            }
+            else if(!checkImportViolationWithEnteringTime(roleId, date, time)){
+                message = Constant.NOT_ACCEPT_TIME_EDIT;
+                return message;
+            }
+            else {
+                return Constant.SUCCESS;
+            }
+        }
         else{
             message = Constant.NOT_ACCEPT_EDIT;
             return message;

@@ -4,13 +4,19 @@ $(document).ready(function () {
     $.ajax({
         url: '/api/admin/giftedclasslist',
         type: 'POST',
+        beforeSend: function () {
+            $('body').addClass("loading")
+        },
+        complete: function () {
+            $('body').removeClass("loading")
+        },
         success: function (data) {
             $.each(data.giftedClassList, function (i, item) {
                 $('#gifftedClass').append(`<option value="` + item.giftedClassId + `">` + item.name + `</option>`);
             });
         },
         failure: function (errMsg) {
-            console.log(errMsg);
+            $('#gifftedClass').append(`<option value="err">` + errMsg + `</option>`);
         },
         dataType: "json",
         contentType: "application/json"

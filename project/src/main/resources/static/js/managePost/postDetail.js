@@ -133,7 +133,6 @@ function confirmRequest(status, messageSuccess) {
         newsletterId: newsletterId,
         status: status,
     }
-    console.log(JSON.stringify(request));
     $.ajax({
         url: "/api/newsletter/confirmnewsletter",
         type: "POST",

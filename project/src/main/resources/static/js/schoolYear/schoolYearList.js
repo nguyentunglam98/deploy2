@@ -89,14 +89,12 @@ function deleteYear() {
     var btnDelete = $('.btnDelete');
     $(btnDelete).unbind().click(function () {
         schoolYearId = $(this).prop('name');
-        console.log(schoolYearId);
         messageModal('deleteModal', 'img/img-question.png', 'Bạn có muốn <b>XÓA</b> năm học này không?')
     });
     $('#btnDeleteModal').unbind().click(function () {
         var schoolYear = {
             schoolYearId: schoolYearId
         }
-        console.log(JSON.stringify(schoolYear))
         $.ajax({
             url: '/api/admin/delschoolyear',
             type: 'POST',

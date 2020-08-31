@@ -2,6 +2,7 @@ package com.example.webDemo3.service.impl.manageAccountServiceImpl;
 
 import com.example.webDemo3.constant.Constant;
 import com.example.webDemo3.dto.MessageDTO;
+import com.example.webDemo3.dto.manageAccountResponseDto.SearchUserResponseDto;
 import com.example.webDemo3.dto.request.manageAccountRequestDto.LoginRequestDto;
 import com.example.webDemo3.entity.ClassRedStar;
 import com.example.webDemo3.entity.SchoolYear;
@@ -12,6 +13,10 @@ import com.example.webDemo3.repository.UserRepository;
 import com.example.webDemo3.dto.manageAccountResponseDto.LoginResponseDto;
 import com.example.webDemo3.service.manageAccountService.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +37,24 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private ClassRedStarRepository classRedStarRepository;
+
+    @Override
+    public SearchUserResponseDto getAdminInfor(){
+        SearchUserResponseDto responseDto = new SearchUserResponseDto();
+        MessageDTO message = new MessageDTO();
+        message.setMessageCode(1);
+        responseDto.setMessage(message);
+        try {
+            Pageable paging = PageRequest.of(0, 5, Sort.by("username").descending());
+            Page<User> pagedResult = userRepository.findByRole(Constant.ROLEID_ADMIN,paging);
+            responseDto.setUserList(pagedResult);
+            responseDto.setMessage(Constant.SUCCESS);
+        }catch (Exception e){
+            message.setMessage(e.toString());
+        }
+        return responseDto;
+    }
+
 
     /**
      * kimpt142

@@ -12,6 +12,12 @@ var list = [];
 $.ajax({
     url: '/api/admin/rolelist',
     type: 'POST',
+    beforeSend: function () {
+        $('body').addClass("loading")
+    },
+    complete: function () {
+        $('body').removeClass("loading")
+    },
     success: function (data) {
         if (data.listRole != 0) {
             $.each(data.listRole, function (i, item) {
@@ -24,6 +30,7 @@ $.ajax({
                 <td colspan="7" class="userlist-result">Danh sách trống.</td>
             </tr>`);
         }
+        search();
     },
     failure: function (errMsg) {
         $('tbody').html('');
@@ -35,7 +42,6 @@ $.ajax({
     dataType: "json",
     contentType: "application/json"
 });
-search();
 
 /*Search button*/
 $("#search").click(function () {

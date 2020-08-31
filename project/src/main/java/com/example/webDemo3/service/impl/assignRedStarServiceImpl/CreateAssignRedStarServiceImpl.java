@@ -129,19 +129,15 @@ public class CreateAssignRedStarServiceImpl implements CreateAssignRedStarServic
 
             //genertic
             //getFlag(classList, redStarList, assignList, assignUser);//tạo giá trị cho flag[][]
-            khoitao(redStarList.size());
-            for(int i = 1;i <= 1000; i++){
-                danhgia(classList.size() * 2, redStarList.size());
+            CreatePopulation(redStarList.size());
+            for(int i = 1;i <= 1000; i++) {
+                Evaluation(classList.size() * 2, redStarList.size());
                 Print();
                 if (costValueOutput == 0) {
-                    System.out.println("tạo phân công thành công tại genertation thứ " + i);
                     break;
                 }
-                chonloc();
-                dotbien();
-            }
-            if(costValueOutput > 0){
-                System.out.println("giá trị nhỏ nhất là: " + costValueOutput);
+                Selection();
+                Mutation();
             }
 
             insertClassRedStar(fromDate, classList, redStarList, outputData);
@@ -251,7 +247,7 @@ public class CreateAssignRedStarServiceImpl implements CreateAssignRedStarServic
         
     }
 
-    private void khoitao(int redStarListSize) {
+    private void CreatePopulation(int redStarListSize) {
         int[] data = new int[redStarListSize];
         for (int i = 0; i < redStarListSize; i++) {
             data[i] = i;
@@ -268,10 +264,10 @@ public class CreateAssignRedStarServiceImpl implements CreateAssignRedStarServic
         }
     }
 
-    private void danhgia(int d,int c) {
+    private void Evaluation(int d, int c) {
         for (int i = 0; i < n; i++) {
             costValue[i] = 0;
-            int[][] flagCopy = copyflag(d,c);
+            int[][] flagCopy = copyflag(d, c);
             for (int classIndex = 0; classIndex < size; classIndex++) {
                 int redStar = population[i][classIndex];
                 if (flagCopy[classIndex][redStar] != 0) {
@@ -317,24 +313,24 @@ public class CreateAssignRedStarServiceImpl implements CreateAssignRedStarServic
         }
     }
 
-    public void chonloc() {
-        int [] temp = costValue.clone();
+    public void Selection() {
+        int[] temp = costValue.clone();
         Arrays.sort(temp);
-        int nguong = temp[n*50/100];
-        for (int i=0;i<n;i++){
-            if (costValue[i]>nguong){
-                population[i]=population[ran.nextInt(n)].clone();
+        int max = temp[n * 50 / 100];
+        for (int i = 0; i < n; i++) {
+            if (costValue[i] > max) {
+                population[i] = population[ran.nextInt(n)].clone();
             }
         }
     }
 
-    public void dotbien() {
-        for (int k=0;k<n/2;k++){
-            int i=ran.nextInt(n);
-            for (int j=0;j<size;j++)
-                if(populationFlag[i][j] == -1){
+    public void Mutation() {
+        for (int k = 0; k < n / 2; k++) {
+            int i = ran.nextInt(n);
+            for (int j = 0; j < size; j++)
+                if (populationFlag[i][j] == -1) {
                     int value = ran.nextInt(size);
-                    int temp=population[i][j];
+                    int temp = population[i][j];
                     population[i][j] = population[i][value];
                     population[i][value] = temp;
                 }

@@ -31,7 +31,6 @@ $(document).ready(function () {
                 toYear: $('#toYear').val(),
             }
             $('.addSchoolYear-err').text('');
-            console.log(JSON.stringify(schoolYear))
             $.ajax({
                 url: '/api/admin/addschoolyear',
                 type: 'POST',

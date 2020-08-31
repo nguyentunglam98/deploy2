@@ -46,12 +46,14 @@ $('#savePost').on('click', function () {
     } else if (image.trim() == "") {
         $('.createPost-err').text('Hãy nhập ảnh bìa của bài viết.');
         return false;
+    } else if (!image.includes('src=')) {
+        $('.createPost-err').text('Ảnh bìa của bài viết không đúng định dạng.');
+        return false;
     } else if (data == "") {
         $('.createPost-err').text('Hãy nhập nội dung của bài viết.');
         return false;
     } else {
         image = image.split('src=')[1].split('"')[1];
-        console.log(image);
         var request = {
             username: username,
             header: titleName,
@@ -78,7 +80,6 @@ $('#savePost').on('click', function () {
 })
 
 function addNewPost(request) {
-    console.log(JSON.stringify(request))
     $.ajax({
         url: "/api/newsletter/addnewsletter",
         type: "POST",
@@ -136,13 +137,11 @@ var loadFile = function (event) {
         },
         complete: function (resp) {
             $('body').removeClass("loading");
-            console.log(resp);
             // temp1[0].object["a"].authorization
         },
         success: function (data) {
             $('#imagePreview').prop('src', data.default);
             $('#imagePreview').prop('alt', 'Ảnh bìa bài viết');
-            console.log(data.default);
         },
         failure: function (errMsg) {
             messageModal('overrideSuccess', 'img/img-error.png', errMsg);

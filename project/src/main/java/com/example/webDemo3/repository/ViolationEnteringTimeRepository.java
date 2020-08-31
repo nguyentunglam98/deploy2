@@ -11,6 +11,9 @@ public interface ViolationEnteringTimeRepository extends JpaRepository<Violation
     @Query(value="select vet from ViolationEnteringTime vet where vet.roleId = :roleId  and vet.dayId = :dayId and vet.startTime <= :time and vet.endTime >= :time")
     List<ViolationEnteringTime> findEnteringTimeRoleIdAndDayId(@Param("roleId")Integer roleId, @Param("dayId")Integer dayId, @Param("time") Time time);
 
-    @Query(value="select vet from ViolationEnteringTime vet where vet.roleId = :roleId and vet.dayId = :dayId")
-    List<ViolationEnteringTime> findEnteringTimeByRoleIdAndDayId(@Param("roleId")Integer roleId, @Param("dayId")Integer dayId);
+    @Query(value="select v from ViolationEnteringTime v where v.roleId = :roleId and v.dayId = :dayId " +
+            "and (( :startime >= v.startTime and :startime <= v.endTime)" +
+            "or (:endtime >= v.startTime and :endtime <= v.endTime)" +
+            "or ( :startime <= v.startTime and :endtime >= v.endTime))")
+    List<ViolationEnteringTime> findEnteringTimeByRoleIdAndDayIdStartimeAndEndTime(@Param("roleId")Integer roleId, @Param("dayId")Integer dayId, @Param("startime")Time startime, @Param("endtime")Time endtime );
 }

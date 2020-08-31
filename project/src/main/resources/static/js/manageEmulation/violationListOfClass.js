@@ -59,6 +59,7 @@ $.ajax({
         } else {
             $("#classList").html(`<option selected>` + message + `</option>`);
         }
+        search();
     },
     failure: function (errMsg) {
         $("#classList").html(`<option selected>` + errMsg + `</option>`);
@@ -81,12 +82,9 @@ $("#search").click(function () {
         date: date,
         roleId: roleID
     }
-    console.log(JSON.stringify(infoSearch))
     $(".violation-by-date").html("");
     search();
 });
-
-search();
 
 /*Set data to container*/
 function search() {
@@ -353,7 +351,6 @@ function confirmEditModal(description, substract, note, reason, quantity, newQua
 /*Confirm Edit Button*/
 function confirmEditBtn() {
     $('#confirmEditBtn').unbind("click").click(function () {
-        console.log(JSON.stringify(editViolation));
         $.ajax({
             url: '/api/emulation/requesteditviolation',
             type: 'POST',
@@ -456,7 +453,6 @@ function deleteRequest() {
         var requestId = {
             requestId: requestId
         }
-        console.log(JSON.stringify(requestId));
         $.ajax({
             url: '/api/emulation/deleteViolationClassRequest',
             type: 'POST',
@@ -537,7 +533,6 @@ $('.closeModal').on('click', function () {
         date: date,
         roleId: roleID
     }
-    console.log(JSON.stringify(infoSearch))
     $(".violation-by-date").html("");
     search();
 })

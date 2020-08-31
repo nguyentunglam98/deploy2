@@ -10,7 +10,7 @@ $.ajax({
         });
     },
     failure: function (errMsg) {
-        console.log(errMsg);
+        $('#classIdentifier').html(`<option value="err">` + errMsg + `</option>`);
     },
     dataType: "json",
     contentType: "application/json"

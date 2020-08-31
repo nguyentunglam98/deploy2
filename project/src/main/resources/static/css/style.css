@@ -166,6 +166,7 @@ a:hover {
     color: #ffffffb8;
     margin: 0 10px;
     font-weight: 500;
+    margin-right: 0;
 }
 
 .contact-number {
@@ -324,21 +325,19 @@ body.loading .modal-loading {
     color: #fff;
 }
 
-.footer-info i {
-    font-size: 20px;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-}
+/*.footer-info i {*/
+/*    font-size: 20px;*/
+/*    width: 50px;*/
+/*    height: 50px;*/
+/*    line-height: 50px;*/
+/*}*/
 
-.info-text h6,
-.info-text p {
-    margin: 0;
+.info-text span {
+    font-size: 85%;
 }
 
 .info-icon {
     width: 50px;
-    height: 50px;
 }
 
 .info-text a {

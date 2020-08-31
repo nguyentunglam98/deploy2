@@ -40,6 +40,7 @@ public class User implements Serializable {
     private Role role;
 
     @ManyToOne
+//            (fetch = FetchType.EAGER)
     @JoinColumn(name = "CLASS_ID_OFUSER")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

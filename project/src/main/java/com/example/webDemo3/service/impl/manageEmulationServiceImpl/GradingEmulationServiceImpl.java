@@ -143,6 +143,7 @@ public class GradingEmulationServiceImpl implements GradingEmulationService {
             try {
                 addViolationClassToDB(violationList,classId, date, weekId, currentYearId, status, username);
             }catch (Exception e){
+                message = new MessageDTO();
                 message.setMessageCode(1);
                 message.setMessage(e.toString());
                 return message;

@@ -208,7 +208,6 @@ $('#searchLetter').keypress(function (e) {
 /*Search*/
 function search() {
     inforSearch.header = $('#searchLetter').val();
-    console.log(JSON.stringify(inforSearch));
     $.ajax({
         url: "/api/newsletter/searchletter",
         type: "POST",

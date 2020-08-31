@@ -2,6 +2,7 @@ package com.example.webDemo3.controller;
 
 import com.example.webDemo3.constant.Constant;
 import com.example.webDemo3.dto.MessageDTO;
+import com.example.webDemo3.dto.manageAccountResponseDto.SearchUserResponseDto;
 import com.example.webDemo3.dto.manageAccountResponseDto.ViewPerInforResponseDto;
 import com.example.webDemo3.dto.request.manageAccountRequestDto.ChangePasswordRequestDto;
 import com.example.webDemo3.dto.request.manageAccountRequestDto.EditPerInforRequestDto;
@@ -50,6 +51,18 @@ public class UserApiController {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+
+    /**
+     * yenvb
+     * 18/8
+     * get admin information
+     * @return MessageDTO
+     */
+    @PostMapping("/getAdminInfor")
+    public SearchUserResponseDto getAdminInfor()
+    {
+        return loginService.getAdminInfor();
+    }
 
 
     /**

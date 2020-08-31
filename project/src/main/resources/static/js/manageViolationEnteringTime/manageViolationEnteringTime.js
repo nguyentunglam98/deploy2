@@ -91,11 +91,9 @@ function checkSelect() {
 
 /*Delete School Year*/
 $('#deleteTime').on('click', function () {
-    console.log(list)
     listEnteringTime = {
         listEnteringTime: list,
     }
-    console.log(JSON.stringify(listEnteringTime))
     $.ajax({
         url: '/api/admin/deleteenteringtime',
         type: 'POST',

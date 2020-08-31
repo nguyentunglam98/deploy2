@@ -93,7 +93,59 @@ $(document).ready(function () {
     });
 
     menuClick();
+    // setLocationFooter();
 });
+
+function setLocationFooter() {
+    var h = window.clientWidth;
+    var bodyHeight = $('body').height();
+    if (bodyHeight < h) {
+        $('.footer-area').css('margin-top', h - bodyHeight + "px")
+    } else {
+        $('.footer-area').css('margin-top', 0)
+    }
+}
+
+/*Set phone number*/
+$.ajax({
+    type: 'POST',
+    url: "/api/user/getAdminInfor",
+    success: function (data) {
+        var messageCode = data.message.messageCode;
+        if (messageCode == 0) {
+            if (data.userList.content.length != 0) {
+                var phoneNumber = data.userList.content[0].phone;
+                if (phoneNumber != null) {
+                    $('.number-link').html(validatePhone(phoneNumber));
+                    $('.number-link').attr('href', 'tel:' + phoneNumber);
+                } else {
+                    $('.contact-number').addClass('hide');
+                    $('.contact-number-footer').addClass('hide');
+                }
+            } else {
+                $('.contact-number').addClass('hide');
+                $('.contact-number-footer').addClass('hide');
+            }
+        } else {
+            $('.contact-number').addClass('hide');
+            $('.contact-number-footer').addClass('hide');
+        }
+    },
+    failure: function (errMsg) {
+        $('.contact-number').addClass('hide');
+        $('.contact-number-footer').addClass('hide');
+    },
+    dataType: "json",
+    contentType: "application/json"
+});
+
+/*Add space for phone number*/
+function validatePhone(number) {
+    var part1 = number.substring(0, 4);
+    var part2 = number.substring(4, 7);
+    var part3 = number.substring(7, 10);
+    return part1 + " " + part2 + " " + part3;
+}
 
 function menuClick() {
     $('.dropdown').on('hide.bs.dropdown', function () {
@@ -106,16 +158,6 @@ function menuClick() {
         $(this).find('.submenu').prev().removeClass('up');
     });
 }
-
-/*Loading page*/
-$(document).on({
-    ajaxStart: function () {
-        $('body').addClass("loading");
-    },
-    ajaxComplete: function () {
-        $('body').removeClass("loading");
-    }
-})
 
 /*Select Checkbox*/
 function selectCheckbox() {
@@ -216,23 +258,22 @@ function paging(inforSearch, totalPages) {
         `<input type="button" class="table-paging__page btn-prev" id="prevPage" value="Trước"/>`
     );
 
-    if(pageNumber == 0){
+    if (pageNumber == 0) {
         $('.table-paging').append(
             `<input type="button" value="` + (1) + `" class="table-paging__page table-paging__page_cur"/>`
         );
-    }
-    else {
+    } else {
         $('.table-paging').append(
             `<input type="button" value="` + (1) + `" class="table-paging__page"/>`
         );
     }
-    if(pageNumber > 2) {
+    if (pageNumber > 2) {
         $('.table-paging').append(
             `<input type="button" value="..." class="table-paging__page" disabled/>`
         );
     }
     for (var i = pageNumber; i <= pageNumber + 2; i++) {
-        if(i <= 1 || i >= totalPages) continue;
+        if (i <= 1 || i >= totalPages) continue;
         if (i - 1 == pageNumber) {
             $('.table-paging').append(
                 `<input type="button" value="` + (i) + `" class="table-paging__page table-paging__page_cur"/>`
@@ -244,19 +285,18 @@ function paging(inforSearch, totalPages) {
         }
     }
 
-    if(pageNumber + 2 < totalPages -1) {
+    if (pageNumber + 2 < totalPages - 1) {
         $('.table-paging').append(
             `<input type="button" value="..." class="table-paging__page" disabled/>`
         );
     }
 
-    if(totalPages > 1){
-        if(pageNumber == totalPages -1 ){
+    if (totalPages > 1) {
+        if (pageNumber == totalPages - 1) {
             $('.table-paging').append(
                 `<input type="button" value="` + (totalPages) + `" class="table-paging__page table-paging__page_cur"/>`
             );
-        }
-        else{
+        } else {
             $('.table-paging').append(
                 `<input type="button" value="` + (totalPages) + `" class="table-paging__page"/>`
             );
@@ -267,7 +307,7 @@ function paging(inforSearch, totalPages) {
         `<input type="button" class="table-paging__page btn-next" id="nextPage" value="Sau"/>`
     );
     var pageNumInfo = parseInt(inforSearch.pageNumber);
-    if ( pageNumInfo == 0) {
+    if (pageNumInfo == 0) {
         $('#prevPage').prop('disabled', true);
     } else {
         $('#prevPage').prop('disabled', false);
@@ -316,6 +356,15 @@ function limitedText(str) {
     return str;
 }
 
+/*Check is Integer*/
+function isInteger(x) {
+    if (x <= 0) {
+        return false;
+    } else {
+        return x % 1 === 0;
+    }
+}
+
 /*Lazy Load*/
 function lazyLoad() {
     $("img.lazy").lazyload({
@@ -338,12 +387,6 @@ function logout() {
         type: 'POST',
         url: "/api/user/logout",
         // data: JSON.stringify(user),
-        beforeSend: function () {
-            $('body').addClass("loading")
-        },
-        complete: function () {
-            $('body').removeClass("loading")
-        },
         success: function (data) {
             if (data != null && data.messageCode === 0) {
                 localStorage.clear();
@@ -373,12 +416,6 @@ function getAuthen() {
         },
 
         // data: JSON.stringify(user),
-        beforeSend: function () {
-            $('body').addClass("loading")
-        },
-        complete: function () {
-            $('body').removeClass("loading")
-        },
         success: function (data) {
             if (data != null && data.messageCode == 1) {
                 localStorage.clear();

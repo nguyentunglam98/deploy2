@@ -4,19 +4,12 @@ var infoSearch = {
 }
 var applyDate, teacherId;
 
-$(document).ready(function () {
-    $("#teacher").select2();
-});
-
 /*Load years and list*/
 $.ajax({
     url: '/api/timetable/getapplydateandteacher',
     type: 'POST',
     beforeSend: function () {
         $('body').addClass("loading")
-    },
-    complete: function () {
-        $('body').removeClass("loading")
     },
     success: function (data) {
         var messageCode = data.message.messageCode;
@@ -28,9 +21,9 @@ $.ajax({
                 $('#appyDateList').html("");
                 $.each(data.appyDateList, function (i, item) {
                     if (item == data.currentDate) {
-                        $('#appyDateList').append(`<option value="` + item + `" selected>` + convertDate(item,'/') + `</option>`);
+                        $('#appyDateList').append(`<option value="` + item + `" selected>` + convertDate(item, '/') + `</option>`);
                     } else {
-                        $('#appyDateList').append(`<option value="` + item + `">` + convertDate(item,'/') + `</option>`);
+                        $('#appyDateList').append(`<option value="` + item + `">` + convertDate(item, '/') + `</option>`);
                     }
                 });
                 applyDate = $('#appyDateList option:selected').val();
@@ -38,7 +31,8 @@ $.ajax({
             if (data.teacherList == null) {
                 $('#teacher').html(`<option value="">Không có giáo viên nào</option>`);
             } else {
-                $('#teacher').html("")
+                $('#teacher').html("");
+                $("#teacher").select2();
                 $.each(data.teacherList, function (i, item) {
                     $('#teacher').append(`<option value="` + item.teacherId + `">` + item.fullName + `</option>`);
                 });
@@ -55,6 +49,7 @@ $.ajax({
             $('.table-err').html(
                 ` <tr><td colspan="8" class="userlist-result">` + message + `</td> </tr> `
             )
+            $('body').removeClass("loading")
         }
     },
     failure: function (errMsg) {
@@ -63,12 +58,11 @@ $.ajax({
         $('.table-err').html(
             ` <tr><td colspan="8" class="userlist-result">` + errMsg + `</td> </tr> `
         )
+        $('body').removeClass("loading")
     },
     dataType: "json",
     contentType: "application/json"
 });
-
-loadTimetable();
 
 /*Load timetable*/
 function loadTimetable() {
@@ -185,7 +179,6 @@ $('#search').click(function (e) {
         applyDate: applyDate,
         teacherId: teacherId,
     }
-    console.log(JSON.stringify(infoSearch));
     $('tbody .data').html('');
     loadTimetable();
 })

@@ -3,9 +3,6 @@ var infoSearch = {
     classId
 }
 var classId, applyDate;
-$(document).ready(function () {
-    $("#class").select2();
-});
 
 /*Load years and list*/
 $.ajax({
@@ -13,9 +10,6 @@ $.ajax({
     type: 'POST',
     beforeSend: function () {
         $('body').addClass("loading")
-    },
-    complete: function () {
-        $('body').removeClass("loading")
     },
     success: function (data) {
         var messageCode = data.message.messageCode;
@@ -38,7 +32,8 @@ $.ajax({
             if (data.classList == null) {
                 $('#class').html(`<option value="">Không có lớp nào.</option>`);
             } else {
-                $('#class').html("")
+                $('#class').html("");
+                $("#class").select2();
                 $.each(data.classList, function (i, item) {
                     $('#class').append(`<option value="` + item.classId + `">`
                         + item.grade + ` ` + item.giftedClass.name +
@@ -57,10 +52,16 @@ $.ajax({
             $('.table-err').html(
                 ` <tr><td colspan="8" class="userlist-result">` + message + `</td> </tr> `
             )
+            $('body').removeClass("loading")
         }
     },
     failure: function (errMsg) {
-        console.log(errMsg);
+        $('.timetable').addClass('hide');
+        $('.table-err').removeClass('hide');
+        $('.table-err').html(
+            ` <tr><td colspan="8" class="userlist-result">` + errMsg + `</td> </tr> `
+        )
+        $('body').removeClass("loading")
     },
     dataType: "json",
     contentType: "application/json"
@@ -179,7 +180,6 @@ $('#search').click(function (e) {
         applyDate: applyDate,
         classId: classId,
     }
-    console.log(JSON.stringify(infoSearch));
     $('tbody .data').html('');
     loadTimetable();
 })

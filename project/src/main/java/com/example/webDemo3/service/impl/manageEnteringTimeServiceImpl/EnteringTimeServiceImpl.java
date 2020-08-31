@@ -254,19 +254,16 @@ public class EnteringTimeServiceImpl implements EnteringTimeService {
             for(int i = 0; i < listDayId.size(); i++){
                 List<ViolationEnteringTime> checkEnteringTime = new ArrayList<>();
 
-                checkEnteringTime = enteringTimeRepository.findEnteringTimeByRoleIdAndDayId(roleId,listDayId.get(i));
+                checkEnteringTime = enteringTimeRepository.findEnteringTimeByRoleIdAndDayIdStartimeAndEndTime(roleId,listDayId.get(i),startTime,endTime);
 
-                for(ViolationEnteringTime enteringTime : checkEnteringTime){
-                    //check start time or end time has between time in database of role and day or not
-                    if((startTime.after(enteringTime.getStartTime()) && startTime.before(enteringTime.getEndTime()))
-                            || (endTime.after(enteringTime.getStartTime()) && endTime.before(enteringTime.getEndTime()))){
-                        Day day = dayRepository.findByDayId(listDayId.get(i));
-                        message.setMessageCode(1);
-                        message.setMessage("Không thể thêm thời gian trực tuần cho " + role.getRoleName() + " do đã tồn tại thời gian trực tuần từ "
-                                        + enteringTime.getStartTime() + " - " + enteringTime.getEndTime() + " của " + day.getDayName());
-                        throw new MyException(message.getMessage());
-                    }
+                if(checkEnteringTime.size() != 0){
+                    Day day = dayRepository.findByDayId(listDayId.get(i));
+                    message.setMessageCode(1);
+                    message.setMessage("Không thể thêm thời gian trực tuần cho " + role.getRoleName() + " do đã tồn tại thời gian trực tuần từ "
+                            + checkEnteringTime.get(0).getStartTime() + " - " + checkEnteringTime.get(0).getEndTime() + " của " + day.getDayName());
+                    throw new MyException(message.getMessage());
                 }
+
                 ViolationEnteringTime enteringTime = new ViolationEnteringTime();
                 enteringTime.setRoleId(roleId);
                 enteringTime.setDayId(listDayId.get(i));

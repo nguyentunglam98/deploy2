@@ -102,9 +102,11 @@ public class ViolationOfClassServiceImpl implements ViolationOfClassService {
                         violationClassDto.setViolationClassRequest(violationClassRequestDto);
                         violationClassDto.setCheckEdit(2);
                     } else {
-                        if(roleId == Constant.ROLEID_REDSTAR && !item.getCreateBy().equalsIgnoreCase(username)) {
+                        if((roleId == Constant.ROLEID_REDSTAR || roleId == Constant.ROLEID_SUMMERIZEGROUP) &&
+                                !item.getCreateBy().equalsIgnoreCase(username)) {
                             checkEdit = 1;
-                        }else {
+                        }
+                        else {
                             message = validateEmulationService.checkRoleForEditViolationClass(username, roleId, classId, date);
                             if (message.getMessageCode() == 0) {
                                 checkEdit = 0;
@@ -193,7 +195,7 @@ public class ViolationOfClassServiceImpl implements ViolationOfClassService {
                 message = validateEmulationService.checkRoleForEditViolationClass(username, roleId, classId, createDate);
                 if(message.getMessageCode() == 0){
 
-                    if(roleId == Constant.ROLEID_ADMIN || roleId == Constant.ROLEID_REDSTAR){
+                    if(roleId == Constant.ROLEID_ADMIN || roleId == Constant.ROLEID_REDSTAR || roleId == Constant.ROLEID_SUMMERIZEGROUP){
                         ViolationClass violationClass = violationClassRepository.findViolationClassByById(violationClassId);
                         String history = violationClass.getHistory();
                         String newHistory = additionalFunctionService.addHistory(history, reason, username, violationClass.getQuantity());
@@ -225,6 +227,7 @@ public class ViolationOfClassServiceImpl implements ViolationOfClassService {
             }
         }
         catch (Exception e){
+            message = new MessageDTO();
             message.setMessageCode(1);
             message.setMessage(e.toString());
             return message;

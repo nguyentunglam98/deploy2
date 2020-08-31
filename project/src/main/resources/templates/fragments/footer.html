@@ -7,71 +7,50 @@
 </head>
 
 <body>
-    <footer class="footer-area footer--light" th:fragment="footer">
-        <div class="footer-big">
-            <!-- start .container -->
-            <div class="container">
-                <div class="row mt-3">
-                    <div class="col-md-6 col-sm-12 d-flex justify-content-center align-items-center">
-                            <div class="widget-about">
-                                <img th:src="@{/img/logo.png}" alt="" class="img-fluid">
+<footer class="footer-area footer--light" th:fragment="footer">
+    <div class="footer-big">
+        <div class="container">
+            <div class="row mt-3 pb-3">
+                <div class="col-md-6 col-sm-12 d-flex align-items-center justify-content-center">
+                    <div class="about-us my-auto">
+                        <h6>Trường THPT Chuyên Hoàng Văn Thụ</h6>
+                        <div class="col-xl-12 col-m-12">
+                            <div class="footer-info d-flex my-1">
+                                <div class="info-icon">
+                                    <i class="fa fa-map-marker"></i>
+                                </div>
+                                <div class="info-text">
+                                    <span class="font-500">Địa chỉ: </span>
+                                    <span>P.Thịnh Lang - TP.Hòa Binh - Tỉnh Hòa Bình</span>
+                                </div>
                             </div>
-                        <!-- Ends: .footer-widget -->
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <div class="footer-widget">
-                            <div class="footer-menu">
-                                <div class="col-xl-12 col-m-12">
-                                    <div class="footer-info d-flex">
-                                        <div class="info-icon">
-                                            <i class="fa fa-map-marker"></i>
-                                        </div>
-                                        <div class="info-text">
-                                            <h6>Địa chỉ:</h6>
-                                            <p>P.Thịnh Lang - TP.Hòa Binh - Tỉnh Hòa Bình</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 col-m-12">
-                                    <div class="footer-info d-flex">
-                                        <div class="info-icon">
-                                            <i class="fa fa-phone" aria-hidden="true"></i>
-                                        </div>
-                                        <div class="info-text">
-                                            <h6>Điện thoại:</h6>
-                                            <p><a href="tel:02183-855-550">02183 855 550</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 col-m-12">
-                                    <div class="footer-info d-flex">
-                                        <div class="info-icon">
-                                            <i class="fa fa-envelope-open"></i>
-                                        </div>
-                                        <div class="info-text">
-                                            <h6>Email:</h6>
-                                            <p><a href="mailto:th.hov@hoabinh.edu.vn">th.hov@hoabinh.edu.vn</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!-- end /.footer-menu -->
                         </div>
-                        <!-- Ends: .footer-widget -->
+                        <div class="col-xl-12 col-m-12 contact-number-footer">
+                            <div class="footer-info d-flex my-1">
+                                <div class="info-icon">
+                                    <i class="fa fa-phone" aria-hidden="true"></i>
+                                </div>
+                                <div class="info-text">
+                                    <span class="font-500">Điện thoại: </span>
+                                    <span><a href="#" class="number-link"></a></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- end /.row -->
-            </div>
-            <!-- end /.container -->
-        </div>
-        <!-- end /.footer-big -->
-        <div class="copyright-text">
-            <div class="container">
-                <span>© Trường THPT Chuyên Hoàng Văn Thụ 2020 </span>
+                <div class="col-md-6 col-sm-12 text-center">
+                    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fhoangvanthuhighschool&tabs&width=300&height=136&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                            width="300" height="136" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                            allowTransparency="true" allow="encrypted-media"></iframe>
+                </div>
             </div>
         </div>
-    </footer>
+    </div>
+    <div class="copyright-text">
+        <div class="container">
+            <span>© Trường THPT Chuyên Hoàng Văn Thụ 2020 </span>
+        </div>
+    </div>
+</footer>
 </body>
-
 </html>

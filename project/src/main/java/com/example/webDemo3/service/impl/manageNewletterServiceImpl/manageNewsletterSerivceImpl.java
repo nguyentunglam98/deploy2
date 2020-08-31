@@ -53,7 +53,7 @@ public class manageNewsletterSerivceImpl implements manageNewsletterService {
 
 
         try{
-            newsletterList = newsletterRepository.findAllNewsletterGim();
+            newsletterList = newsletterRepository.findAllNewsletterGimAndActive();
             //check pageNumber null or not
             if(pageNumber == null){
                 pageNumber = 0;

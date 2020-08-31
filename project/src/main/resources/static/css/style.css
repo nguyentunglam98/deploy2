@@ -1615,16 +1615,6 @@ a.slide_btn {
     .contact-number .icon {
         display: none;
     }
-
-    .content-wrap {
-        padding-right: 0;
-        padding-left: 0;
-    }
-
-    .table-wrapper {
-        padding-right: 0;
-        padding-left: 0;
-    }
 }
 
 @media screen and (max-width: 430px) {
@@ -1765,6 +1755,15 @@ a.slide_btn {
     .timetable {
         font-size: 13px;
     }
+    .content-wrap {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .table-wrapper {
+        padding-right: 0;
+        padding-left: 0;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -1842,12 +1841,9 @@ a.slide_btn {
         font-weight: 500;
     }
 
-    .table-responsive-customer td:nth-of-type(3) {
-        margin-left: 35px;
-    }
-
     .table-responsive-customer td:nth-of-type(3),
     .table-responsive-customer td:nth-of-type(4) {
+        margin-left: 35px;
         display: inline-block;
         text-align: left;
         border: none;

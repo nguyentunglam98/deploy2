@@ -114,10 +114,15 @@ $.ajax({
         var messageCode = data.message.messageCode;
         if (messageCode == 0) {
             if (data.userList.content.length != 0) {
-                var phoneNumber = data.userList.content[0].phone;
-                if (phoneNumber != null) {
-                    $('.number-link').html(validatePhone(phoneNumber));
-                    $('.number-link').attr('href', 'tel:' + phoneNumber);
+                var phoneList = [];
+                $.each(data.userList.content, function (i, item) {
+                    if (item.phone != null && item.phone.trim() != "") {
+                        phoneList.push(item.phone)
+                    }
+                })
+                if (phoneList.length != 0) {
+                    $('.number-link').html(validatePhone(phoneList[0]));
+                    $('.number-link').attr('href', 'tel:' + phoneList[0]);
                 } else {
                     $('.contact-number').addClass('hide');
                     $('.contact-number-footer').addClass('hide');
@@ -141,9 +146,10 @@ $.ajax({
 
 /*Add space for phone number*/
 function validatePhone(number) {
+    var end = number.length;
     var part1 = number.substring(0, 4);
     var part2 = number.substring(4, 7);
-    var part3 = number.substring(7, 10);
+    var part3 = number.substring(7, end);
     return part1 + " " + part2 + " " + part3;
 }
 
@@ -245,7 +251,6 @@ function pagingHomepage() {
             value = $('.table-paging__page_cur').val() - 2;
         }
         homePage.pageNumber = value;
-        console.log(JSON.stringify(homePage))
         $('tbody').html("");
         $('.table-paging').html("");
         loadHomepage();

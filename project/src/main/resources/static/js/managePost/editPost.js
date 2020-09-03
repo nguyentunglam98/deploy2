@@ -1,6 +1,4 @@
 /*Value default*/
-var roleID = localStorage.getItem("roleID");
-var username = localStorage.getItem("username");
 var newsletterId = sessionStorage.getItem('newsletterIdEdit');
 var request = {
     newsletterId: newsletterId
@@ -187,4 +185,8 @@ function editPost(request) {
         dataType: "json",
         contentType: "application/json"
     });
+}
+
+if(roleID != 1) {
+    $('.form-check').hide();
 }

@@ -13,7 +13,6 @@ $.ajax({
         if (messageCode == 0) {
             if (data.userList.content.length != 0) {
                 $.each(data.userList.content, function (i, item) {
-                    console.log(item.phone)
                     if (item.phone != null && item.phone.trim() != "") {
                         $('.user-info').append(`<p>` + item.name + ` - ` + validatePhone(item.phone) + `</p>`)
                     } else {

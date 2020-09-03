@@ -259,7 +259,7 @@ function checkUser() {
         messageModal('deleteAccountModal', 'img/img-error.png', 'Hãy chọn tài khoản mà bạn muốn xóa!');
     } else {
         $('#deleteAccountModal .modal-footer .btn-danger').removeClass('hide');
-        $('#deleteAccountModal .modal-footer .btn-primary').attr('value', 'KHÔNG');
+        $('#deleteAccountModal .modal-footer .btn-primary').attr('value', 'ĐÓNG');
         messageModal('deleteAccountModal', 'img/img-question.png', `Bạn có chắc muốn <b>XÓA</b> tài khoản này không?`);
     }
 }
@@ -286,7 +286,7 @@ function checkResetPassword() {
         <div class="error text-left resetPass-err"></div>
         `);
         $('#resetPasswordModal .modal-footer .btn-danger').removeClass('hide');
-        $('#resetPasswordModal .modal-footer .btn-primary').attr('value', 'KHÔNG');
+        $('#resetPasswordModal .modal-footer .btn-primary').attr('value', 'ĐÓNG');
         $('#resetPasswordModal').modal('show');
     }
 }

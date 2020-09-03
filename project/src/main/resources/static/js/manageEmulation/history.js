@@ -88,7 +88,7 @@ function search() {
     if (inforSearch.fromDate == "" || inforSearch.toDate == "") {
         messageModal('modalMessage', 'img/img-error.png', 'Chưa chọn ngày ngày áp dụng!')
     } else if (new Date(inforSearch.fromDate) > new Date(inforSearch.toDate)) {
-        messageModal('modalMessage', 'img/img-error.png', 'Chưa chọn ngày áp dụng!')
+        messageModal('modalMessage', 'img/img-error.png', 'Ngày áp dụng không đúng định dạng!')
     } else {
         console.log(JSON.stringify(inforSearch))
         $.ajax({

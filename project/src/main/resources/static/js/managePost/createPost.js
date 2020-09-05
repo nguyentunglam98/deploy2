@@ -8,6 +8,10 @@ var editor = CKEDITOR.replace('post-editor-text-content', {
     height: 500,
     extraPlugins: 'easyimage',
 });
+// var editor = CKEDITOR.replace('post-editor-text-content', {
+//     height: 500,
+//     width: '100%',
+// });
 var imageCover = CKEDITOR.replace('imageCover', {
     cloudServices_uploadUrl: 'https://73999.cke-cs.com/easyimage/upload/',
     cloudServices_tokenUrl: 'https://73999.cke-cs.com/token/dev/26d99879d9d20ba5d60497fc1556aa7f821ea78b8cc4c0df6f9f056e7b4e',
@@ -46,9 +50,9 @@ $('#savePost').on('click', function () {
     } else if (image.trim() == "") {
         $('.createPost-err').text('Hãy nhập ảnh bìa của bài viết.');
         return false;
-    } else if (!image.includes('src=')) {
-        $('.createPost-err').text('Ảnh bìa của bài viết không đúng định dạng.');
-        return false;
+        } else if (!image.includes('src=')) {
+            $('.createPost-err').text('Ảnh bìa của bài viết không đúng định dạng.');
+            return false;
     } else if (data == "") {
         $('.createPost-err').text('Hãy nhập nội dung của bài viết.');
         return false;
@@ -113,35 +117,50 @@ function addNewPost(request) {
 
 /*Upload image*/
 var loadFile = function (event) {
-    var form = $('#form-post');
-    var formData = new FormData(form[0]);
-    // formData.append('ckCsrfToken', 'xaTDx3QM1m3tTc3Uk4OYgkqgd0g1ZtcEbfhQod2a7s2rxMSzf9RhlXjMJVSV');
-    var CSTimestamp = Date.now();
-    const apiSecret = 'xaTDx3QM1m3tTc3Uk4OYgkqgd0g1ZtcEbfhQod2a7s2rxMSzf9RhlXjMJVSV';
+    // var file = event.target.files[0];
+    // var output = $('#imagePreview');
+    // output.attr('src', URL.createObjectURL(file));
+    // output.prop('alt', 'Ảnh bìa bài viết');
+    // output.onload = function () {
+    //     URL.revokeObjectURL(output.src);
+    // }
+    var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/hnm0yiigx/upload';
+    var CLOUDINARY_UPLOAD_PRESET = 'mrpq6qtl';
+    var file = event.target.files[0]
+    var formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
     $.ajax({
         type: "POST",
-        url: "https://73999.cke-cs.com/api/v4/RQAfsTJxHLsH61eo6z1M/editors",
+        url: 'https://api.cloudinary.com/v1_1/hnm0yiigx/upload',
         data: formData,
-        async: false,
         headers: {
-            'X-CS-Signature': generateSignature(apiSecret, "POST", "https://73999.cke-cs.com/api/v4/RQAfsTJxHLsH61eo6z1M/editors", CSTimestamp, {
-                bundle: formData,
-                config: {
-                    cloudServices: "2019-11-30-build-f4a4c2"
-                }
-            }),
-            'X-CS-Timestamp': CSTimestamp
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin': '*',
+            "Access-Control-Allow-Headers": "Cache-Control, Content-Disposition, Content-MD5, Content-Range, Content-Type, DPR, Viewport-Width, X-CSRF-Token, X-Prototype-Version, X-Requested-With, X-Unique-Upload-Id",
+            "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+            "Access-Control-Allow-Credentials": "true",
+            "Server": "cloudinary",
+            "X-Request-Id": "721ea13f46d4409d27bbe73f637c4943",
+            "Access-Control-Allow-Origin": "https://api.cloudinary.com/v1_1/hnm0yiigx/upload",
+            // 'Sec-Fetch-Mode': 'no-cors',
+            // 'Sec-Fetch-Site': 'none'
+        }, fetch: {
+            mode: 'no-cors'
         },
+        crossDomain: true,
+        skipAuthorization: true,
         beforeSend: function () {
             $('body').addClass("loading")
         },
-        complete: function (resp) {
+        complete: function () {
             $('body').removeClass("loading");
-            // temp1[0].object["a"].authorization
         },
         success: function (data) {
-            $('#imagePreview').prop('src', data.default);
+            $('#imagePreview').prop('src', data.url);
             $('#imagePreview').prop('alt', 'Ảnh bìa bài viết');
+            console.log(data)
         },
         failure: function (errMsg) {
             messageModal('overrideSuccess', 'img/img-error.png', errMsg);
@@ -151,17 +170,3 @@ var loadFile = function (event) {
         processData: false,
     });
 };
-
-function generateSignature(apiSecret, method, uri, timestamp, body) {
-    const url = url.parse(uri).path;
-
-    const hmac = crypto.createHmac('SHA256', apiSecret);
-
-    hmac.update(`${method.toUpperCase()}${url}${timestamp}`);
-
-    if (body) {
-        hmac.update(Buffer.from(JSON.stringify(body)));
-    }
-
-    return hmac.digest('hex');
-}

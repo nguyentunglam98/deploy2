@@ -25,6 +25,12 @@ $("#timetableform").submit(function (e) {
         url: '/api/timetable/checkDate',
         type: 'POST',
         data: JSON.stringify(input),
+        beforeSend: function () {
+            $('body').addClass("loading")
+        },
+        complete: function () {
+            $('body').removeClass("loading")
+        },
         success: function (data) {
             if (data.messageCode == 0) {
                 $('.input-err').text("");
@@ -110,7 +116,7 @@ function dialogErr(model, mess) {
     `);
 }
 
-if (roleID != 1 && roleID != 2) {
+if (roleID != 2) {
     $('.input-err').text('Bạn không có quyền thêm thời khóa biểu!');
     $('#submit').prop('disabled', true);
 }

@@ -179,11 +179,13 @@ public class TimeTableServicempl implements TimeTableService {
                 return  timeTabel;
             }
 
-            for(int i = 0; i < 4; i++){
+            int i =0;
+            while(true){
                 morningTimeTable = timetableRepository.getMorningClassTimeTable(currentDate,classId,i);
                 afternoonTimeTable = timetableRepository.getAfternoonClassTimeTable(currentDate,classId,i);
 
-                if(morningTimeTable.size() == 0 && afternoonTimeTable.size() == 0 ){
+                if((morningTimeTable == null || morningTimeTable.size() == 0)
+                        && (afternoonTimeTable == null || afternoonTimeTable.size() == 0)){
                     break;
                 }
 
@@ -194,6 +196,7 @@ public class TimeTableServicempl implements TimeTableService {
                 if(afternoonTimeTable.size() != 0){
                     afternoonTimeTableTableList.add(changeAfternoonTimeTable(afternoonTimeTable));
                 }
+                i++;
             }
 
             //check timetable empty or not

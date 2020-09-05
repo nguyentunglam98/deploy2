@@ -13,6 +13,9 @@ $.ajax({
     beforeSend: function () {
         $('body').addClass("loading")
     },
+    complete: function () {
+        $('body').removeClass("loading")
+    },
     success: function (data) {
         var messageCode = data.message.messageCode;
         var message = data.message.message;

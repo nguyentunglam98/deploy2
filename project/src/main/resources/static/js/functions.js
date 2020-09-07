@@ -48,8 +48,9 @@ $(document).ready(function () {
         $("#adminMenu").addClass("hide");
         $("#scheduleManagerMenu").removeClass("show");
     }
-    $("#logout").click(function () {
+    $("#logout").click(function (e) {
         //localStorage.clear();
+        e.preventDefault();
         logout();
     })
 
@@ -395,9 +396,7 @@ function logout() {
         success: function (data) {
             if (data != null && data.messageCode === 0) {
                 localStorage.clear();
-                // localStorage.removeItem("userInfo")
-                // this.$cookies.remove("access_token")
-                // this.$cookies.remove("token_provider")
+                window.location="/";
                 // window.location.href = "/"
             }
         },

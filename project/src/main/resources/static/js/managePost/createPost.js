@@ -2,8 +2,8 @@
 var roleID = localStorage.getItem("roleID");
 var username = localStorage.getItem("username");
 var editor = CKEDITOR.replace('post-editor-text-content', {
-    cloudServices_uploadUrl: 'https://73999.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73999.cke-cs.com/token/dev/26d99879d9d20ba5d60497fc1556aa7f821ea78b8cc4c0df6f9f056e7b4e',
+    cloudServices_uploadUrl: 'https://74535.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://74535.cke-cs.com/token/dev/2b51dfdac9d8f0d0f5b4372ef512b945d42e66db760a49bb5cf54933b489',
     width: '100%',
     height: 500,
     extraPlugins: 'easyimage',
@@ -13,8 +13,8 @@ var editor = CKEDITOR.replace('post-editor-text-content', {
 //     width: '100%',
 // });
 var imageCover = CKEDITOR.replace('imageCover', {
-    cloudServices_uploadUrl: 'https://73999.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73999.cke-cs.com/token/dev/26d99879d9d20ba5d60497fc1556aa7f821ea78b8cc4c0df6f9f056e7b4e',
+    cloudServices_uploadUrl: 'https://74535.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://74535.cke-cs.com/token/dev/2b51dfdac9d8f0d0f5b4372ef512b945d42e66db760a49bb5cf54933b489',
     width: 250,
     height: 200,
     extraPlugins: 'easyimage',

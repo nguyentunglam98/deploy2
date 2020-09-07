@@ -429,11 +429,13 @@ function editModal(violationDate, className, description, note, createBy, substr
             <span class="text-red editInfo-err"></span>
         </div>
     `)
-    if (roleID == 1 || roleID == 3) {
+    if (roleID == 1 || roleID == 3 || roleID == 5) {
         $('#editModalBtn').val("CHỈNH SỬA");
     }
-    if (roleID == 4) {
+    else if (roleID == 4) {
         $('#editModalBtn').val("TẠO YÊU CẦU THAY ĐỔI");
+    } else {
+        $('#editModalBtn').addClass('hide')
     }
 }
 

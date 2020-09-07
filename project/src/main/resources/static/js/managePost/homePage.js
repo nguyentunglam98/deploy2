@@ -134,7 +134,7 @@ function loadHomepage() {
                                     <img class="lazy card-img-top" data-original="` + item.headerImage + `">
                                 </div>
                                 <div class="card-block">
-                                    <h3 class="card-title">` + item.header + `</h3>
+                                    <h3 class="card-title limited-text">` + item.header + `</h3>
                                     <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     <div class="card-text hide content-hide">` + item.content + `</div>
                                     <div class="card-text">` + limitedText(item.content) + `</div>
@@ -151,7 +151,7 @@ function loadHomepage() {
                                     <img class="lazy card-img-top" data-original="` + item.headerImage + `">
                                     </div>
                                     <div class="card-block">
-                                        <h3 class="card-title">` + item.header + `</h3>
+                                        <h3 class="card-title limited-text">` + item.header + `</h3>
                                         <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     </div>
                                 </a>
@@ -165,7 +165,7 @@ function loadHomepage() {
                                         <img class="lazy card-img-top" data-original="` + item.headerImage + `">
                                     </div>
                                     <div class="card-block">
-                                        <h3 class="card-title">` + item.header + `</h3>
+                                        <h3 class="card-title limited-text">` + item.header + `</h3>
                                         <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     </div>
                                 </a>
@@ -242,7 +242,7 @@ function search() {
                                     <img class="lazy card-img-top" data-original="` + item.headerImage + `">
                                 </div>
                                 <div class="card-block">
-                                    <h3 class="card-title">` + item.header + `</h3>
+                                    <h3 class="card-title limited-text">` + item.header + `</h3>
                                     <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     <div class="card-text">` + limitedText(item.content) + `</div>
                                 </div>
@@ -258,7 +258,7 @@ function search() {
                                     <img class="lazy card-img-top" data-original="` + item.headerImage + `">
                                     </div>
                                     <div class="card-block">
-                                        <h3 class="card-title">` + item.header + `</h3>
+                                        <h3 class="card-title limited-text">` + item.header + `</h3>
                                         <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     </div>
                                 </a>
@@ -272,7 +272,7 @@ function search() {
                                         <img class="lazy card-img-top" data-original="` + item.headerImage + `">
                                     </div>
                                     <div class="card-block">
-                                        <h3 class="card-title">` + item.header + `</h3>
+                                        <h3 class="card-title limited-text">` + item.header + `</h3>
                                         <div class="card-date">` + convertDate(item.createDate, '-') + `</div>
                                     </div>
                                 </a>

@@ -28,36 +28,36 @@
 <div class="container">
     <div class="table-wrapper">
         <div class="table-title">
-            <h2>LỊCH SỬ VI PHẠM</h2>
-            <div class="search">
-                <div class="row justify-content-md-start">
-                    <div class="form-group col-xl-3 col-sm-12 text-left">
+            <h2>XEM LỊCH SỬ VI PHẠM</h2>
+            <div class="search row align-items-end">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0">
+                    <div class="form-group text-left mb-1">
                         <label>Từ ngày <span class="text-red">*</span></label>
-                        <input type="date" class="form-control" id="fromDate">
+                        <input type="date" class="form-control w-75" id="fromDate">
                     </div>
-                    <label class="col-md-1 text-center"></label>
-                    <div class="form-group col-xl-3 col-sm-12 text-left">
-                        <label>Đến ngày <span class="text-red">*</span></label>
-                        <input type="date" class="form-control" id="toDate">
+                    <div class="form-group text-left mb-1">
+                        <label>Hệ chuyên <span class="text-red">*</span></label>
+                        <select class="form-control w-75" id="gifftedClass"></select>
                     </div>
                 </div>
-                <div class="row justify-content-md-start">
-                    <div class="form-group col-xl-3 col-sm-12 text-left">
-                        <label>Hệ chuyên <span class="text-red">*</span></label>
-                        <select class="form-control" id="gifftedClass"></select>
+
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0">
+                    <div class="form-group text-left mb-1">
+                        <label>Đến ngày <span class="text-red">*</span></label>
+                        <input type="date" class="form-control w-75" id="toDate">
                     </div>
-                    <label class="col-md-1 text-center"></label>
-                    <div class="form-group col-xl-3 col-sm-12 text-left">
+                    <div class="form-group text-left mb-1">
                         <label>Khóa <span class="text-red">*</span></label>
-                        <div class="col-xl-12 d-flex justify-content-between align-items-center px-0">
-                            <input type="number" class="form-control col-md-5 col-sm-5" id="fromYear">
-                            <span class="col-sm-1 text-center"> - </span>
-                            <input type="number" class="form-control col-md-5 col-sm-5" id="toYear" disabled>
+                        <div class="col-xl-12 w-75 d-flex justify-content-between align-items-center px-0">
+                            <input type="number" class="form-control w-45" id="fromYear">
+                            <span class="text-center"> - </span>
+                            <input type="number" class="form-control w-45" id="toYear" disabled>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm d-inline-block ml-2 text-right">
-                    <button class="btn btn-search" id="search">Tìm kiếm</button>
+
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0 text-right">
+                    <button class="btn btn-search mt-3 mr-0" id="search">Tìm kiếm</button>
                 </div>
             </div>
         </div>

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -544,7 +545,8 @@ public class CreateAndEditSchoolRankWeekServiceImpl implements CreateAndEditScho
                         if(classRequest != null){
                             String newMessage = Constant.RANK_HAS_VIOLATION_CLASS_REQUEST_NOT_EXCEPT_EXIST.getMessage();
                             message.setMessageCode(Constant.RANK_HAS_VIOLATION_CLASS_REQUEST_NOT_EXCEPT_EXIST.getMessageCode());
-                            message.setMessage( "Ngày " + date.getDate() + " " + newMessage);
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                            message.setMessage( "Ngày " + formatter.format(date.getDate()) + " " + newMessage);
                             throw new MyException(message.getMessage());
                         }
                         violationClass.setWeekId(weekId);

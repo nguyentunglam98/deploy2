@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ClassRepository extends JpaRepository<Class,Integer> {
-    @Query(value = "select c from Class c order by c.grade")
+    @Query(value = "select c from Class c where (c.status <> 1 or c.status is null) order by c.grade")
     List<Class> findAll();
 
     @Query(value = "select c from Class c where c.giftedClass.giftedClassId = :giftedClassId order by c.giftedClass.giftedClassId asc")

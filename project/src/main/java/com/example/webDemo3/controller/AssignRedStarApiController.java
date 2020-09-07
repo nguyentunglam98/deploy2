@@ -30,7 +30,7 @@ public class AssignRedStarApiController {
     private DownloadAssignRedStarService downloadAssignRedStarService;
 
     @PostMapping("/delete")
-    public MessageDTO delete(@RequestBody CheckDateRequestDto data)
+    public MessageDTO deleteAssignRedStar(@RequestBody CheckDateRequestDto data)
     {
         return assignRedStarService.delete(data.getDate());
     }
@@ -42,7 +42,7 @@ public class AssignRedStarApiController {
     }
 
     @PostMapping("/create")
-    public MessageDTO create(@RequestBody CheckDateRequestDto data)
+    public MessageDTO createAssignRedStar(@RequestBody CheckDateRequestDto data)
     {
         return assignRedStarService.create(data.getDate());
     }
@@ -51,7 +51,7 @@ public class AssignRedStarApiController {
     private AssignRedStarService taskService;
 
     @PostMapping("/download")
-    public ResponseEntity<InputStreamResource> download(@RequestBody DownloadAssignRedStarRequestDto data)
+    public ResponseEntity<InputStreamResource> downloadAssignRedStar(@RequestBody DownloadAssignRedStarRequestDto data)
     {
         ByteArrayInputStream in = downloadAssignRedStarService.download(data);
         HttpHeaders headers = new HttpHeaders();

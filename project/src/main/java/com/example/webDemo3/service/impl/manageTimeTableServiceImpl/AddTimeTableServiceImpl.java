@@ -40,10 +40,11 @@ public class AddTimeTableServiceImpl implements AddTimeTableService {
 
     private static String sheetMoring = "TKB Sang";
     private static String sheetAfternoon = "TKB Chiều";
-    private static String notHaveSheet = "không có sheet ";
-    private static String TimeTableBlank = "thời khóa biểu trống ";
-    private static String notFindClass = "không tìm thấy lớp " ;
-    private static String notFindTearcher = "không tìm thấy giáo viên ";
+    private static String notHaveSheet = "Không có sheet ";
+    private static String TimeTableBlank = "Thời khóa biểu trống ";
+    private static String notFindClass = "Không tìm thấy lớp " ;
+    private static String notFindTearcher = "Không tìm thấy giáo viên ";
+    private static String success = "Thành công ";
 
     @Override
     public Boolean checkDateDuplicate(Date applyDate){
@@ -78,6 +79,9 @@ public class AddTimeTableServiceImpl implements AddTimeTableService {
                 timetableRepository.deleteByApplyDate(applyDate);
             }
             message = addTimetableMorning(worksheetMorning, applyDate);
+            if(message.getMessageCode() == 1){
+                return message;
+            }
             message = addTimetableAfternoon(worksheetAfternoon, applyDate);
         } catch (Exception e) {
             message.setMessageCode(messageCodeFail);
@@ -183,7 +187,9 @@ public class AddTimeTableServiceImpl implements AddTimeTableService {
             }
         }
         System.out.println("thành công");
-        message = Constant.SUCCESS;
+        //message = Constant.SUCCESS;
+        message.setMessageCode(0);
+        message.setMessage(success);
         return message;
     }
 
@@ -287,7 +293,8 @@ public class AddTimeTableServiceImpl implements AddTimeTableService {
             }
         }
         System.out.println("thành công");
-        message = Constant.SUCCESS;
+        message.setMessageCode(0);
+        message.setMessage(success);
         return message;
     }
 

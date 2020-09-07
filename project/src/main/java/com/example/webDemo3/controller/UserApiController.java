@@ -2,6 +2,7 @@ package com.example.webDemo3.controller;
 
 import com.example.webDemo3.constant.Constant;
 import com.example.webDemo3.dto.MessageDTO;
+import com.example.webDemo3.dto.manageAccountResponseDto.SearchUserResponseDto;
 import com.example.webDemo3.dto.manageAccountResponseDto.ViewPerInforResponseDto;
 import com.example.webDemo3.dto.request.manageAccountRequestDto.ChangePasswordRequestDto;
 import com.example.webDemo3.dto.request.manageAccountRequestDto.EditPerInforRequestDto;
@@ -31,7 +32,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserController {
+public class UserApiController {
 
     @Autowired
     private ChangePasswordService changePasswordService;
@@ -51,6 +52,18 @@ public class UserController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
+    /**
+     * yenvb
+     * 18/8
+     * get admin information
+     * @return MessageDTO
+     */
+    @PostMapping("/getAdminInfor")
+    public SearchUserResponseDto getAdminInfor()
+    {
+        return loginService.getAdminInfor();
+    }
+
 
     /**
      * lamnt98
@@ -60,7 +73,7 @@ public class UserController {
      * @return MessageDTO
      */
     @PostMapping("/changepassword")
-    public MessageDTO login(@RequestBody ChangePasswordRequestDto model)
+    public MessageDTO changePassword(@RequestBody ChangePasswordRequestDto model)
     {
         return changePasswordService.checkChangePasswordUser(model);
     }
@@ -74,7 +87,7 @@ public class UserController {
      * @return MessageDTO
      */
     @PostMapping("/editinformation")
-    public MessageDTO login(@RequestBody EditPerInforRequestDto model)
+    public MessageDTO editInformation(@RequestBody EditPerInforRequestDto model)
     {
         return editPerInforService.editUserInformation(model);
     }

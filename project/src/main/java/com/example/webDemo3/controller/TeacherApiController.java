@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/admin")
-public class TeacherController {
+public class TeacherApiController {
 
     @Autowired
     private TeacherService teacherService;
@@ -65,7 +65,7 @@ public class TeacherController {
      * @return ViewTeaListResponseDto
      */
     @PostMapping("/teacherlist")
-    public ViewTeaListResponseDto addTeacher(@RequestBody ViewTeaListRequestDto model)
+    public ViewTeaListResponseDto searchTeacher(@RequestBody ViewTeaListRequestDto model)
     {
         return teacherService.searchTeacher(model);
     }
@@ -73,12 +73,12 @@ public class TeacherController {
     /**
      * lamnt98
      * 01/07
-     * catch request from client to find teacher information
+     * catch request from client to view teacher information
      * @param model
      * @return ViewTeaListResponseDto
      */
     @PostMapping("/viewteacherinformation")
-    public ViewTeaInforResponseDto addTeacher(@RequestBody ViewTeaInforRequestDto model)
+    public ViewTeaInforResponseDto viewTeacherInformation(@RequestBody ViewTeaInforRequestDto model)
     {
         return teacherService.viewTeacherInfor(model);
     }

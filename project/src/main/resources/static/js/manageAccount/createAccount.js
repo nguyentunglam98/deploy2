@@ -2,7 +2,7 @@ var fullName, userName, passWord, roleId, phone, email, classId, roleName, class
 var current_fs, next_fs, previous_fs;
 var left, opacity, scale;
 var emailRegex = '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$';
-var phoneRegex = '^[0-9\\-\\+]{9,15}$';
+var phoneRegex = '^[0-9\\-\\+]{10,11}$';
 var spaceRegex = /^\S+$/;
 /*Call API for Role List*/
 $('.createAccount-err').text("");
@@ -10,6 +10,12 @@ $('.createAccount-err').text("");
 $.ajax({
     url: '/api/admin/rolelist',
     type: 'POST',
+    beforeSend: function () {
+        $('body').addClass("loading")
+    },
+    complete: function () {
+        $('body').removeClass("loading")
+    },
     success: function (data) {
         $.each(data.listRole, function (i, list) {
             $('#position-role').append(`<option value="` + list.roleId + `" name="` + list.roleName + `">` + list.roleName + `</option>`);
@@ -75,6 +81,9 @@ $("#next").click(function () {
             $('.full-info').removeClass('hide');
             $('#username').prop('disabled', false);
             classId = null;
+            if (roleId == 1) {
+                $('.fullName label').append('<span class="text-red"> *</span>');
+            }
 
         } else if (roleId == 6) {
             $('.fullName').removeClass('hide');
@@ -93,6 +102,12 @@ $("#next").click(function () {
                 url: '/api/admin/genaccname',
                 type: 'POST',
                 data: JSON.stringify(userName),
+                beforeSend: function () {
+                    $('body').addClass("loading")
+                },
+                complete: function () {
+                    $('body').removeClass("loading")
+                },
                 success: function (data) {
                     $('#username').val(data.userName);
                 },
@@ -146,11 +161,14 @@ $("#submit").click(function (e) {
     } else if (passWord != confirmPassword) {
         $('.createAccount-err').text("Mật khẩu xác nhận không đúng.");
         return false;
-    } else if (passWord.length <= 6) {
-        $('.createAccount-err').text("Mật khẩu phải chứa nhiều hơn 6 ký tự.");
+    } else if (passWord.length < 6) {
+        $('.createAccount-err').text("Mật khẩu phải chứa ít nhất 6 ký tự.");
         return false;
     } else if (!passWord.match(spaceRegex)) {
         $('.createAccount-err').text("Mật khẩu không được chứa khoảng trắng.");
+        return false;
+    } else if (roleId == 1 && fullName == "") {
+        $('.createAccount-err').text("Hãy điền họ và tên.");
         return false;
     } else if (phone != "" && !phone.match(phoneRegex)) {
         $('.createAccount-err').text("SĐT không đúng định dạng.");
@@ -197,7 +215,7 @@ $("#submit").click(function (e) {
         });
 
     }
-});
+})
 
 $(".previous").click(function () {
     var animating;

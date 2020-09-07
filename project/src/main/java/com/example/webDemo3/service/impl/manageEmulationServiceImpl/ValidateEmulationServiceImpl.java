@@ -129,7 +129,7 @@ public class ValidateEmulationServiceImpl implements ValidateEmulationService {
         //admin can add into violation class
         if(roleId == Constant.ROLEID_ADMIN){
             if(!checkImportViolationClass(addDate)){
-                message = Constant.NOT_ACCEPT_DAY_EDIT;
+                message = Constant.DATE_RANKED;
                 return message;
             }
             else {
@@ -139,7 +139,7 @@ public class ValidateEmulationServiceImpl implements ValidateEmulationService {
         //summerize group can add into violation class
         else if (roleId == Constant.ROLEID_SUMMERIZEGROUP){
             if(!checkImportViolationClass(addDate)){
-                message = Constant.NOT_ACCEPT_DAY_EDIT;
+                message = Constant.DATE_RANKED;
                 return message;
             }
             else if(!checkImportViolationWithEnteringTime(roleId, addDate, time)){
@@ -190,7 +190,7 @@ public class ValidateEmulationServiceImpl implements ValidateEmulationService {
         //admin can edit violation of class
         if(roleId == Constant.ROLEID_ADMIN){
             if(!checkImportViolationClass(date)){
-                message = Constant.NOT_ACCEPT_DAY_EDIT;
+                message = Constant.DATE_RANKED;
                 return message;
             }
             else{
@@ -218,6 +218,20 @@ public class ValidateEmulationServiceImpl implements ValidateEmulationService {
                 return message;
             }
             else{
+                return Constant.SUCCESS;
+            }
+        }
+        // summerizing group can edit violation of class
+        else if(roleId == Constant.ROLEID_SUMMERIZEGROUP){
+            if(!sdf.format(currentDate).equalsIgnoreCase(sdf.format(date))){
+                message = Constant.MONITOR_NOT_EDIT_TODAY;
+                return message;
+            }
+            else if(!checkImportViolationWithEnteringTime(roleId, date, time)){
+                message = Constant.NOT_ACCEPT_TIME_EDIT;
+                return message;
+            }
+            else {
                 return Constant.SUCCESS;
             }
         }
@@ -258,23 +272,6 @@ public class ValidateEmulationServiceImpl implements ValidateEmulationService {
         List<ViolationEnteringTime> violationEnteringTimeList = violationEnteringTimeRepository.findEnteringTimeRoleIdAndDayId(roleId,dayId,time);
         if(violationEnteringTimeList != null && violationEnteringTimeList.size() != 0)
         {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * kimpt142
-     * 23/07
-     * check date is ranked or not
-     * @param classId
-     * @param date
-     * @return yes if ranked, no if no ranked
-     */
-    @Override
-    public Boolean checkRankedDate(Integer classId,Date date) {
-        List<ViolationClass> rankedViolationList = violationClassRepository.findViolationClassRankedByClassId(classId, date);
-        if(rankedViolationList !=null && rankedViolationList.size() > 0){
             return true;
         }
         return false;

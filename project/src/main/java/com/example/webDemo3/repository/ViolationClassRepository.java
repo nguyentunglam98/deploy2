@@ -58,7 +58,7 @@ public interface ViolationClassRepository extends JpaRepository<ViolationClass, 
     @Query(value="select vc from ViolationClass vc where vc.createBy = :creatBy and vc.date = :date and vc.status = :status")
     ViolationClass findVioClassByCreaByDateAndStatus(@Param("creatBy")String creatBy, @Param("date")Date date,  @Param("status")Integer status);
 
-    @Query(value="select vc from ViolationClass vc where vc.classId = :classId and vc.date = :date and vc.weekId = 0 and vc.status = 1")
+    @Query(value="select vc from ViolationClass vc where vc.classId = :classId and vc.date = :date and vc.weekId = 0 and vc.status <> 2")
     List<ViolationClass> findVioClassByClassIdAndAndDate(@Param("classId")Integer classId, @Param("date")Date date);
 
     @Query(value="select vc from ViolationClass vc where vc.classId = :classId and vc.date = :date and vc.weekId = 0 and vc.status = 2")
@@ -67,21 +67,21 @@ public interface ViolationClassRepository extends JpaRepository<ViolationClass, 
     @Query(value="select vc from ViolationClass vc where vc.id = :violationClassId  and vc.weekId = 0")
     ViolationClass findViolationClassByById(@Param("violationClassId")Long violationClassId);
 
-    @Query(value="select distinct vc.date from ViolationClass vc where vc.weekId = 0 and (vc.date > :biggestDate or :biggestDate is null)")
+    @Query(value="select distinct vc.date from ViolationClass vc where vc.weekId = 0 and (vc.date > :biggestDate or :biggestDate is null) and vc.status = 1")
     List<Date> findListDateByCondition(@Param("biggestDate")Date biggestDate);
 
     @Query(value="select vc from ViolationClass vc where vc.date = :date and vc.classId = :classId and vc.status = :status")
     List<ViolationClass> findByDateClassAndStatus(@Param("date")Date date, @Param("classId")Integer classId,@Param("status") Integer status);
 
-    @Query(value="select MAX(vc.date) from ViolationClass vc where vc.weekId <> 0")
+    @Query(value="select MAX(vc.date) from ViolationClass vc where vc.weekId <> 0 and vc.status = 1")
     Date findBiggestDateRanked();
 
     @Query(value="select distinct vc.date from ViolationClass vc where vc.weekId = :weekId")
     List<Date> findListDateByWeekId(@Param("weekId")Integer weekId);
 
-    @Query(value="select min (vc.date) from ViolationClass vc where vc.weekId = :weekId")
+    @Query(value="select min (vc.date) from ViolationClass vc where vc.weekId = :weekId and vc.status = 1")
     Date findMinDateByWeekId(@Param("weekId")Integer weekId);
 
-    @Query(value="select MAX(vc.date) from ViolationClass vc where vc.weekId <> 0 and vc.date < :minDate")
+    @Query(value="select MAX(vc.date) from ViolationClass vc where vc.weekId <> 0 and vc.date < :minDate and vc.status = 1")
     Date findBiggestDateRankedOfEditRank(@Param("minDate")Date minDate);
 }

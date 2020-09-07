@@ -8,7 +8,6 @@ import com.example.webDemo3.dto.manageSchoolRankResponseDto.*;
 import com.example.webDemo3.dto.manageSchoolYearResponseDto.SchoolYearTableResponseDto;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.LoadByYearIdRequestDto;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.SearchRankSemesterRequestDto;
-import com.example.webDemo3.entity.SchoolMonth;
 import com.example.webDemo3.entity.SchoolRankSemester;
 import com.example.webDemo3.entity.SchoolSemester;
 import com.example.webDemo3.entity.SchoolYear;

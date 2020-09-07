@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/admin")
-public class ViolationController {
+public class ViolationApiController {
     @Autowired
     private ViolationService violationService;
 

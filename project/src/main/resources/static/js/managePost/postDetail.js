@@ -30,8 +30,7 @@ $.ajax({
                 imgContent.each(function () {
                     $(this).addClass('lazy');
                     var src = $(this).attr('src')
-                    $(this).prop('src', 'http://placehold.it/600x350&text=Chờ ảnh');
-                    $(this).prop('srcset', '');
+                    $(this).prop('src', 'https://placehold.it/600x350&text=Chờ ảnh');
                     $(this).attr('data-original', src);
                 })
                 lazyLoad();
@@ -133,7 +132,6 @@ function confirmRequest(status, messageSuccess) {
         newsletterId: newsletterId,
         status: status,
     }
-    console.log(JSON.stringify(request));
     $.ajax({
         url: "/api/newsletter/confirmnewsletter",
         type: "POST",

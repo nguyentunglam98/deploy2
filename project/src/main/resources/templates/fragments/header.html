@@ -40,7 +40,7 @@
                     <a href="#" class="icon-link"><i class="fa fa-phone" aria-hidden="true"></i></a>
                 </span>
                 <div class="icon-text">
-                    <a href="#" class="number-link"><span>02183 855 550</span></a>
+                    <a href="#" class="number-link"></a>
                 </div>
             </div>
         </div>
@@ -130,15 +130,12 @@
                                 <ul class="submenu dropdown-menu">
                                     <li><a class="dropdown-item" th:href="@{manageTeacher}">Quản lý giáo viên</a></li>
                                     <li><a class="dropdown-item" th:href="@{createTeacher}">Thêm giáo viên</a></li>
-                                    <li><a class="dropdown-item" th:href="@{teacherInformation}">Sửa thông tin giáo
-                                        viên</a></li>
                                 </ul>
                             </li>
                             <li><a class="dropdown-item" href="#">Quản lý lớp</a>
                                 <ul class="submenu dropdown-menu">
                                     <li><a class="dropdown-item" th:href="@{manageClass}">Quản lý lớp</a></li>
                                     <li><a class="dropdown-item" th:href="@{createClass}">Thêm lớp</a></li>
-                                    <li><a class="dropdown-item" th:href="@{editClass}">Sửa thông tin lớp</a></li>
                                     <li><a class="dropdown-item" th:href="@{createGifftedClass}">Thêm hệ chuyên</a></li>
                                     <li><a class="dropdown-item" th:href="@{deleteGifftedClass}">Xóa hệ chuyên</a></li>
                                 </ul>
@@ -147,7 +144,6 @@
                                 <ul class="submenu dropdown-menu">
                                     <li><a class="dropdown-item" th:href="@{schoolYearList}">Quản lý năm học</a></li>
                                     <li><a class="dropdown-item" th:href="@{addSchoolYear}">Thêm năm học mới</a></li>
-                                    <li><a class="dropdown-item" th:href="@{editSchoolYear}">Sửa thông tin năm học</a>
                                     </li>
                                 </ul>
                             </li>
@@ -165,7 +161,7 @@
                     </li>
                     <li class="nav-item dropdown" id="loginSuccessMenu">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"></a>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu dropdown-menu-right">
                             <a th:href="@{userInformation}" class="dropdown-item">Thông tin tài khoản</a>
                             <a th:href="@{changePassword}" class="dropdown-item">Đổi mật khẩu</a>
                             <a th:href="@{/}" id="logout" class="dropdown-item"><span class="font-500">ĐĂNG XUẤT</span></a>

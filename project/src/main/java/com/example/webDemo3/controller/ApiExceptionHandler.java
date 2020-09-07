@@ -1,6 +1,6 @@
-package com.example.webDemo3.controller.testcontroller;
+package com.example.webDemo3.controller;
 
-import com.example.webDemo3.entity.testentity.ErrorMessage;
+import com.example.webDemo3.entity.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

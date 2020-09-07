@@ -20,7 +20,6 @@ import com.example.webDemo3.service.manageViolationService.ViolationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /*
@@ -127,11 +126,6 @@ public class GradingEmulationServiceImpl implements GradingEmulationService {
             }
         }
 
-        if(validateEmulationService.checkRankedDate(classId, date)){
-            message = Constant.DATE_RANKED;
-            return message;
-        }
-
         SchoolYear schoolYearOfDate = schoolYearRepository.findSchoolYearsByDate(date);
         if(schoolYearOfDate == null || schoolYearOfDate.getYearID() != currentYearId){
             message = Constant.ADD_VIOLATION_NOT_CURRENTYEAR;
@@ -149,6 +143,7 @@ public class GradingEmulationServiceImpl implements GradingEmulationService {
             try {
                 addViolationClassToDB(violationList,classId, date, weekId, currentYearId, status, username);
             }catch (Exception e){
+                message = new MessageDTO();
                 message.setMessageCode(1);
                 message.setMessage(e.toString());
                 return message;

@@ -359,6 +359,10 @@ public class Constant {
             new MessageDTO(1,"Thêm lịch sử cho chỉnh sửa xảy ra lỗi.");
     public static final MessageDTO UPDATE_GIM_FAIL =
             new MessageDTO(1,"Cập nhật bài đăng ghim xảy ra lỗi.");
+    public static final MessageDTO NOT_ADD_ASSIGN_REDSTAR =
+            new MessageDTO(1,"Không thể thêm phân công có ngày áp dụng nhỏ hơn hoặc bằng ngày hiện tại.");
+    public static final MessageDTO NOT_DELETE_ASSIGN_REDSTAR =
+            new MessageDTO(1,"Không thể xóa phân công có ngày áp dụng nhỏ hơn hoặc bằng ngày hiện tại.");
     /**
      * Success message
      */

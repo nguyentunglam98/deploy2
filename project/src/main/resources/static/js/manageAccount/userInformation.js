@@ -52,12 +52,15 @@ $("#editInfo").click(function () {
 
     $("#editInfo").unbind().click(function () {
         var emailRegex = '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$';
-        var phoneRegex = '^[0-9\\-\\+]{9,15}$';
+        var phoneRegex = '^[0-9\\-\\+]{10,11}$';
         var fullName = $('#fullName').val().trim();
         var phone = $('#phone').val().trim();
         var email = $('#email').val().trim();
         if (fullName == oldFullName && phone == oldPhone && email == oldEmail) {
             $('.userInfo-err').text("Hãy thay đổi thông tin.");
+            return false;
+        } else if (roleID == 1 && fullName == "") {
+            $('.userInfo-err').text("Hãy điền họ và tên.");
             return false;
         } else if (phone != "" && !phone.match(phoneRegex)) {
             $('.userInfo-err').text("SĐT không đúng định dạng.");
@@ -90,13 +93,13 @@ $("#editInfo").click(function () {
                     var messageCode = data.messageCode;
                     var message = data.message;
                     if (messageCode == 0) {
-                        messageModal('editInfoSuccess','img/img-success.png','Thông tin sửa thành công!')
+                        messageModal('editInfoSuccess', 'img/img-success.png', 'Thông tin sửa thành công!')
                     } else {
-                        messageModal('editInfoSuccess','img/img-error.png',message)
+                        messageModal('editInfoSuccess', 'img/img-error.png', message)
                     }
                 },
                 failure: function (errMsg) {
-                    messageModal('editInfoSuccess','img/img-error.png',errMsg)
+                    messageModal('editInfoSuccess', 'img/img-error.png', errMsg)
                 },
                 dataType: "json",
                 contentType: "application/json"
@@ -109,4 +112,8 @@ $("#editInfo").click(function () {
 if (roleID == null) {
     $('.userInfo-err').append(`Hãy <a href="login">ĐĂNG NHẬP</a> để có thể sửa thông tin!`);
     $('#editInfo').prop('disabled', true);
+}
+
+if (roleID == 1) {
+    $('#fullNameDiv label').append(`<span class="text-red"> *</span>`)
 }

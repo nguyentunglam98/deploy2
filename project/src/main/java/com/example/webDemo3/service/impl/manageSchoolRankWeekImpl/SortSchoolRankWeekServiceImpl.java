@@ -1,7 +1,7 @@
-package com.example.webDemo3.service.impl.manageSchoolRankImpl;
+package com.example.webDemo3.service.impl.manageSchoolRankWeekImpl;
 
 import com.example.webDemo3.entity.SchoolRankWeek;
-import com.example.webDemo3.service.manageSchoolRank.SortSchoolRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.SortSchoolRankWeekService;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Comparator;

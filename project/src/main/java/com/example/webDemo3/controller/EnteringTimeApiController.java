@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/admin")
-public class EnteringTimeController {
+public class EnteringTimeApiController {
 
     @Autowired
     private EnteringTimeService enteringTimeService;

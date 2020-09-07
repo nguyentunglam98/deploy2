@@ -108,7 +108,7 @@ $("#editInfo").click(function (e) {
                 }
             },
             failure: function (errMsg) {
-                messageModal('editInfoSuccess', 'img/img-success.png', errMsg);
+                messageModal('editInfoError', 'img/img-error.png', errMsg);
             },
             dataType: "json",
             contentType: "application/json"

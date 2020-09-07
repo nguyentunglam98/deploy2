@@ -34,18 +34,11 @@ $(document).ready(function () {
                         oldStatus = 0;
                     }
                 } else {
-                    $('tbody').append(
-                        `<tr>
-                    <td colspan="7" class="userlist-result">
-                        ` + data.message.message + `
-                    </td>
-                </tr>`
-                    )
+                    $('.classInfo-err').text(data.message.message);
                 }
-
             },
             failure: function (errMsg) {
-                console.log(errMsg);
+                $('.classInfo-err').text(errMsg);
             },
             dataType: "json",
             contentType: "application/json"
@@ -61,7 +54,6 @@ $("#editInfo").click(function (e) {
     if (radioValue == '0') {
         newStatus = 0;
     }
-
     if (newClassIdentifier == "") {
         $('.classInfo-err').text("Hãy nhập tên định danh!");
         return false;

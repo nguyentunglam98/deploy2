@@ -1,4 +1,4 @@
-package com.example.webDemo3.service.manageSchoolRank;
+package com.example.webDemo3.service.manageSchoolRankWeek;
 
 import com.example.webDemo3.dto.MessageDTO;
 import com.example.webDemo3.dto.manageSchoolRankResponseDto.ListDateResponseDto;

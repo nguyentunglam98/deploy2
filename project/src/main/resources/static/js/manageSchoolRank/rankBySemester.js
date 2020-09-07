@@ -52,9 +52,12 @@ $.ajax({
                 $('#byClass').html(`<option value="err">` + message + `</option>`);
             }
         }
+        setTimeout(search, 500);
     },
     failure: function (errMsg) {
-        console.log(errMsg);
+        $('#byYear').html(`<option value="err">` + errMsg + `</option>`);
+        $('#bySemester').html(`<option value="err">` + errMsg + `</option>`);
+        $('#byClass').html(`<option value="err">` + errMsg + `</option>`);
     },
     dataType: "json",
     contentType: "application/json"
@@ -66,12 +69,6 @@ function loadComboboxYear(yearId) {
         url: '/api/ranksemester/getsemesterlist',
         type: 'POST',
         data: JSON.stringify({yearId: yearId}),
-        beforeSend: function () {
-            $('body').addClass("loading")
-        },
-        complete: function () {
-            $('body').removeClass("loading")
-        },
         success: function (data) {
             var messageCode = data.message.messageCode;
             var message = data.message.message;
@@ -111,11 +108,10 @@ $('#byYear').change(function () {
     loadComboboxYear(yearId);
 })
 
-setTimeout(search, 500);
-
 /*Set data to table*/
 function search() {
     var semesterId = $('#bySemester option:selected').val();
+    var classId = $('#byClass option:selected').val();
     if (semesterId != null && semesterId != "" && semesterId != "err") {
         $('#viewHistory').removeClass('hide');
     }
@@ -128,9 +124,8 @@ function search() {
     } else {
         var infoSearch = {
             semesterId: semesterId,
-            classId: $('#byClass option:selected').val()
+            classId: classId
         }
-        console.log(JSON.stringify(infoSearch));
         $('table').dataTable({
             destroy: true,
             searching: false,
@@ -145,6 +140,12 @@ function search() {
                 },
                 dataType: "json",
                 contentType: "application/json",
+                beforeSend: function () {
+                    $('body').addClass("loading")
+                },
+                complete: function () {
+                    $('body').removeClass("loading")
+                },
                 failure: function (errMsg) {
                     $('tbody').append(`<tr><td colspan="4" class="text-center"> ` + errMsg + ` </td></tr>`)
                 },
@@ -214,8 +215,8 @@ function search() {
     }
     createRankBtn();
     editRankBtn();
-    download();
-    viewHistory();
+    download(semesterId, classId);
+    viewHistory(semesterId);
 }
 
 /*Search button*/
@@ -243,7 +244,6 @@ function createRankBtn() {
         var currentYear = {
             currentYearId: currentYearId,
         }
-        console.log(JSON.stringify(currentYear))
         $.ajax({
             url: '/api/ranksemester/loadmonthlist',
             type: 'POST',
@@ -260,6 +260,7 @@ function createRankBtn() {
                 if (messageCode == 0) {
                     if (data.monthList.length != 0) {
                         $('#monthList').html('');
+                        $('#createNewRankBtn').removeClass('hide')
                         $('#monthList').append(`<h6>Các tháng áp dụng <span class="text-red">*</span></h6>`);
                         $.each(data.monthList, function (i, item) {
                             $('#monthList').append(`
@@ -277,13 +278,16 @@ function createRankBtn() {
                         });
                     } else {
                         $('#monthList').html(`<h6 class="text-red">Không có tháng áp dụng nào!</h6>`);
+                        $('#createNewRankBtn').addClass('hide')
                     }
                 } else {
                     $('#monthList').html(`<h6 class="text-red">` + message + `</h6>`);
+                    $('#createNewRankBtn').addClass('hide')
                 }
             },
             failure: function (errMsg) {
                 $('#monthList').html(`<h6 class="text-red">` + errMsg + `</h6>`);
+                $('#createNewRankBtn').addClass('hide')
             },
             dataType: "json",
             contentType: "application/json"
@@ -305,6 +309,9 @@ $('#createNewRankBtn').on('click', function () {
     if (semesterName == "" || semesterName == null) {
         $('.createNewRank-err').text('Hãy nhập tên học kỳ.');
         return false;
+    } else if (!isInteger(semesterName)) {
+        $('.createNewRank-err').text('Tên học kỳ phải là số nguyên dương.');
+        return false;
     } else if (listCreate.length == 0) {
         $('.createNewRank-err').text('Hãy chọn tháng áp dụng.')
         return false;
@@ -316,7 +323,6 @@ $('#createNewRankBtn').on('click', function () {
             currentYearId: currentYearId,
             monthList: listCreate
         }
-        console.log(JSON.stringify(createRank));
         $.ajax({
             url: '/api/ranksemester/createranksemester',
             type: 'POST',
@@ -364,7 +370,6 @@ function editRankBtn() {
             semesterId: semesterId,
             currentYearId: currentYearId,
         }
-        console.log(JSON.stringify(data));
         $.ajax({
             url: '/api/ranksemester/loadeditranksemester',
             type: 'POST',
@@ -467,6 +472,9 @@ $('#editRankBtnModal').on('click', function () {
     } else if (semesterName == "" || semesterName == null) {
         $('.editRank-err').text('Hãy nhập tên học kỳ.');
         return false;
+    } else if (!isInteger(semesterName)) {
+        $('.editRank-err').text('Tên học kỳ phải là số nguyên dương.');
+        return false;
     } else if (count == 0) {
         $('.editRank-err').text('Hãy chọn tháng áp dụng.')
         return false;
@@ -478,7 +486,6 @@ $('#editRankBtnModal').on('click', function () {
             userName: username,
             monthList: listEdit
         }
-        console.log(JSON.stringify(editRank));
         $.ajax({
             url: '/api/ranksemester/editranksemester',
             type: 'POST',
@@ -514,13 +521,12 @@ $('#editRankBtnModal').on('click', function () {
 /*===============Download===================*/
 
 /*Download button*/
-function download() {
+function download(semesterId, classId) {
     $("#download").click(function () {
         var download = {
-            semesterId: $('#bySemester option:selected').val(),
-            classId: $('#byClass option:selected').val()
+            semesterId: semesterId,
+            classId: classId
         }
-        console.log(JSON.stringify(download))
         $.ajax({
             url: '/api/ranksemester/download',
             type: 'POST',
@@ -577,10 +583,10 @@ $(document).on('hidden.bs.modal', '#editRank', function () {
 /*===============View History===================*/
 
 /*View history button*/
-function viewHistory() {
+function viewHistory(semesterId) {
     $("#viewHistory").click(function () {
         var viewHistory = {
-            semesterId: $('#bySemester option:selected').val(),
+            semesterId: semesterId,
         }
         $.ajax({
             url: '/api/ranksemester/viewhistory',
@@ -593,7 +599,6 @@ function viewHistory() {
                 $('body').removeClass("loading")
             },
             success: function (data) {
-                console.log(data)
                 var messageCode = data.message.messageCode;
                 var message = data.message.message;
                 if (messageCode == 0) {

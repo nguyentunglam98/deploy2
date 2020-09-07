@@ -2,18 +2,26 @@ package com.example.webDemo3.service.impl.manageAccountServiceImpl;
 
 import com.example.webDemo3.constant.Constant;
 import com.example.webDemo3.dto.MessageDTO;
+import com.example.webDemo3.dto.manageAccountResponseDto.SearchUserResponseDto;
 import com.example.webDemo3.dto.request.manageAccountRequestDto.LoginRequestDto;
+import com.example.webDemo3.entity.ClassRedStar;
 import com.example.webDemo3.entity.SchoolYear;
 import com.example.webDemo3.entity.User;
+import com.example.webDemo3.repository.ClassRedStarRepository;
 import com.example.webDemo3.repository.SchoolYearRepository;
 import com.example.webDemo3.repository.UserRepository;
 import com.example.webDemo3.dto.manageAccountResponseDto.LoginResponseDto;
 import com.example.webDemo3.service.manageAccountService.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -26,6 +34,27 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ClassRedStarRepository classRedStarRepository;
+
+    @Override
+    public SearchUserResponseDto getAdminInfor(){
+        SearchUserResponseDto responseDto = new SearchUserResponseDto();
+        MessageDTO message = new MessageDTO();
+        message.setMessageCode(1);
+        responseDto.setMessage(message);
+        try {
+            Pageable paging = PageRequest.of(0, 5, Sort.by("username").descending());
+            Page<User> pagedResult = userRepository.findByRole(Constant.ROLEID_ADMIN,paging);
+            responseDto.setUserList(pagedResult);
+            responseDto.setMessage(Constant.SUCCESS);
+        }catch (Exception e){
+            message.setMessage(e.toString());
+        }
+        return responseDto;
+    }
+
 
     /**
      * kimpt142
@@ -73,6 +102,15 @@ public class LoginServiceImpl implements LoginService {
             SchoolYear schoolCurrent = schoolYearRepository.findSchoolYearsByDate(dateCurrent);
             if(schoolCurrent != null) {
                 loginDto.setCurrentYearId(schoolCurrent.getYearID());
+            }
+            if(loginDto.getRoleid() == Constant.ROLEID_REDSTAR){
+                Date fromDate = classRedStarRepository.getBiggestClosetDate(dateCurrent);
+                if( fromDate != null){
+                    ClassRedStar cs = classRedStarRepository.findByRedStar(u.getUsername(),fromDate);
+                    if(cs != null){
+                        loginDto.setAsignedClass(cs.getClassSchool().getGrade()+" "+cs.getClassSchool().getGiftedClass().getName());
+                    }
+                }
             }
         }
 

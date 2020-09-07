@@ -11,6 +11,7 @@ public class LoginResponseDto {
     private MessageDTO message;
     private Integer roleid;
     private Integer currentYearId;
+    private String AsignedClass;
 
     public LoginResponseDto(){}
 

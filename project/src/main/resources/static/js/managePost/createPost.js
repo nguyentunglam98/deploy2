@@ -2,25 +2,24 @@
 var roleID = localStorage.getItem("roleID");
 var username = localStorage.getItem("username");
 var editor = CKEDITOR.replace('post-editor-text-content', {
-    cloudServices_uploadUrl: 'https://73438.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73438.cke-cs.com/token/dev/de62f27633e0ccc284486ba070dbacf5b61e59390a805c23d58fc080b306',
+    cloudServices_uploadUrl: 'https://74535.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://74535.cke-cs.com/token/dev/2b51dfdac9d8f0d0f5b4372ef512b945d42e66db760a49bb5cf54933b489',
     width: '100%',
     height: 500,
     extraPlugins: 'easyimage',
 });
+// var editor = CKEDITOR.replace('post-editor-text-content', {
+//     height: 500,
+//     width: '100%',
+// });
 var imageCover = CKEDITOR.replace('imageCover', {
-    cloudServices_uploadUrl: 'https://73438.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73438.cke-cs.com/token/dev/de62f27633e0ccc284486ba070dbacf5b61e59390a805c23d58fc080b306',
+    cloudServices_uploadUrl: 'https://74535.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://74535.cke-cs.com/token/dev/2b51dfdac9d8f0d0f5b4372ef512b945d42e66db760a49bb5cf54933b489',
     width: 250,
     height: 200,
     extraPlugins: 'easyimage',
-    // extraPlugins: 'autogrow',
     removePlugins: 'image',
     removeDialogTabs: 'link:advanced',
-    // autoGrow_minHeight: 50,
-    // autoGrow_maxHeight: 600,
-    // autoGrow_bottomSpace: 0,
-    // removePlugins: 'resize',
     toolbar: [
         {
             name: 'insert',
@@ -51,12 +50,14 @@ $('#savePost').on('click', function () {
     } else if (image.trim() == "") {
         $('.createPost-err').text('Hãy nhập ảnh bìa của bài viết.');
         return false;
+        } else if (!image.includes('src=')) {
+            $('.createPost-err').text('Ảnh bìa của bài viết không đúng định dạng.');
+            return false;
     } else if (data == "") {
         $('.createPost-err').text('Hãy nhập nội dung của bài viết.');
         return false;
     } else {
         image = image.split('src=')[1].split('"')[1];
-        console.log(image);
         var request = {
             username: username,
             header: titleName,
@@ -83,7 +84,6 @@ $('#savePost').on('click', function () {
 })
 
 function addNewPost(request) {
-    console.log(JSON.stringify(request))
     $.ajax({
         url: "/api/newsletter/addnewsletter",
         type: "POST",
@@ -97,10 +97,9 @@ function addNewPost(request) {
         success: function (data) {
             var messageCode = data.message.messageCode;
             var message = data.message.message;
-            sessionStorage.setItem('newsletterId', data.newsletterId);
             if (messageCode == 0) {
                 $('#saveModal .modal-footer').html(`
-                    <a href="postDetail" class="btn btn-danger" id="viewPost">XEM BÀI VIẾT</a>
+                    <a href="postDetail?id=` + data.newsletterId + `" class="btn btn-danger" id="viewPost">XEM BÀI VIẾT</a>
                     <a href="createPost" class="btn btn-primary">ĐÓNG</a>
                 `)
                 messageModal('saveModal', 'img/img-success.png', "Tạo bài viết thành công!");
@@ -118,33 +117,53 @@ function addNewPost(request) {
 
 /*Upload image*/
 var loadFile = function (event) {
-    var form = $('#form-post');
-    var formData = new FormData(form[0]);
-    formData.append('ckCsrfToken', 'CKJl3IP2xVAP5q9s6O86yt3C6fCzO4ChvpHIaj53');
+    // var file = event.target.files[0];
+    // var output = $('#imagePreview');
+    // output.attr('src', URL.createObjectURL(file));
+    // output.prop('alt', 'Ảnh bìa bài viết');
+    // output.onload = function () {
+    //     URL.revokeObjectURL(output.src);
+    // }
+    var CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/hnm0yiigx/upload';
+    var CLOUDINARY_UPLOAD_PRESET = 'mrpq6qtl';
+    var file = event.target.files[0]
+    var formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
 
     $.ajax({
         type: "POST",
-        url: "https://73438.cke-cs.com/easyimage/upload/",
+        url: 'https://api.cloudinary.com/v1_1/hnm0yiigx/upload',
         data: formData,
-        async: false,
         headers: {
-            authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoIjp7ImNvbGxhYm9yYXRpb24iOnsiKiI6eyJyb2xlIjoid3JpdGVyIn19fSwidXNlciI6eyJlbWFpbCI6InZlYXplbWVAZXhhbXBsZS5jb20iLCJuYW1lIjoiTHVyYSBXYWxrZXIifSwic3ViIjoiZGV2LXVzZXItQnBBb2NjQUU1aFZTVEVUYWJ2RjEiLCJpc0RldlRva2VuIjp0cnVlLCJ0aW1lc3RhbXAiOjE1OTYwMTAyMTc5NjcsInNpZ25hdHVyZSI6IjA5NDk3OWU4ODVkOWY5NzlhOWJmMDk0NDZmZjg2ZjBhYzIzYmZmMzhlNzdhNzRiYjQ4ZDM3OGYyNGU4YTY1YTUiLCJhdWQiOiJCcEFvY2NBRTVoVlNURVRhYnZGMSIsImp0aSI6ImluYkYtUnJySWU3eDkxc212dDdWSXBjZWh3X2xmNWdYIiwiaWF0IjoxNTk2MDEwMjE3fQ.teiHdZp-YsLlsGU0lTu5k3-sVFBFrv_Od8640h4g9Ic',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin': '*',
+            "Access-Control-Allow-Headers": "Cache-Control, Content-Disposition, Content-MD5, Content-Range, Content-Type, DPR, Viewport-Width, X-CSRF-Token, X-Prototype-Version, X-Requested-With, X-Unique-Upload-Id",
+            "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+            "Access-Control-Allow-Credentials": "true",
+            "Server": "cloudinary",
+            "X-Request-Id": "721ea13f46d4409d27bbe73f637c4943",
+            "Access-Control-Allow-Origin": "https://api.cloudinary.com/v1_1/hnm0yiigx/upload",
+            // 'Sec-Fetch-Mode': 'no-cors',
+            // 'Sec-Fetch-Site': 'none'
+        }, fetch: {
+            mode: 'no-cors'
         },
+        crossDomain: true,
+        skipAuthorization: true,
         beforeSend: function () {
             $('body').addClass("loading")
         },
-        complete: function (resp) {
+        complete: function () {
             $('body').removeClass("loading");
-            console.log(resp);
-            // temp1[0].object["a"].authorization
         },
         success: function (data) {
-            $('#imagePreview').prop('src', data.default);
+            $('#imagePreview').prop('src', data.url);
             $('#imagePreview').prop('alt', 'Ảnh bìa bài viết');
-            console.log(data.default);
+            console.log(data)
         },
         failure: function (errMsg) {
-            messageModal('overrideSuccess','img/img-error.png', errMsg);
+            messageModal('overrideSuccess', 'img/img-error.png', errMsg);
         },
         cache: false,
         contentType: false,

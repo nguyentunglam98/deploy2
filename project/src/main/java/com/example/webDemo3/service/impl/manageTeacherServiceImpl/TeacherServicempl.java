@@ -4,8 +4,10 @@ import com.example.webDemo3.constant.Constant;
 import com.example.webDemo3.dto.MessageDTO;
 import com.example.webDemo3.dto.manageTeacherResponseDto.ViewTeaInforResponseDto;
 import com.example.webDemo3.dto.manageTeacherResponseDto.ViewTeaListResponseDto;
+import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.CreateRankWeekRequestDto;
 import com.example.webDemo3.dto.request.manageTeacherRequestDto.*;
 import com.example.webDemo3.entity.Teacher;
+import com.example.webDemo3.exception.MyException;
 import com.example.webDemo3.repository.TeacherRepository;
 import com.example.webDemo3.service.manageTeacherService.TeacherService;
 import org.hibernate.service.spi.ServiceException;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
 
@@ -76,9 +79,22 @@ public class TeacherServicempl implements TeacherService {
      * @param deleteTeacher
      * @return MessageDTO
      */
+
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {ServiceException.class})
+    @Transactional
     public MessageDTO deleteTeacher(DeleteTeacherRequestDto deleteTeacher) {
+        MessageDTO message = new MessageDTO();
+        try {
+            message = deleteTeacherTransaction(deleteTeacher);
+        }catch (Exception e){
+            message.setMessageCode(1);
+            message.setMessage(e.toString());
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        }
+        return message;
+    }
+
+    private MessageDTO deleteTeacherTransaction(DeleteTeacherRequestDto deleteTeacher) throws Exception {
         MessageDTO messageDTO = new MessageDTO();
         try{
             List<Integer> listTeacher = deleteTeacher.getListTeacher();
@@ -95,14 +111,14 @@ public class TeacherServicempl implements TeacherService {
                     teacherRepository.save(teacher);
                 }else{
                     messageDTO = Constant.TEACHER_NOT_EXIT;
-                    return  messageDTO;
+                    throw new MyException(messageDTO.getMessage());
                 }
             }
             messageDTO = Constant.DELETE_TEACHER_SUCCESS;
         }catch (Exception e){
             messageDTO.setMessageCode(1);
             messageDTO.setMessage(e.toString());
-            return messageDTO;
+            throw new MyException(messageDTO.getMessage());
         }
         return messageDTO;
     }

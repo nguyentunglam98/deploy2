@@ -61,16 +61,16 @@ $.ajax({
                 });
             } else {
                 $('#deleteBtn').addClass('hide');
-                $('tbody').html(`<tr><td colspan="5" class="text-center">Chưa có thời gian chấm điểm.</td></tr>`)
+                $('tbody').html(`<tr><td colspan="5" id="table-err" class="text-center">Chưa có thời gian chấm điểm.</td></tr>`)
             }
         } else {
-            $('tbody').html(`<tr><td colspan="5" class="text-center">` + message + `</td></tr>`)
+            $('tbody').html(`<tr><td colspan="5" id="table-err" class="text-center">` + message + `</td></tr>`)
         }
         selectCheckbox();
         manageBtn();
     },
     failure: function (errMsg) {
-        $('tbody').html(`<tr><td colspan="5" class="text-center">` + errMsg + `</td></tr>`)
+        $('tbody').html(`<tr><td colspan="5" id="table-err" class="text-center">` + errMsg + `</td></tr>`)
     },
     dataType: "json",
     contentType: "application/json"
@@ -91,11 +91,9 @@ function checkSelect() {
 
 /*Delete School Year*/
 $('#deleteTime').on('click', function () {
-    console.log(list)
     listEnteringTime = {
         listEnteringTime: list,
     }
-    console.log(JSON.stringify(listEnteringTime))
     $.ajax({
         url: '/api/admin/deleteenteringtime',
         type: 'POST',
@@ -131,4 +129,5 @@ function manageBtn() {
         $('tbody > tr > td:first-child').addClass('hide');
         $('.table-title').addClass('pb-3');
     }
+    $('#table-err').removeClass('hide');
 }

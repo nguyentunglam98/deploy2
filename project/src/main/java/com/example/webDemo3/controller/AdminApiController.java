@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin")
-public class AdminController {
+public class AdminApiController {
     @Autowired
     private AddAccountService addAccountService;
 
@@ -46,12 +46,12 @@ public class AdminController {
     /**
      * kimpt142
      * 27/6/2020
-     * catch request from client to add new account
+     * catch request from client to create new account
      * @param model include all property of user table
      * @return MessageDTO with (1,success) if success
      */
     @PostMapping("/createaccount")
-    public MessageDTO login(@RequestBody AddAccResquestDTO model)
+    public MessageDTO createAccount(@RequestBody AddAccResquestDTO model)
     {
         return addAccountService.addAccount(model);
     }
@@ -64,7 +64,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/deleteaccount")
-    public MessageDTO login(@RequestBody DeleteAccountRequestDto model)
+    public MessageDTO deleteAccount(@RequestBody DeleteAccountRequestDto model)
     {
         return deleteAccountService.deleteAccount(model);
     }
@@ -78,7 +78,7 @@ public class AdminController {
      * @return MessageDTO with (1,success) if success
      */
     @PostMapping("/resetpassword")
-    public MessageDTO login(@RequestBody ResetPassRequestDTO model)
+    public MessageDTO resetPassword(@RequestBody ResetPassRequestDTO model)
     {
         return resetPassService.resetMultiplePassword(model.getUserNameList(), model.getPassWord());
     }
@@ -132,7 +132,7 @@ public class AdminController {
      * @return reponseDTO with an account name and messagedto
      */
     @PostMapping("/genaccname")
-    public GenerateNameResponseDto getUserList(@RequestBody GenerateNameRequestDto model)
+    public GenerateNameResponseDto generateAccount(@RequestBody GenerateNameRequestDto model)
     {
         GenerateNameResponseDto responseDto = new GenerateNameResponseDto();
         responseDto = generateAccountService.generateAccountName(model);

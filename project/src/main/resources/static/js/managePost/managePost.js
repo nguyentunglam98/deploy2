@@ -22,7 +22,6 @@ function search() {
     inforSearch.status = $('#status option:selected').val();
     inforSearch.createDate = $('#inputDate').val();
     inforSearch.userName = $('#createBy').val();
-    console.log(JSON.stringify(inforSearch));
     $.ajax({
         url: "/api/newsletter/searchconfirmnews",
         type: "POST",

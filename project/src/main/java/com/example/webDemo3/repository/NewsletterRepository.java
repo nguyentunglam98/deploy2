@@ -32,4 +32,7 @@ public interface NewsletterRepository extends JpaRepository<Newsletter,Integer> 
 
     @Query(value = "select n from Newsletter n where n.gim = 1 ")
     List<Newsletter> findAllNewsletterGim();
+
+    @Query(value = "select n from Newsletter n where n.gim = 1 and n.status = 0")
+    List<Newsletter> findAllNewsletterGimAndActive();
 }

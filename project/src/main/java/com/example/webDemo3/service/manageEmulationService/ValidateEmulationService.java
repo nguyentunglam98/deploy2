@@ -15,5 +15,4 @@ public interface ValidateEmulationService {
     Boolean checkMonitorOfClass(Integer classId, String username);
     MessageDTO checkRoleForAddViolationClass(String username, Integer roleId, Integer classId, Date addDate);
     MessageDTO checkRoleForEditViolationClass(String username, Integer roleId,Integer classId, Date date);
-    Boolean checkRankedDate(Integer classId,Date date);
 }

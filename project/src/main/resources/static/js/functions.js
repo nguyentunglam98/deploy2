@@ -7,12 +7,17 @@ var pathname = $(location).attr('pathname');
 $(document).ready(function () {
     getAuthen();
     var loginSuccess = localStorage.getItem("loginSuccess");
+    var asignedClass = localStorage.getItem("asignedClass");
     if (loginSuccess == 0) {
         $("#loginSuccessMenu").removeClass("hide");
         $('#loginMenu').css('display', 'none');
         //ROLEID_REDSTAR
         if (roleID == 3) {
-            $("#loginSuccessMenu .nav-link").html(`<span><p class="m-0" style="font-size: 15px">` + username + `</p><p class="m-0" style="font-size: 12px">(Chấm lớp 10 Toán)</p></span><i class="fa fa-caret-down"></i>`);
+            if (asignedClass != "null") {
+                $("#loginSuccessMenu .nav-link").html(`<span><p class="m-0" style="font-size: 15px">` + username + `</p><p class="m-0" style="font-size: 12px">(Chấm lớp ` + asignedClass + `)</p></span><i class="fa fa-caret-down"></i>`);
+            } else {
+                $("#loginSuccessMenu .nav-link").html(`<span><p class="m-0" style="font-size: 15px">` + username + `</p><p class="m-0" style="font-size: 12px">(Không có lớp chấm)</p></span><i class="fa fa-caret-down"></i>`);
+            }
             $('#loginSuccessMenu .nav-link').attr('style', 'padding-top: 0!important; padding-bottom: 0!important');
         } else {
             $("#loginSuccessMenu .nav-link").html(username + `<i class="fa fa-caret-down"></i>`);
@@ -22,7 +27,7 @@ $(document).ready(function () {
             $("#adminMenu").removeClass("hide");
         }
         //ROLEID_TIMETABLE_MANAGER || ROLEID_ADMIN
-        if (roleID == 2 || roleID == 1) {
+        if (roleID == 2) {
             $("#scheduleManagerMenu").addClass("show");
         }
         //ROLEID_REDSTAR || ROLEID_SUMMERIZEGROUP || ROLEID_ADMIN
@@ -43,8 +48,9 @@ $(document).ready(function () {
         $("#adminMenu").addClass("hide");
         $("#scheduleManagerMenu").removeClass("show");
     }
-    $("#logout").click(function () {
+    $("#logout").click(function (e) {
         //localStorage.clear();
+        e.preventDefault();
         logout();
     })
 
@@ -88,7 +94,65 @@ $(document).ready(function () {
     });
 
     menuClick();
+    // setLocationFooter();
 });
+
+function setLocationFooter() {
+    var h = window.clientWidth;
+    var bodyHeight = $('body').height();
+    if (bodyHeight < h) {
+        $('.footer-area').css('margin-top', h - bodyHeight + "px")
+    } else {
+        $('.footer-area').css('margin-top', 0)
+    }
+}
+
+/*Set phone number*/
+$.ajax({
+    type: 'POST',
+    url: "/api/user/getAdminInfor",
+    success: function (data) {
+        var messageCode = data.message.messageCode;
+        if (messageCode == 0) {
+            if (data.userList.content.length != 0) {
+                var phoneList = [];
+                $.each(data.userList.content, function (i, item) {
+                    if (item.phone != null && item.phone.trim() != "") {
+                        phoneList.push(item.phone)
+                    }
+                })
+                if (phoneList.length != 0) {
+                    $('.number-link').html(validatePhone(phoneList[0]));
+                    $('.number-link').attr('href', 'tel:' + phoneList[0]);
+                } else {
+                    $('.contact-number').addClass('hide');
+                    $('.contact-number-footer').addClass('hide');
+                }
+            } else {
+                $('.contact-number').addClass('hide');
+                $('.contact-number-footer').addClass('hide');
+            }
+        } else {
+            $('.contact-number').addClass('hide');
+            $('.contact-number-footer').addClass('hide');
+        }
+    },
+    failure: function (errMsg) {
+        $('.contact-number').addClass('hide');
+        $('.contact-number-footer').addClass('hide');
+    },
+    dataType: "json",
+    contentType: "application/json"
+});
+
+/*Add space for phone number*/
+function validatePhone(number) {
+    var end = number.length;
+    var part1 = number.substring(0, 4);
+    var part2 = number.substring(4, 7);
+    var part3 = number.substring(7, end);
+    return part1 + " " + part2 + " " + part3;
+}
 
 function menuClick() {
     $('.dropdown').on('hide.bs.dropdown', function () {
@@ -101,16 +165,6 @@ function menuClick() {
         $(this).find('.submenu').prev().removeClass('up');
     });
 }
-
-/*Loading page*/
-$(document).on({
-    ajaxStart: function () {
-        $('body').addClass("loading");
-    },
-    ajaxComplete: function () {
-        $('body').removeClass("loading");
-    }
-})
 
 /*Select Checkbox*/
 function selectCheckbox() {
@@ -198,7 +252,6 @@ function pagingHomepage() {
             value = $('.table-paging__page_cur').val() - 2;
         }
         homePage.pageNumber = value;
-        console.log(JSON.stringify(homePage))
         $('tbody').html("");
         $('.table-paging').html("");
         loadHomepage();
@@ -210,61 +263,62 @@ function paging(inforSearch, totalPages) {
     $('.table-paging').append(
         `<input type="button" class="table-paging__page btn-prev" id="prevPage" value="Trước"/>`
     );
-    if (pageNumber < 4) {
-        var newTotalPages = (totalPages <= 4) ? (totalPages) : (4);
-        for (var i = 0; i < newTotalPages; i++) {
-            if (i == pageNumber) {
-                $('.table-paging').append(
-                    `<input type="button" value="` + (i + 1) + `" class="table-paging__page table-paging__page_cur"/>`
-                );
-            } else {
-                $('.table-paging').append(
-                    `<input type="button" value="` + (i + 1) + `" class="table-paging__page"/>`
-                );
-            }
-        }
-        if (newTotalPages < totalPages) {
-            $('.table-paging').append(
-                `<input type="button" value="..." class="table-paging__page" disabled/>`
-            );
-        }
+
+    if (pageNumber == 0) {
+        $('.table-paging').append(
+            `<input type="button" value="` + (1) + `" class="table-paging__page table-paging__page_cur"/>`
+        );
     } else {
         $('.table-paging').append(
             `<input type="button" value="` + (1) + `" class="table-paging__page"/>`
         );
-        $('.table-paging').append(
-            `<input type="button" value="` + (2) + `" class="table-paging__page"/>`
-        );
+    }
+    if (pageNumber > 2) {
         $('.table-paging').append(
             `<input type="button" value="..." class="table-paging__page" disabled/>`
         );
-        var pageEnd = (pageNumber + 2 < totalPages) ? (pageNumber + 2) : (totalPages);
-        for (var i = pageNumber - 1; i < pageEnd; i++) {
-            if (i == pageNumber) {
-                $('.table-paging').append(
-                    `<input type="button" value="` + (i + 1) + `" class="table-paging__page table-paging__page_cur"/>`
-                );
-            } else {
-                $('.table-paging').append(
-                    `<input type="button" value="` + (i + 1) + `" class="table-paging__page"/>`
-                );
-            }
-        }
-        if (pageEnd < totalPages) {
+    }
+    for (var i = pageNumber; i <= pageNumber + 2; i++) {
+        if (i <= 1 || i >= totalPages) continue;
+        if (i - 1 == pageNumber) {
             $('.table-paging').append(
-                `<input type="button" value="..." class="table-paging__page" disabled/>`
+                `<input type="button" value="` + (i) + `" class="table-paging__page table-paging__page_cur"/>`
+            );
+        } else {
+            $('.table-paging').append(
+                `<input type="button" value="` + (i) + `" class="table-paging__page"/>`
             );
         }
     }
+
+    if (pageNumber + 2 < totalPages - 1) {
+        $('.table-paging').append(
+            `<input type="button" value="..." class="table-paging__page" disabled/>`
+        );
+    }
+
+    if (totalPages > 1) {
+        if (pageNumber == totalPages - 1) {
+            $('.table-paging').append(
+                `<input type="button" value="` + (totalPages) + `" class="table-paging__page table-paging__page_cur"/>`
+            );
+        } else {
+            $('.table-paging').append(
+                `<input type="button" value="` + (totalPages) + `" class="table-paging__page"/>`
+            );
+        }
+    }
+
     $('.table-paging').append(
         `<input type="button" class="table-paging__page btn-next" id="nextPage" value="Sau"/>`
     );
-    if (inforSearch.pageNumber == 0) {
+    var pageNumInfo = parseInt(inforSearch.pageNumber);
+    if (pageNumInfo == 0) {
         $('#prevPage').prop('disabled', true);
     } else {
         $('#prevPage').prop('disabled', false);
     }
-    if ((inforSearch.pageNumber + 1) == totalPages) {
+    if ((pageNumInfo + 1) == totalPages) {
         $('#nextPage').prop('disabled', true);
     } else {
         $('#nextPage').prop('disabled', false);
@@ -308,6 +362,15 @@ function limitedText(str) {
     return str;
 }
 
+/*Check is Integer*/
+function isInteger(x) {
+    if (x <= 0) {
+        return false;
+    } else {
+        return x % 1 === 0;
+    }
+}
+
 /*Lazy Load*/
 function lazyLoad() {
     $("img.lazy").lazyload({
@@ -330,18 +393,10 @@ function logout() {
         type: 'POST',
         url: "/api/user/logout",
         // data: JSON.stringify(user),
-        beforeSend: function () {
-            $('body').addClass("loading")
-        },
-        complete: function () {
-            $('body').removeClass("loading")
-        },
         success: function (data) {
             if (data != null && data.messageCode === 0) {
                 localStorage.clear();
-                // localStorage.removeItem("userInfo")
-                // this.$cookies.remove("access_token")
-                // this.$cookies.remove("token_provider")
+                window.location="/";
                 // window.location.href = "/"
             }
         },
@@ -365,12 +420,6 @@ function getAuthen() {
         },
 
         // data: JSON.stringify(user),
-        beforeSend: function () {
-            $('body').addClass("loading")
-        },
-        complete: function () {
-            $('body').removeClass("loading")
-        },
         success: function (data) {
             if (data != null && data.messageCode == 1) {
                 localStorage.clear();

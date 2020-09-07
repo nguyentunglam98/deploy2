@@ -4,13 +4,13 @@ import com.example.webDemo3.dto.MessageDTO;
 import com.example.webDemo3.dto.manageSchoolRankResponseDto.*;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.CreateRankWeekRequestDto;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.ViewWeekAnDateListRequestDto;
-import com.example.webDemo3.service.manageSchoolRank.CreateAndEditSchoolRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.CreateAndEditSchoolRankWeekService;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.SearchRankWeekRequestDto;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.UpdateSchoolRankWeekRequestDto;
-import com.example.webDemo3.service.manageSchoolRank.DownloadRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.DownloadRankWeekService;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.*;
-import com.example.webDemo3.service.manageSchoolRank.UpdateSchoolRankWeekService;
-import com.example.webDemo3.service.manageSchoolRank.ViewSchoolRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.UpdateSchoolRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.ViewSchoolRankWeekService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +27,7 @@ kimpt142 - 21/07
  */
 @RestController
 @RequestMapping("/api/rankweek")
-public class RankWeekController {
+public class RankWeekApiController {
 
     @Autowired
     private CreateAndEditSchoolRankWeekService createAndEditSchoolRankWeekService;

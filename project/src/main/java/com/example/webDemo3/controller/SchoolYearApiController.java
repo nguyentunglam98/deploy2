@@ -19,7 +19,7 @@ kimpt142 - 06/07
  */
 @RestController
 @RequestMapping("/api/admin")
-public class SchoolYearController {
+public class SchoolYearApiController {
     @Autowired
     private SchoolYearService schoolYearService;
 

@@ -7,7 +7,6 @@ import com.example.webDemo3.dto.manageEmulationResponseDto.ViolationClassRequest
 import com.example.webDemo3.dto.manageEmulationResponseDto.ViolationClassResponseDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.ViewRequestDto;
 import com.example.webDemo3.entity.Class;
-import com.example.webDemo3.entity.Violation;
 import com.example.webDemo3.entity.ViolationClass;
 import com.example.webDemo3.entity.ViolationClassRequest;
 import com.example.webDemo3.repository.*;
@@ -33,14 +32,6 @@ import java.util.List;
 @Service
 public class ViewRequestServiceImpl implements ViewRequestService {
 
-    @Autowired
-    private ValidateEmulationService validateEmulationService;
-
-    @Autowired
-    private DayRepository dayRepository;
-
-    @Autowired
-    private ViolationRepository violationRepository;
 
     @Autowired
     private ViolationClassRepository violationClassRepository;

@@ -22,7 +22,7 @@ kimpt142 - 14/07
  */
 @RestController
 @RequestMapping("/api/emulation")
-public class EmulationController {
+public class EmulationApiController {
 
     @Autowired
     private GradingEmulationService gradingEmulationService;

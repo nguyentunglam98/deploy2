@@ -1,31 +1,24 @@
 /*Value default*/
-var roleID = localStorage.getItem("roleID");
-var username = localStorage.getItem("username");
 var newsletterId = sessionStorage.getItem('newsletterIdEdit');
 var request = {
     newsletterId: newsletterId
 }
 var editor = CKEDITOR.replace('post-editor-text-content', {
-    cloudServices_uploadUrl: 'https://73438.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73438.cke-cs.com/token/dev/de62f27633e0ccc284486ba070dbacf5b61e59390a805c23d58fc080b306',
+    cloudServices_uploadUrl: 'https://74535.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://74535.cke-cs.com/token/dev/2b51dfdac9d8f0d0f5b4372ef512b945d42e66db760a49bb5cf54933b489',
     width: '100%',
     height: 500,
     extraPlugins: 'easyimage',
 });
 var oldHeader, oldHeaderImage, oldContent, oldGim, createDate, status;
 var imageCover = CKEDITOR.replace('imageCover', {
-    cloudServices_uploadUrl: 'https://73438.cke-cs.com/easyimage/upload/',
-    cloudServices_tokenUrl: 'https://73438.cke-cs.com/token/dev/de62f27633e0ccc284486ba070dbacf5b61e59390a805c23d58fc080b306',
+    cloudServices_uploadUrl: 'https://74535.cke-cs.com/easyimage/upload/',
+    cloudServices_tokenUrl: 'https://74535.cke-cs.com/token/dev/2b51dfdac9d8f0d0f5b4372ef512b945d42e66db760a49bb5cf54933b489',
     width: 250,
     height: 200,
     extraPlugins: 'easyimage',
-    // extraPlugins: 'autogrow',
     removePlugins: 'image',
     removeDialogTabs: 'link:advanced',
-    // autoGrow_minHeight: 50,
-    // autoGrow_maxHeight: 600,
-    // autoGrow_bottomSpace: 0,
-    // removePlugins: 'resize',
     toolbar: [
         {
             name: 'insert',
@@ -91,6 +84,12 @@ $('#savePost').on('click', function () {
     var newHeader = $('#titleName').val().trim();
     // var newHeaderImage = $('#imagePreview').attr('src');
     var newHeaderImage = imageCover.getData();
+    if (!newHeaderImage.includes('src=')) {
+        $('.editPost-err').text('Ảnh bìa của bài viết không đúng định dạng.');
+        return false;
+    } else {
+        newHeaderImage = newHeaderImage.split('src=')[1].split('"')[1];
+    }
     var newContent = editor.getData();
     var newGim;
     if ($('input[type="checkbox"]').prop("checked") == true) {
@@ -113,7 +112,6 @@ $('#savePost').on('click', function () {
         return false;
     } else {
         $('.editPost-err').text('');
-        newHeaderImage = newHeaderImage.split('src=')[1].split('"')[1];
         var request = {
             newsletter: {
                 newsletterId: newsletterId,
@@ -136,7 +134,6 @@ $('#savePost').on('click', function () {
                 messageModal('messageModal', 'img/img-question.png', 'Bạn có muốn <b>GHIM</b> bài viết này không?<h6>Bài viết được ghim trước đó sẽ bị bỏ ghim!</h6>');
                 $('#newGim').on('click', function () {
                     request.newsletter.gim = newGim;
-                    console.log(JSON.stringify(request));
                     editPost(request);
                 })
             } else {
@@ -147,12 +144,10 @@ $('#savePost').on('click', function () {
                 messageModal('messageModal', 'img/img-question.png', 'Bạn có muốn <b>BỎ GHIM</b> bài viết này không?');
                 $('#newGim').on('click', function () {
                     request.newsletter.gim = newGim;
-                    console.log(JSON.stringify(request));
                     editPost(request);
                 })
             }
         } else {
-            console.log(JSON.stringify(request));
             editPost(request);
         }
     }
@@ -173,9 +168,8 @@ function editPost(request) {
             var messageCode = data.messageCode;
             var message = data.message;
             if (messageCode == 0) {
-                sessionStorage.setItem('newsletterId', newsletterId);
                 $('#messageModal .modal-footer').html(`
-                    <a href="postDetail" class="btn btn-danger" id="viewPost">XEM BÀI VIẾT</a>
+                    <a href="postDetail?id=` + newsletterId + `" class="btn btn-danger" id="viewPost">XEM BÀI VIẾT</a>
                     <a href="editPost" class="btn btn-primary">ĐÓNG</a>
                 `)
                 messageModal('messageModal', 'img/img-success.png', 'Sửa bài viết thành công!');
@@ -191,4 +185,8 @@ function editPost(request) {
         dataType: "json",
         contentType: "application/json"
     });
+}
+
+if(roleID != 1) {
+    $('.form-check').hide();
 }

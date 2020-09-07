@@ -12,6 +12,12 @@ var list = [];
 $.ajax({
     url: '/api/admin/rolelist',
     type: 'POST',
+    beforeSend: function () {
+        $('body').addClass("loading")
+    },
+    complete: function () {
+        $('body').removeClass("loading")
+    },
     success: function (data) {
         if (data.listRole != 0) {
             $.each(data.listRole, function (i, item) {
@@ -24,6 +30,7 @@ $.ajax({
                 <td colspan="7" class="userlist-result">Danh sách trống.</td>
             </tr>`);
         }
+        search();
     },
     failure: function (errMsg) {
         $('tbody').html('');
@@ -35,7 +42,6 @@ $.ajax({
     dataType: "json",
     contentType: "application/json"
 });
-search();
 
 /*Search button*/
 $("#search").click(function () {
@@ -200,8 +206,8 @@ $("#resetPassword").click(function (e) {
     } else if (newpassword != confirmpassword) {
         $('.resetPass-err').text("Mật khẩu xác nhận không đúng.");
         return false;
-    } else if (newpassword.length <= 6) {
-        $('.resetPass-err').text("Mật khẩu phải chứa nhiều hơn 6 ký tự.");
+    } else if (newpassword.length < 6) {
+        $('.resetPass-err').text("Mật khẩu phải chứa ít nhất 6 ký tự.");
         return false;
     } else if (!newpassword.match(spaceRegex)) {
         $('.resetPass-err').text("Mật khẩu không được chứa khoảng trắng.");
@@ -253,7 +259,7 @@ function checkUser() {
         messageModal('deleteAccountModal', 'img/img-error.png', 'Hãy chọn tài khoản mà bạn muốn xóa!');
     } else {
         $('#deleteAccountModal .modal-footer .btn-danger').removeClass('hide');
-        $('#deleteAccountModal .modal-footer .btn-primary').attr('value', 'KHÔNG');
+        $('#deleteAccountModal .modal-footer .btn-primary').attr('value', 'ĐÓNG');
         messageModal('deleteAccountModal', 'img/img-question.png', `Bạn có chắc muốn <b>XÓA</b> tài khoản này không?`);
     }
 }
@@ -280,7 +286,7 @@ function checkResetPassword() {
         <div class="error text-left resetPass-err"></div>
         `);
         $('#resetPasswordModal .modal-footer .btn-danger').removeClass('hide');
-        $('#resetPasswordModal .modal-footer .btn-primary').attr('value', 'KHÔNG');
+        $('#resetPasswordModal .modal-footer .btn-primary').attr('value', 'ĐÓNG');
         $('#resetPasswordModal').modal('show');
     }
 }

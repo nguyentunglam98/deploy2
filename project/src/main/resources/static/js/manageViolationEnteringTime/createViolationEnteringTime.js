@@ -125,7 +125,6 @@ $('#submit').click(function () {
             startTime: startTime + ":00",
             endTime: endTime + ":00"
         }
-        console.log(JSON.stringify(newTime))
         $.ajax({
             url: '/api/admin/addenteringtime',
             type: 'POST',

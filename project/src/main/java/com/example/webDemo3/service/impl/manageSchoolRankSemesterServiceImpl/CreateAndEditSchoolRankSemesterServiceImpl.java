@@ -8,7 +8,7 @@ import com.example.webDemo3.entity.*;
 import com.example.webDemo3.entity.Class;
 import com.example.webDemo3.exception.MyException;
 import com.example.webDemo3.repository.*;
-import com.example.webDemo3.service.manageSchoolRank.AdditionFunctionSchoolRankService;
+import com.example.webDemo3.service.manageSchoolRankWeek.AdditionFunctionSchoolRankService;
 import com.example.webDemo3.service.manageSchoolRankSemesterService.CreateAndEditSchoolRankSemester;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

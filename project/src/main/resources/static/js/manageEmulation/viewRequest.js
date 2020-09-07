@@ -29,7 +29,6 @@ $("#search").click(function () {
         createBy: createBy,
         pageNumber: 0
     }
-    console.log(JSON.stringify(inforSearch))
     $(".panel-default").html("");
     search();
 
@@ -63,6 +62,7 @@ $.ajax({
         } else {
             $("#classList").html(`<option selected>` + message + `</option>`);
         }
+        search();
     },
     failure: function (errMsg) {
         $("#classList").html(`<option selected>` + errMsg + `</option>`);
@@ -71,8 +71,6 @@ $.ajax({
     contentType: "application/json"
 });
 
-search();
-
 /*Set data to container*/
 function search() {
     if (roleID == 4) {
@@ -80,7 +78,6 @@ function search() {
         $('#createBy').val(username);
         $('#createBy').prop('disabled', true);
     }
-    console.log(JSON.stringify(inforSearch))
     $.ajax({
         url: '/api/emulation/viewrequest',
         type: 'POST',
@@ -261,7 +258,6 @@ function acceptRequest() {
                 requestId: requestId,
                 userName: username,
             }
-            console.log(JSON.stringify(accept));
             $.ajax({
                 url: '/api/emulation/acceptrequest',
                 type: 'POST',
@@ -321,7 +317,6 @@ function rejectRequest() {
                 requestId: requestId,
                 userName: username,
             }
-            console.log(JSON.stringify(accept));
             $.ajax({
                 url: '/api/emulation/rejectrequest',
                 type: 'POST',
@@ -383,7 +378,6 @@ $('.btn-reload').on('click', function () {
         createDate: createDate,
         pageNumber: 0
     }
-    console.log(JSON.stringify(inforSearch))
     $(".panel-default").html("");
     search();
 })

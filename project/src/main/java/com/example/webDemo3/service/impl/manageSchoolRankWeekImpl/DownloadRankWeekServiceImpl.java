@@ -1,18 +1,15 @@
-package com.example.webDemo3.service.impl.manageSchoolRankImpl;
+package com.example.webDemo3.service.impl.manageSchoolRankWeekImpl;
 
 import com.example.webDemo3.dto.manageSchoolRankResponseDto.RankWeekResponseDto;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.SearchRankWeekRequestDto;
-import com.example.webDemo3.service.manageSchoolRank.DownloadRankWeekService;
-import com.example.webDemo3.service.manageSchoolRank.ViewSchoolRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.DownloadRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.ViewSchoolRankWeekService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.List;
 
 /*

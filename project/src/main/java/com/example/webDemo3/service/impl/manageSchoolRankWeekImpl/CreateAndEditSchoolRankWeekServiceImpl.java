@@ -1,10 +1,9 @@
-package com.example.webDemo3.service.impl.manageSchoolRankImpl;
+package com.example.webDemo3.service.impl.manageSchoolRankWeekImpl;
 
 import com.example.webDemo3.constant.Constant;
 import com.example.webDemo3.dto.MessageDTO;
 import com.example.webDemo3.dto.manageSchoolRankResponseDto.DateViolationClassDto;
 import com.example.webDemo3.dto.manageSchoolRankResponseDto.ListDateResponseDto;
-import com.example.webDemo3.dto.manageSchoolRankResponseDto.SchoolWeekDto;
 import com.example.webDemo3.dto.manageSchoolRankResponseDto.ViewSchoolWeekHistoryResponseDto;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.CreateRankWeekRequestDto;
 import com.example.webDemo3.dto.request.manageSchoolRankRequestDto.EditRankWeekRequestDto;
@@ -15,14 +14,15 @@ import com.example.webDemo3.entity.Class;
 import com.example.webDemo3.exception.MyException;
 import com.example.webDemo3.repository.*;
 import com.example.webDemo3.service.manageEmulationService.ValidateEmulationService;
-import com.example.webDemo3.service.manageSchoolRank.CreateAndEditSchoolRankWeekService;
-import com.example.webDemo3.service.manageSchoolRank.SortSchoolRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.CreateAndEditSchoolRankWeekService;
+import com.example.webDemo3.service.manageSchoolRankWeek.SortSchoolRankWeekService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,9 +43,6 @@ public class CreateAndEditSchoolRankWeekServiceImpl implements CreateAndEditScho
 
     @Autowired
     private ViolationClassRepository violationClassRepository;
-
-    @Autowired
-    private ValidateEmulationService validateEmulationService;
 
     @Autowired
     private UserRepository userRepository;
@@ -548,7 +545,8 @@ public class CreateAndEditSchoolRankWeekServiceImpl implements CreateAndEditScho
                         if(classRequest != null){
                             String newMessage = Constant.RANK_HAS_VIOLATION_CLASS_REQUEST_NOT_EXCEPT_EXIST.getMessage();
                             message.setMessageCode(Constant.RANK_HAS_VIOLATION_CLASS_REQUEST_NOT_EXCEPT_EXIST.getMessageCode());
-                            message.setMessage( "Ngày " + date.getDate() + " " + newMessage);
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                            message.setMessage( "Ngày " + formatter.format(date.getDate()) + " " + newMessage);
                             throw new MyException(message.getMessage());
                         }
                         violationClass.setWeekId(weekId);

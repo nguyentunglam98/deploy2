@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ChangeRequestServiceImpl implements ChangeRequestService {
-    @Autowired
-    private ViolationClassRepository violationClassRepository;
 
     @Autowired
     private ViolationClassRequestRepository violationClassRequestRepository;
@@ -86,7 +84,7 @@ public class ChangeRequestServiceImpl implements ChangeRequestService {
             violationClassRequest.setStatusChange(2);
             history = violationClassRequest.getViolationClass().getHistory();
             quantiy = violationClassRequest.getViolationClass().getQuantity();
-            history = additionalFunctionViolationClassService.addHistory(history, violationClassRequest.getReason(),userName,quantiy);
+            history = additionalFunctionViolationClassService.addHistory(history, violationClassRequest.getReason(),violationClassRequest.getCreatBy(),quantiy);
 
             violationClassRequest.getViolationClass().setHistory(history);
             violationClassRequestRepository.save(violationClassRequest);

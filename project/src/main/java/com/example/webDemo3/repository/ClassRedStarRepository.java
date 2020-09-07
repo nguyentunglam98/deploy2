@@ -19,6 +19,11 @@ import java.util.List;
 public interface ClassRedStarRepository extends JpaRepository<ClassRedStar, ClassRedStarId> {
 
     @Query(value = "select c from ClassRedStar c " +
+            "where c.classRedStarId.FROM_DATE = :date " +
+            "and c.classRedStarId.RED_STAR = :redStar")
+    ClassRedStar findByRedStar(@Param("redStar") String redStar,@Param("date") Date date);
+
+    @Query(value = "select c from ClassRedStar c " +
             "where (c.classSchool.classId = :classId or :classId is null) " +
             "and ( c.classRedStarId.RED_STAR like %:redStar%)" +
             "and (c.classRedStarId.FROM_DATE = :fromDate or :fromDate is null)" +

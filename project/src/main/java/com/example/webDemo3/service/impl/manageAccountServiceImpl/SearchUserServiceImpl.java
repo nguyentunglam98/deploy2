@@ -37,7 +37,7 @@ public class SearchUserServiceImpl implements SearchUserService {
         String username = requestModel.getUserName();
         Integer roleId = requestModel.getRoleId();
         Page<User> pagedResult;
-        String orderByProperty;
+        String orderByProperty,orderByClass = "";
         Integer pageSize = Constant.PAGE_SIZE;
         switch (orderBy){
             case 0: {
@@ -48,14 +48,27 @@ public class SearchUserServiceImpl implements SearchUserService {
                 orderByProperty = "name";
                 break;
             }
+            case 2: {
+                orderByProperty = "classSchool.grade";
+                orderByClass = "classSchool.giftedClass.giftedClassId";
+                break;
+            }
             default: orderByProperty = "username";
         }
 
-        if(requestModel.getSortBy() == 0){
-            paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).descending());
+        if(orderByClass.trim().isEmpty()){
+            if (requestModel.getSortBy() == 0) {
+                paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).descending());
+            } else {
+                paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).ascending());
+            }
         }
         else {
-            paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).ascending());
+            if (requestModel.getSortBy() == 0) {
+                paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).descending().and(Sort.by(orderByClass).ascending()));
+            } else {
+                paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).ascending().and(Sort.by(orderByClass).ascending()));
+            }
         }
 
         if(roleId!=null){

@@ -401,33 +401,39 @@ public class ClassServiceImpl implements ClassService {
     public ClassTableResponseDto getClassTable(ClassTableRequestDto requestModel) {
         ClassTableResponseDto responseDto = new ClassTableResponseDto();
         MessageDTO message = new MessageDTO();
-        Pageable paging;
+        Pageable paging = null;
         Integer orderBy = requestModel.getOrderBy();
         Integer pageNumber = requestModel.getPageNumber();
         String classIdentifier = requestModel.getClassIdentifier();
         Integer grade = requestModel.getGrade();
         Integer status = requestModel.getStatus();
         Page<Class> pagedResult;
-        String orderByProperty;
+        String orderByProperty,orderByGiftedId = "";
         Integer pageSize = Constant.PAGE_SIZE;
         switch (orderBy){
             case 0: {
                 orderByProperty = "classIdentifier";
+                if(requestModel.getSortBy() == 0){
+                    paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).descending());
+                }
+                else {
+                    paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).ascending());
+                }
                 break;
             }
             case 1: {
                 orderByProperty = "grade";
+                orderByGiftedId = "giftedClass.giftedClassId";
+                if(requestModel.getSortBy() == 0){
+                    paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).descending().and(Sort.by(orderByGiftedId).ascending()));
+                }
+                else {
+                    paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).ascending().and(Sort.by(orderByGiftedId).ascending()));
+                }
                 break;
             }
-            default: orderByProperty = "classIdentifier";
         }
 
-        if(requestModel.getSortBy() == 0){
-            paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).descending());
-        }
-        else {
-            paging = PageRequest.of(pageNumber, pageSize, Sort.by(orderByProperty).ascending());
-        }
 
         if(grade!=null){
             if(status==null){

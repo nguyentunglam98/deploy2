@@ -32,10 +32,11 @@
                         <input type="text" placeholder="Tên định danh" class="form-control w-75">
                     </div>
                     <div class="form-group text-left mb-1">
-                        <label>Sắp xếp theo:</label>
-                        <select class="combobox form-control w-75" id="orderBy">
-                            <option value="0" selected="selected">Tên định danh</option>
-                            <option value="1">Khối</option>
+                        <label>Trạng thái:</label>
+                        <select class="combobox form-control w-75" id="status">
+                            <option value="" selected="selected">Tất cả</option>
+                            <option value="0">Hoạt động</option>
+                            <option value="1">Khóa</option>
                         </select>
                     </div>
                 </div>
@@ -49,22 +50,25 @@
                             <option value="12">12</option>
                         </select>
                     </div>
-                    <div class="form-group text-left mb-1">
-                        <label>Thứ tự:</label>
-                        <select class="combobox form-control w-75" id="sortBy">
-                            <option value="0">Giảm dần</option>
-                            <option value="1" selected="selected">Tăng dần</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0">
+
                     <div class="form-group text-left mb-1">
-                        <label>Trạng thái:</label>
-                        <select class="combobox form-control w-75" id="status">
-                            <option value="" selected="selected">Tất cả</option>
-                            <option value="0">Hoạt động</option>
-                            <option value="1">Khóa</option>
-                        </select>
+                        <label class="w-100 mb-0">
+                            <label class="w-50">Sắp xếp theo:</label>
+                            <label class="ml-2">Thứ tự:</label>
+                        </label>
+                        <div class="col-xl-12 d-flex justify-content-between align-items-center px-0">
+                            <select class="combobox form-control w-45" id="orderBY">
+                                <option value="0" selected="selected">Tên định danh</option>
+                                <option value="1">Khối</option>
+                            </select>
+                            <span class="text-center"> - </span>
+                            <select class="combobox form-control w-45" id="sortBy">
+                                <option value="0">Giảm dần</option>
+                                <option value="1" selected="selected">Tăng dần</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>

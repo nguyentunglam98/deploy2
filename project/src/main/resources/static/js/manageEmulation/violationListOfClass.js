@@ -105,7 +105,7 @@ function search() {
                 if (data.viewViolationClassList != null) {
                     $(".violation-by-date").html("");
                     $.each(data.viewViolationClassList, function (i, item) {
-                        var violationClassId, requestId, substractGrade, createBy, totals, note, history, checkHistory,
+                        var violationClassId, requestId, substractGrade, totals, note, history, checkHistory,
                             reason, quantityNew;
                         var classId = item.classId;
                         var className = item.className;
@@ -114,6 +114,7 @@ function search() {
                         var description = item.description;
                         var quantity = item.quantity;
                         var checkEdit = item.checkEdit;
+                        var createBy = item.createBy;
                         if (item.note == null || item.note == "") {
                             note = "";
                         } else {
@@ -128,7 +129,6 @@ function search() {
                         }
                         if (item.violationClassRequest == null) {
                             violationClassId = item.violationClassId;
-                            createBy = item.createBy;
                             substractGrade = item.substractGrade;
                             totals = parseFloat(parseFloat(substractGrade) * parseInt(quantity)).toFixed(1);
                             reason = "";
@@ -136,7 +136,6 @@ function search() {
                         } else {
                             requestId = item.violationClassRequest.requestId;
                             violationClassId = item.violationClassRequest.violationClassId;
-                            createBy = item.violationClassRequest.createBy;
                             substractGrade = item.violationClassRequest.substractGrade;
                             totals = parseFloat(parseFloat(substractGrade) * parseInt(quantity)).toFixed(1);
                             reason = item.violationClassRequest.reason;

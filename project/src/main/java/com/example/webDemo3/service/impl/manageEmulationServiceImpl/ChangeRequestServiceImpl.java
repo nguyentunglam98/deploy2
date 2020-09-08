@@ -83,7 +83,7 @@ public class ChangeRequestServiceImpl implements ChangeRequestService {
             violationClassRequest.getViolationClass().setQuantity(quantityNew);
             violationClassRequest.setStatusChange(2);
             history = violationClassRequest.getViolationClass().getHistory();
-            quantiy = violationClassRequest.getViolationClass().getQuantity();
+            quantiy = violationClassRequest.getQuantityOld();
             history = additionalFunctionViolationClassService.addHistory(history, violationClassRequest.getReason(),violationClassRequest.getCreatBy(),quantiy);
 
             violationClassRequest.getViolationClass().setHistory(history);

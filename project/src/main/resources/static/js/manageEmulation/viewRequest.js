@@ -243,7 +243,7 @@ function search() {
 
 /*Accept Request*/
 function acceptRequest() {
-    $('.accept-request').on('click', function () {
+    $('.accept-request').unbind().click(function () {
         $('#confirmModal').modal('show');
         $('#confirmModal .modal-body').html(`
             <img class="mb-3 mt-3" src="img/img-question.png"/>
@@ -251,7 +251,7 @@ function acceptRequest() {
         `);
         var violationClassId = $(this).parent().parent().find('.violationClassId').text();
         var requestId = $(this).prop('name')
-        $('#confirmBtn').on('click', function () {
+        $('#confirmBtn').unbind().click(function () {
             $('#confirmModal').modal('hide');
             var accept = {
                 violationClassId: violationClassId,
@@ -302,7 +302,7 @@ function acceptRequest() {
 
 /*Reject Request*/
 function rejectRequest() {
-    $('.reject-request').on('click', function () {
+    $('.reject-request').unbind().click(function () {
         $('#confirmModal').modal('show');
         $('#confirmModal .modal-body').html(`
             <img class="mb-3 mt-3" src="img/img-question.png"/>
@@ -310,7 +310,7 @@ function rejectRequest() {
         `);
         var violationClassId = $(this).parent().parent().find('.violationClassId').text();
         var requestId = $(this).prop('name');
-        $('#confirmBtn').on('click', function () {
+        $('#confirmBtn').unbind().click(function () {
             $('#confirmModal').modal('hide');
             var accept = {
                 violationClassId: violationClassId,

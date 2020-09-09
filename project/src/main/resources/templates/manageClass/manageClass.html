@@ -52,7 +52,6 @@
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0">
-
                     <div class="form-group text-left mb-1">
                         <label class="w-100 mb-0">
                             <label class="w-50">Sắp xếp theo:</label>
@@ -70,17 +69,23 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group row mx-0 mb-1 mt-4 justify-content-end">
+                        <a th:href="@{createClass}" class="btn btn-success ml-2 my-1 mr-0 manageBtn">
+                            <span>Thêm lớp</span>
+                        </a>
+                        <button class="btn btn-search ml-2 my-1 mr-0" id="search">Tìm kiếm</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="table-title-2">
-            <div class="row mx-0 justify-content-end">
-                <button class="btn btn-search ml-2 my-1 mr-0" id="search">Tìm kiếm</button>
-                <a th:href="@{createClass}" class="btn btn-success ml-2 my-1 mr-0 manageBtn">
-                    <span>Thêm lớp</span>
-                </a>
-            </div>
-        </div>
+<!--        <div class="table-title-2">-->
+<!--            <div class="row mx-0 justify-content-end">-->
+<!--                <a th:href="@{createClass}" class="btn btn-success ml-2 my-1 mr-0 manageBtn">-->
+<!--                    <span>Thêm lớp</span>-->
+<!--                </a>-->
+<!--                <button class="btn btn-search ml-2 my-1 mr-0" id="search">Tìm kiếm</button>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="table-title-2">
             <div class="col-sm-6 px-0 table-title-note">
                 <b class="mr-4">Chú thích: </b>

@@ -12,7 +12,7 @@ public interface SchoolWeekRepository extends JpaRepository<SchoolWeek,Integer> 
     @Query(value = "select s from SchoolWeek s where s.week = :week and s.yearId = :yearId")
     SchoolWeek findSchoolWeeksByWeekAndYearId(@Param("week") Integer week, @Param("yearId") Integer yearId);
 
-    @Query(value="select sw from SchoolWeek sw where sw.weekID <> 0 and sw.yearId = :yearId order by sw.createDate desc ")
+    @Query(value="select sw from SchoolWeek sw where sw.weekID <> 0 and sw.yearId = :yearId order by sw.createDate desc, sw.week desc")
     List<SchoolWeek> findSchoolWeekByYearIdExcludeZero(@Param("yearId") Integer yearId);
 
     SchoolWeek findSchoolWeekByWeekID(Integer weekId);

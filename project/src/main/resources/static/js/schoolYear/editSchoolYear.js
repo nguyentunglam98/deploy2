@@ -37,7 +37,7 @@ $(document).ready(function () {
                     if (Date.parse(oldFromDate) <= Date.parse(currentDate)) {
                         $('#fromDate').prop('disabled', true);
                     }
-                    if (Date.parse(oldToDate) <= Date.parse(currentDate)) {
+                    if (Date.parse(oldToDate) < Date.parse(currentDate)) {
                         $('#toDate').prop('disabled', true);
                     }
                     if (oldFromYear <= currentYear) {

@@ -138,6 +138,14 @@ public class SchoolYearServiceImpl implements SchoolYearService {
             return message;
         }
 
+        Date dateCurrent = new Date(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        if(!sdf.format(dateCurrent).equalsIgnoreCase(sdf.format(fromDate))
+                && fromDate.before(dateCurrent)){
+            message = Constant.ADD_FROMDATE_SMALLER_CURRENT;
+            return message;
+        }
+
         SchoolYear schoolYearListByFromDate = schoolYearRepository.findSchoolYearsByDate(fromDate);
         if(schoolYearListByFromDate != null){
             message = Constant.FROMDATE_EXIST;
@@ -147,14 +155,6 @@ public class SchoolYearServiceImpl implements SchoolYearService {
         SchoolYear schoolYearListByToDate = schoolYearRepository.findSchoolYearsByDate(toDate);
         if(schoolYearListByToDate != null){
             message = Constant.TODATE_EXIST;
-            return message;
-        }
-
-        Date dateCurrent = new Date(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        if(!sdf.format(dateCurrent).equalsIgnoreCase(sdf.format(fromDate))
-                && fromDate.before(dateCurrent)){
-            message = Constant.ADD_FROMDATE_SMALLER_CURRENT;
             return message;
         }
 
@@ -262,9 +262,9 @@ public class SchoolYearServiceImpl implements SchoolYearService {
                 }
             }
 
-            //check oldToDate <= currentDate
-            if(sdf.format(dateCurrent).equalsIgnoreCase(sdf.format(oldToDate))
-                    || oldToDate.before(dateCurrent))
+            //check oldToDate < currentDate
+            if(!sdf.format(dateCurrent).equalsIgnoreCase(sdf.format(oldToDate))
+                    && oldToDate.before(dateCurrent))
             {
                 //if user change to date, error message
                 if(!sdf.format(toDate).equalsIgnoreCase(sdf.format(oldToDate))) {

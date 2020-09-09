@@ -1,6 +1,6 @@
 var identifier, fullName, phone, email;
 var emailRegex = '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$';
-var phoneRegex = '^[0-9\\-\\+]{9,15}$';
+var phoneRegex = '^[0-9\\-\\+]{10,11}$';
 
 $("#submit").click(function (e) {
     fullName = $('#fullName').val().trim();

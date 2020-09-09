@@ -7,21 +7,19 @@
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 
     <!-- jQuery library -->
-    <script th:src="@{/js/public/jquery-3.5.1.min.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <!--Bootstrap 4-->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <script th:src="@{/js/public/popper.min.js}"></script>
-    <script th:src="@{/js/public/bootstrap.min.js}"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/public/popper.min.js"></script>
+    <script src="/js/public/bootstrap.min.js"></script>
     <!--Font-Awesome-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet"/>
     <!--Datetimepicker-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css"/>
 
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <script type="text/javascript" th:src="@{/js/functions.js}"></script>
@@ -60,7 +58,7 @@
                     <div class="form-group text-left" id="allDay">
                     </div>
                     <div class="error createTime-err text-left"></div>
-                    <a href="#createSuccess" id="submit" data-toggle="modal" class="btn btn-customer">TẠO</a>
+                    <input type="button" id="submit" class="btn btn-customer" data-toggle="modal" data-target="" value="TẠO"/>
                 </fieldset>
             </form>
         </div>
@@ -68,7 +66,7 @@
 </div>
 
 <!--    Modal Create Success-->
-<div id="createSuccess" class="modal fade">
+<div id="createSuccess" class="modal fade in" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-body text-center">
@@ -76,6 +74,19 @@
             <div class="modal-footer">
                 <a href="manageViolationEnteringTime" class="btn btn-danger">XEM THỜI GIAN CHẤM</a>
                 <a href="createViolationEnteringTime" class="btn btn-primary">ĐÓNG</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    Modal Message-->
+<div id="modalMessage" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+            </div>
+            <div class="modal-footer">
+                <input type="button" data-dismiss="modal" class="btn btn-primary" value="ĐÓNG"/>
             </div>
         </div>
     </div>

@@ -30,7 +30,7 @@ $.ajax({
                 imgContent.each(function () {
                     $(this).addClass('lazy');
                     var src = $(this).attr('src')
-                    $(this).prop('src', 'https://placehold.it/600x350&text=Chờ ảnh');
+                    $(this).prop('src', 'https://placehold.it/600x350&text=Ảnh');
                     $(this).attr('data-original', src);
                 })
                 lazyLoad();

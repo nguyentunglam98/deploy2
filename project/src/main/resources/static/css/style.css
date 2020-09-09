@@ -489,7 +489,7 @@ body.loading .modal-loading {
 
 .search {
     margin: 20px 0 20px 0;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .search-line {
@@ -512,7 +512,7 @@ body.loading .modal-loading {
     color: #fff;
     border-color: #356e91;
     padding: .375rem 1rem;
-    margin: 0 10px;
+    margin-top: 20px;
 }
 
 .btn-search:hover {
@@ -527,7 +527,6 @@ body.loading .modal-loading {
 
 .table-title-note {
     text-align: right;
-    margin-right: 20px;
     font-size: 14px;
 }
 
@@ -1489,6 +1488,7 @@ a.slide_btn {
 
 .panel-post-content {
     display: flex;
+    justify-content: space-between;
 }
 
 .panel-post-content .post-img {
@@ -1510,6 +1510,10 @@ a.slide_btn {
     font-weight: 700;
     font-size: 18px;
     line-height: 22px;
+}
+.panel-post-content .post-description {
+    width: 75%;
+    text-align: left;
 }
 
 .post-description .post-date {
@@ -1701,10 +1705,14 @@ a.slide_btn {
 
     .panel-post-content .post-img {
         max-width: 100%;
+        margin-right: 0;
     }
 
     .panel-post-content img {
         max-height: 180px;
+    }
+    .panel-post-content .post-description {
+        width: 100%;
     }
 
     #violationList .panel-heading div .align-items-center:first-child {

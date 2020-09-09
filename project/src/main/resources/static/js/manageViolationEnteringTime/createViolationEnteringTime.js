@@ -139,16 +139,13 @@ $('#submit').click(function () {
                 var messageCode = data.messageCode;
                 var message = data.message;
                 if (messageCode == 0) {
-                    $('#createSuccess .modal-body').html(`
-                        <img class="my-3" src="img/img-success.png"/>
-                        <h5>Thêm thời gian chấm thành công!</h5>
-                    `);
+                    messageModal('createSuccess', 'img/img-success.png', 'Thêm thời gian chấm thành công!');
                 } else {
-                    messageModal('createSuccess', 'img/img-error.png', message)
+                    messageModal('modalMessage', 'img/img-error.png', message)
                 }
             },
             failure: function (errMsg) {
-                messageModal('createSuccess', 'img/img-error.png', errMsg)
+                messageModal('modalMessage', 'img/img-error.png', errMsg)
             },
             dataType: "json",
             contentType: "application/json"

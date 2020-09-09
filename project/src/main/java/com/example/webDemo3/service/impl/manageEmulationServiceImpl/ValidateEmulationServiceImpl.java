@@ -251,8 +251,11 @@ public class ValidateEmulationServiceImpl implements ValidateEmulationService {
         Date rankedDate = violationClassRepository.findBiggestDateRanked();
         Date currentDate = new Date(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        if(rankedDate == null || ((sdf.format(currentDate).equalsIgnoreCase(sdf.format(date)) || date.compareTo(currentDate) < 0)
-                && date.compareTo(rankedDate) > 0 )){
+        if(rankedDate == null ||
+                ((sdf.format(currentDate).equalsIgnoreCase(sdf.format(date)) || date.compareTo(currentDate) < 0)
+                && date.compareTo(rankedDate) > 0 && !sdf.format(rankedDate).equalsIgnoreCase(sdf.format(date)))
+        )
+        {
             return true;
         }
         return false;

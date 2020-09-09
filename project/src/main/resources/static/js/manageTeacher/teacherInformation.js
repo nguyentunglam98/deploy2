@@ -42,14 +42,20 @@ $(document).ready(function () {
 
 $("#editInfo").click(function (e) {
     var emailRegex = '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$';
-    var phoneRegex = '^[0-9\\-\\+]{9,15}$';
+    var phoneRegex = '^[0-9\\-\\+]{10,11}$';
     var identifier = $('#identifier').val().trim();
     var fullName = $('#fullName').val().trim();
     var phone = $('#phone').val().trim();
     var email = $('#email').val().trim();
+    if (phone == "") {
+        phone = null;
+    }
+    if (email == "") {
+        email = null;
+    }
 
     $('.teacherInfo-err').text("");
-    if (fullName == oldFullName && identifier == oldIdentifier &&
+    if (fullName == oldFullName.trim() && identifier == oldIdentifier.trim() &&
         phone == oldPhone && email == oldEmail) {
         $('.teacherInfo-err').text("Hãy thay đổi thông tin.");
         return false;
@@ -59,10 +65,10 @@ $("#editInfo").click(function (e) {
     } else if (identifier == "") {
         $('.teacherInfo-err').text("Hãy điền tên định danh.");
         return false;
-    } else if (phone != "" && !phone.match(phoneRegex)) {
+    } else if (phone != null && !phone.match(phoneRegex)) {
         $('.teacherInfo-err').text("SĐT không đúng định dạng.");
         return false;
-    } else if (email != "" && !email.match(emailRegex)) {
+    } else if (email != null && !email.match(emailRegex)) {
         $('.teacherInfo-err').text("Email không đúng định dạng.");
         return false;
     } else {

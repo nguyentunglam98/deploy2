@@ -56,7 +56,7 @@ function search() {
                                 <a href="postDetail?id=` + item.newsletterId + `" id="` + item.newsletterId + `">
                                     <div class="panel-post-content">
                                         <div class="post-img">
-                                            <img class="lazy" data-original="` + item.headerImage + `">
+                                            <img class="lazy" src="https://placehold.it/250x180&text=Ảnh" data-original="` + item.headerImage + `">
                                         </div>
                                         <div class="post-description">
                                             <div class="post-title">` + item.header + `</div>

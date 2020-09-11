@@ -21,4 +21,7 @@ public interface TeacherRepository extends JpaRepository<Teacher,Integer>{
 
     @Query(value = "select t from Teacher t where (t.status <> 1 or t.status is null)")
     Page<Teacher> selectAll(Pageable paging);
+
+    @Query(value = "select t from Teacher t where (t.status <> 1 or t.status is null)")
+    List<Teacher> findAll();
 }

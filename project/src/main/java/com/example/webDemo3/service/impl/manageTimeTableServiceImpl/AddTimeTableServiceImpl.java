@@ -71,7 +71,7 @@ public class AddTimeTableServiceImpl implements AddTimeTableService {
         }
         if(worksheetAfternoon == null){
             message.setMessageCode(messageCodeFail);
-            message.setMessage(notHaveSheet + sheetMoring);
+            message.setMessage(notHaveSheet + sheetAfternoon);
             return message;
         }
         try {

@@ -116,7 +116,7 @@ function dialogErr(model, mess) {
     `);
 }
 
-if (roleID != 2) {
+if (roleID != 2 && roleID != 1) {
     $('.input-err').text('Bạn không có quyền thêm thời khóa biểu!');
     $('#submit').prop('disabled', true);
 }

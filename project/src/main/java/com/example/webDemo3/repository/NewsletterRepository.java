@@ -25,7 +25,7 @@ public interface NewsletterRepository extends JpaRepository<Newsletter,Integer> 
 
     @Query(value = "select n from Newsletter n where (n.status = :status or :status is NULL ) "+
             " and (n.createDate = :createDate or :createDate is NULL ) "+
-            " and n.userName like %:userName%")
+            " and n.userName like %:userName% order by n.createDate desc ")
     Page<Newsletter> findByStatusAndCreateDate(@Param("status") Integer status,
                                                @Param("createDate") Date createDate,
                                                @Param("userName") String userName ,Pageable paging);

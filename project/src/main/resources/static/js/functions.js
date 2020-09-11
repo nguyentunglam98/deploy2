@@ -27,7 +27,7 @@ $(document).ready(function () {
             $("#adminMenu").removeClass("hide");
         }
         //ROLEID_TIMETABLE_MANAGER || ROLEID_ADMIN
-        if (roleID == 2) {
+        if (roleID == 2 || roleID == 1) {
             $("#scheduleManagerMenu").addClass("show");
         }
         //ROLEID_REDSTAR || ROLEID_SUMMERIZEGROUP || ROLEID_ADMIN

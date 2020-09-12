@@ -275,19 +275,6 @@ public class CreateAndEditSchoolRankWeekServiceImpl implements CreateAndEditScho
             biggestDate = violationClassRepository.findBiggestDateRankedOfEditRank(minDate);
             dateList = violationClassRepository.findListDateByCondition(biggestDate);
 
-            for(int i = 0; i < dateList.size(); i++){
-                Date date = dateList.get(i);
-                String dayName = getDayNameByDate(date);
-
-                DateViolationClassDto dateResponseDto = new DateViolationClassDto();
-
-                dateResponseDto.setDate(date);
-                dateResponseDto.setDayName(dayName);
-                dateResponseDto.setIsCheck(0);
-
-                dateResponseList.add(dateResponseDto);
-            }
-
             newDateList = violationClassRepository.findListDateByWeekId(weekId);
             schoolWeek = schoolWeekRepository.findById(weekId).orElse(null);
 
@@ -305,6 +292,29 @@ public class CreateAndEditSchoolRankWeekServiceImpl implements CreateAndEditScho
                 dateResponseDto.setDayName(dayName);
                 dateResponseDto.setIsCheck(1);
                 dateResponseDto.setWeek(week);
+
+                dateResponseList.add(dateResponseDto);
+            }
+
+            for(int i = 0; i < dateList.size(); i++){
+                Date date = dateList.get(i);
+                int flag = 0;
+                for(int j = 0 ; j < dateResponseList.size() ;j++){
+                    if(date.equals(dateResponseList.get(j).getDate())){
+                        flag = 1;
+                        break;
+                    }
+                }
+                if(flag == 1){
+                    continue;
+                }
+                String dayName = getDayNameByDate(date);
+
+                DateViolationClassDto dateResponseDto = new DateViolationClassDto();
+
+                dateResponseDto.setDate(date);
+                dateResponseDto.setDayName(dayName);
+                dateResponseDto.setIsCheck(0);
 
                 dateResponseList.add(dateResponseDto);
             }
@@ -497,6 +507,8 @@ public class CreateAndEditSchoolRankWeekServiceImpl implements CreateAndEditScho
 
             classList = classRepository.findAll();
             allTotalGrade = violationTypeRepository.sumAllTotalGradeViolationTypeActive();
+
+            schoolRankWeekRepository.deleteByWeekId(requestDto.getWeekId());
 
             message = createOrEditSchoolRankWeek(createDate,userName,classList, dateList,allTotalGrade, schoolRankWeekList,weekId,edit,message);
 

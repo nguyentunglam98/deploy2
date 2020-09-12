@@ -35,7 +35,7 @@ public class AddTimeTableServiceImpl implements AddTimeTableService {
     private static int rowMax = 35;
     private static int startCol = 3;
     private static int classRow = 4;
-    private static int rowMaxAfternoon = 19;
+    private static int rowMaxAfternoon = 30;
     private static int messageCodeFail = 1;
 
     private static String sheetMoring = "TKB Sang";

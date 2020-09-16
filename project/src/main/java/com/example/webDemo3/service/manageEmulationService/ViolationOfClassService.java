@@ -4,6 +4,7 @@ import com.example.webDemo3.dto.MessageDTO;
 import com.example.webDemo3.dto.manageEmulationResponseDto.ViewViolationClassListResponseDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.DeleteRequestChangeViolationClassRequestDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.EditViolationOfClassRequestDto;
+import com.example.webDemo3.dto.request.manageEmulationRequestDto.ViewViolationClassFromToRequestDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.ViewViolationOfClassRequestDto;
 
 /*
@@ -13,4 +14,5 @@ public interface ViolationOfClassService {
     ViewViolationClassListResponseDto getViolationOfAClass(ViewViolationOfClassRequestDto model);
     MessageDTO editViolationOfClass(EditViolationOfClassRequestDto model);
     MessageDTO deleteRequestChange(DeleteRequestChangeViolationClassRequestDto model);
+    ViewViolationClassListResponseDto getViolationClassFromTo(ViewViolationClassFromToRequestDto model);
 }

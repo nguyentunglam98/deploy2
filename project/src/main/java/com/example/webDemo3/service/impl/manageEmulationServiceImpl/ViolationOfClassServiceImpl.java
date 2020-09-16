@@ -7,7 +7,9 @@ import com.example.webDemo3.dto.manageEmulationResponseDto.ViolationClassRequest
 import com.example.webDemo3.dto.manageEmulationResponseDto.ViolationClassResponseDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.DeleteRequestChangeViolationClassRequestDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.EditViolationOfClassRequestDto;
+import com.example.webDemo3.dto.request.manageEmulationRequestDto.ViewViolationClassFromToRequestDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.ViewViolationOfClassRequestDto;
+import com.example.webDemo3.entity.Class;
 import com.example.webDemo3.entity.ViolationClass;
 import com.example.webDemo3.entity.ViolationClassRequest;
 import com.example.webDemo3.repository.*;
@@ -15,6 +17,10 @@ import com.example.webDemo3.service.manageEmulationService.AdditionalFunctionVio
 import com.example.webDemo3.service.manageEmulationService.ValidateEmulationService;
 import com.example.webDemo3.service.manageEmulationService.ViolationOfClassService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -278,5 +284,54 @@ public class ViolationOfClassServiceImpl implements ViolationOfClassService {
 
         message = Constant.SUCCESS;
         return message;
+    }
+
+    /**
+     * kimpt142
+     * 11/09
+     * get the violation for class with the condition is class and fromdate, to date
+     */
+    @Override
+    public ViewViolationClassListResponseDto getViolationClassFromTo(ViewViolationClassFromToRequestDto model) {
+        ViewViolationClassListResponseDto responseDto = new ViewViolationClassListResponseDto();
+        List<ViolationClassResponseDto> violationClassListDto = new ArrayList<>();
+        MessageDTO message;
+        Page<ViolationClass> pagedResult;
+        Integer pageSize = Constant.PAGE_SIZE;
+        Pageable paging = null;
+        ViolationClassResponseDto violationClassDto;
+        Integer totalPage;
+
+        Integer classId = model.getClassId();
+        Integer pageNumber = model.getPageNumber();
+        Date fromDate = model.getFromDate();
+        Date toDate = model.getToDate();
+
+        if(fromDate == null || toDate == null ){
+            message = Constant.DATE_EMPTY;
+            responseDto.setMessage(message);
+            return responseDto;
+        }
+
+        paging = PageRequest.of(pageNumber, pageSize);
+        pagedResult = violationClassRepository.getViolationClassByDateCondition(classId, fromDate, toDate, paging);
+
+        if(pagedResult == null || pagedResult.getTotalElements() == 0) {
+            message = Constant.VIOLATIONOFCLASS_EMPTY;
+            responseDto.setMessage(message);
+            return responseDto;
+        }
+
+        for(ViolationClass item : pagedResult){
+            violationClassDto = additionalFunctionService.convertViolationClassFromEntityToDto(item);
+            violationClassListDto.add(violationClassDto);
+        }
+
+        totalPage = pagedResult.getTotalPages();
+        responseDto.setViewViolationClassList(violationClassListDto);
+        responseDto.setTotalPage(totalPage);
+        responseDto.setMessage(Constant.SUCCESS);
+
+        return responseDto;
     }
 }

@@ -84,4 +84,11 @@ public interface ViolationClassRepository extends JpaRepository<ViolationClass, 
 
     @Query(value="select MAX(vc.date) from ViolationClass vc where vc.weekId <> 0 and vc.date < :minDate and vc.status = 1")
     Date findBiggestDateRankedOfEditRank(@Param("minDate")Date minDate);
+
+    @Query(value = "select v from ViolationClass v " +
+            "where (v.classId = :classId or :classId is NULL )" +
+            "and v.date >= :fromDate and v.date <= :toDate order by v.date desc, v.classId asc ")
+    Page<ViolationClass> getViolationClassByDateCondition(@Param("classId")Integer classId,
+                                                       @Param("fromDate")Date fromDate,@Param("toDate")Date toDate,
+                                                       Pageable paging);
 }

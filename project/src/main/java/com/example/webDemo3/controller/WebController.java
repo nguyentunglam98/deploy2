@@ -1,7 +1,5 @@
 package com.example.webDemo3.controller;
 
-import com.example.webDemo3.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -177,6 +175,11 @@ public class WebController {
         return "manageEmulation/viewRequest";
     }
 
+    @GetMapping("/violationListOfDay")
+    public String violationListOfDay(Model model) {
+        return "manageEmulation/violationListOfDay";
+    }
+
     @GetMapping("/history")
     public String history(Model model) {
         return "manageEmulation/history";
@@ -231,7 +234,7 @@ public class WebController {
     }
 
     @GetMapping("/postDetail")
-    public String postDetail(@RequestParam(value = "id", required = true) Integer id,  Model model) {
+    public String postDetail(@RequestParam(value = "id", required = true) Integer id, Model model) {
         model.addAttribute("newsletterId", id);
         return "managePost/postDetail";
     }

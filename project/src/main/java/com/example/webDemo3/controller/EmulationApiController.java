@@ -150,4 +150,17 @@ public class EmulationApiController {
     {
         return violationOfClassService.deleteRequestChange(model);
     }
+
+    /**
+     * kimpt142
+     * 11/09
+     * view all vilation of class with the condition include classid, fromdate, todate
+     * @param model include classid, fromdate and todate
+     * @return message
+     */
+    @PostMapping("/violationclassfromto")
+    public ViewViolationClassListResponseDto getViolationOfClassFromTo(@RequestBody ViewViolationClassFromToRequestDto model)
+    {
+        return violationOfClassService.getViolationClassFromTo(model);
+    }
 }

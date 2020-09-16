@@ -25,6 +25,7 @@ $(document).ready(function () {
         //ROLEID_ADMIN
         if (roleID == 1) {
             $("#adminMenu").removeClass("hide");
+            $("#violationListOfDayMenu").removeClass("hide");
         }
         //ROLEID_TIMETABLE_MANAGER || ROLEID_ADMIN
         if (roleID == 2 || roleID == 1) {

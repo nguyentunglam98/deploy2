@@ -5,12 +5,15 @@ import com.example.webDemo3.dto.MessageDTO;
 import com.example.webDemo3.dto.manageClassResponseDto.ClassResponseDto;
 import com.example.webDemo3.dto.manageEmulationResponseDto.ClassOfRedStarResponseDto;
 import com.example.webDemo3.dto.manageEmulationResponseDto.ViewGradingEmulationResponseDto;
+import com.example.webDemo3.dto.manageEmulationResponseDto.ViewNumberOfStudentResponseDto;
 import com.example.webDemo3.dto.manageViolationResponseDto.ViolationTypeResponseDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.AddViolationForClassRequestDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.ClassOfRedStarRequestDto;
 import com.example.webDemo3.dto.request.manageEmulationRequestDto.SubViolationForClassRequestDto;
+import com.example.webDemo3.dto.request.manageEmulationRequestDto.ViewNumberOfStudentRequestDto;
 import com.example.webDemo3.entity.*;
 import com.example.webDemo3.repository.ClassRedStarRepository;
+import com.example.webDemo3.repository.NumberOfStudentRepository;
 import com.example.webDemo3.repository.SchoolYearRepository;
 import com.example.webDemo3.repository.ViolationClassRepository;
 import com.example.webDemo3.service.manageClassService.ClassService;
@@ -45,6 +48,9 @@ public class GradingEmulationServiceImpl implements GradingEmulationService {
 
     @Autowired
     private ClassRedStarRepository classRedStarRepository;
+
+    @Autowired
+    private NumberOfStudentRepository numberOfStudentRepository;
 
     /**
      * kimpt142
@@ -219,5 +225,41 @@ public class GradingEmulationServiceImpl implements GradingEmulationService {
             violationClass.setCreateBy(username);
             violationClassRepository.save(violationClass);
         }
+    }
+
+    /**
+     * lamnt98 - 23/09
+     * view number of student and union of a class
+     */
+    @Override
+    public ViewNumberOfStudentResponseDto viewNumberOfStudent(ViewNumberOfStudentRequestDto model) {
+
+        Integer classId = model.getClassId();
+
+        MessageDTO message = new MessageDTO();
+        NumberOfStudent numberOfStudentEntity = new NumberOfStudent();
+
+        ViewNumberOfStudentResponseDto responseDto = new ViewNumberOfStudentResponseDto();
+
+        if(classId == null){
+            message = Constant.CLASS_ID_NULL;
+            responseDto.setMessage(message);
+            return responseDto;
+        }
+
+        numberOfStudentEntity = numberOfStudentRepository.findById(classId).orElse(null);
+
+        if(numberOfStudentEntity == null){
+            message = Constant.NUMBER_OF_STUDENT_NULL;
+            responseDto.setMessage(message);
+            return responseDto;
+        }
+
+        message = Constant.SUCCESS;
+        responseDto.setNumberOfStudent(numberOfStudentEntity.getNumberOfStudent());
+        responseDto.setNumberOfUnion(numberOfStudentEntity.getNumberOfUnion());
+        responseDto.setMessage(message);
+
+        return  responseDto;
     }
 }

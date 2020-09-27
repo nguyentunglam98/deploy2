@@ -5,12 +5,11 @@ import com.example.webDemo3.dto.*;
 import com.example.webDemo3.dto.manageClassResponseDto.*;
 import com.example.webDemo3.dto.request.*;
 import com.example.webDemo3.dto.request.manageClassRequestDto.*;
+import com.example.webDemo3.entity.*;
 import com.example.webDemo3.entity.Class;
-import com.example.webDemo3.entity.GiftedClass;
-import com.example.webDemo3.entity.Role;
-import com.example.webDemo3.entity.User;
 import com.example.webDemo3.repository.ClassRepository;
 import com.example.webDemo3.repository.GiftedClassRepository;
+import com.example.webDemo3.repository.NumberOfStudentRepository;
 import com.example.webDemo3.repository.UserRepository;
 import com.example.webDemo3.service.manageClassService.ClassService;
 import com.example.webDemo3.service.GenerateAccountService;
@@ -38,6 +37,9 @@ public class ClassServiceImpl implements ClassService {
 
     @Autowired
     private GiftedClassRepository giftedClassRepository;
+
+    @Autowired
+    private NumberOfStudentRepository numberOfStudentRepository;
 
     @Autowired
     private GenerateAccountService generateAccountService;
@@ -129,6 +131,8 @@ public class ClassServiceImpl implements ClassService {
         String classIdentifier = model.getClassIdentifier();
         Integer grade = model.getGrade();
         Integer giftedClassId = model.getGiftedClassId();
+        Integer numOfStudent = model.getNumOfStudent();
+        Integer numOfUnion = model.getNumOfUnion();
 
         if(classIdentifier.trim().equals("")){
             message = Constant.CLASSIDENTIFIER_EMPTY;
@@ -183,6 +187,13 @@ public class ClassServiceImpl implements ClassService {
             classRepository.save(addClass);
             Class saveClass = classRepository.findClassActiveByClassIdentifier(classIdentifier);
             Integer classId = saveClass.getClassId();
+
+            //add number of student and union
+            if(numOfStudent != null || numOfUnion != null) {
+                NumberOfStudent numberOfStudent = new NumberOfStudent(classId, numOfStudent, numOfUnion);
+                numberOfStudentRepository.save(numberOfStudent);
+            }
+
             GenerateNameRequestDto requestDto;
             String password = "123@123a";
             String passwordEncode = passwordEncoder.encode(password);
@@ -292,6 +303,8 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public MessageDTO editClass(EditClassRequestDto model) {
         Integer classId = model.getClassId();
+        Integer numOfStudent = model.getNumOfStudent();
+        Integer numOfUnion = model.getNumOfUnion();
         String classIdentifier = model.getClassIdentifier().trim();
         Integer status = model.getStatus();
         MessageDTO message = new MessageDTO();
@@ -342,6 +355,12 @@ public class ClassServiceImpl implements ClassService {
                     }
                 }
             }
+
+            if(numOfStudent != null || numOfUnion != null){
+                NumberOfStudent numberOfStudent = new NumberOfStudent(classId, numOfStudent, numOfUnion);
+                numberOfStudentRepository.save(numberOfStudent);
+            }
+
             classRepository.save(editClass);
         }catch (Exception e){
             message.setMessageCode(1);
@@ -374,6 +393,12 @@ public class ClassServiceImpl implements ClassService {
         responseDto.setClassIdentifier(classInfor.getClassIdentifier());
         responseDto.setStatus(classInfor.getStatus());
         responseDto.setGrade(classInfor.getGrade());
+
+        NumberOfStudent numberOfStudentEntity = classInfor.getNumberOfStudents();
+        if(numberOfStudentEntity != null) {
+            responseDto.setNumOfStudent(numberOfStudentEntity.getNumberOfStudent());
+            responseDto.setNumOfUnion(numberOfStudentEntity.getNumberOfUnion());
+        }
 
         String giftedClassName = classInfor.getGiftedClass().getName();
         if(giftedClassName != null){

@@ -2,7 +2,7 @@ var inforSearch = {
     classIdentifier: "",
     grade: "",
     sortBy: "1",
-    orderBy: "0",
+    orderBy: "1",
     status: "",
     pageNumber: 0
 }
@@ -65,7 +65,7 @@ function search() {
                 paging(inforSearch, totalPages);
                 if (data.classList != null) {
                     $.each(data.classList.content, function (i, item) {
-                        var grade, classIdentifier, status, giftedClassName;
+                        var grade, classIdentifier, status, giftedClassName, numberOfStudent, numberOfUnion;
                         id += 1;
                         if (item.grade == null) {
                             grade = "";
@@ -83,9 +83,25 @@ function search() {
                             status = `<span class="status-deactive"><i class="fa fa-circle" aria-hidden="true"></i></span>`;
                         }
                         if (item.giftedClass == null) {
-                            giftedClass = "";
+                            giftedClassName = "";
                         } else {
                             giftedClassName = item.giftedClass.name;
+                        }
+                        if (item.numberOfStudents == null) {
+                            numberOfStudent = "-";
+                            numberOfUnion = "-";
+                        } else {
+                            if (item.numberOfStudents.numberOfStudent == null) {
+                                numberOfStudent = "-";
+                            } else {
+                                numberOfStudent = item.numberOfStudents.numberOfStudent;
+                            }
+
+                            if (item.numberOfStudents.numberOfUnion == null) {
+                                numberOfUnion = "-";
+                            } else {
+                                numberOfUnion = item.numberOfStudents.numberOfUnion;
+                            }
                         }
                         $('tbody').append(
                             `<tr>
@@ -93,6 +109,8 @@ function search() {
                                 <td><span id="grade">` + grade + `</span></td>
                                 <td><span id="giftedClassName">` + giftedClassName + `</span></td>
                                 <td><span id="classIdentifier">` + classIdentifier + `</span></td>
+                                <td><span id="numberOfStudent">` + numberOfStudent + `</span></td>
+                                <td><span id="numberOfUnion">` + numberOfUnion + `</span></td>
                                 <td><span id="status">` + status + `</span></td>
                                 <td><span class="bt-table-field"><a href="editClass" id="${item.classId}" class="bt-table-edit">
                                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></span></td>

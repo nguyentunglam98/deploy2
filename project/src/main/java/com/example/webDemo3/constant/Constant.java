@@ -170,7 +170,7 @@ public class Constant {
     public static final MessageDTO DATE_EMPTY =
             new MessageDTO(1,"Hãy lựa chọn ngày.");
     public static final MessageDTO LIST_REDSTAR_EMPTY =
-            new MessageDTO(1,"Danh sách sao đỏ trống.");
+            new MessageDTO(1,"Danh sách cờ đỏ trống.");
     public static final MessageDTO VIEW_CHANGE_REQUEST_NULL =
             new MessageDTO(1,"Không có kết quả.");
     public static final MessageDTO EMULATE_FAIL =
@@ -363,6 +363,8 @@ public class Constant {
             new MessageDTO(1,"Không thể thêm phân công có ngày áp dụng nhỏ hơn hoặc bằng ngày hiện tại.");
     public static final MessageDTO NOT_DELETE_ASSIGN_REDSTAR =
             new MessageDTO(1,"Không thể xóa phân công có ngày áp dụng nhỏ hơn hoặc bằng ngày hiện tại.");
+    public static final MessageDTO NUMBER_OF_STUDENT_NULL =
+            new MessageDTO(1,"Không có kết quả.");
     /**
      * Success message
      */

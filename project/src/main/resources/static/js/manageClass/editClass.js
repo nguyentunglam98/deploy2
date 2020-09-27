@@ -1,10 +1,12 @@
-var editClassId, oldIdentifierName, oldStatus, newStatus;
+var editClassId, oldIdentifierName, oldStatus, oldNumOfStudent, oldNumOfUnion;
+var newClassIdentifier, newStatus, newNumOfStudent, newNumOfUnion;
 
 $(document).ready(function () {
     editClassId = sessionStorage.getItem("classId")
     var classRequest = {
         classId: editClassId
     }
+    console.log(JSON.stringify(classRequest));
     if (editClassId == null) {
         $('.classInfo-err').append(`Hãy quay lại chọn lớp mà bạn muốn sửa thông tin tại <a href="manageClass">ĐÂY</a>`);
         $("#editInfo").prop('disabled', true);
@@ -23,9 +25,13 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.message.messageCode == 0) {
                     oldIdentifierName = data.classIdentifier;
-                    $('#identifier').attr('value', data.classIdentifier);
+                    oldNumOfStudent = data.numOfStudent;
+                    oldNumOfUnion = data.numOfUnion;
+                    $('#identifier').attr('value', oldIdentifierName);
                     $('#giftedClassName').attr('value', data.giftedClassName);
                     $('#grade').attr('value', data.grade);
+                    $('#numOfStudent').attr('value', oldNumOfStudent);
+                    $('#numOfUnion').attr('value', oldNumOfUnion);
                     if (data.status != null && data.status == 1) {
                         $("input[name=optradio][value='1']").prop('checked', true);
                         oldStatus = 1;
@@ -50,6 +56,8 @@ $(document).ready(function () {
 $("#editInfo").click(function (e) {
     newStatus = 1;
     newClassIdentifier = $('#identifier').val().trim();
+    newNumOfStudent = $('#numOfStudent').val().trim();
+    newNumOfUnion = $('#numOfUnion').val().trim();
     var radioValue = $("input[name=optradio]:checked").val();
     if (radioValue == '0') {
         newStatus = 0;
@@ -57,8 +65,17 @@ $("#editInfo").click(function (e) {
     if (newClassIdentifier == "") {
         $('.classInfo-err').text("Hãy nhập tên định danh!");
         return false;
-    } else if (newStatus == oldStatus && newClassIdentifier == oldIdentifierName) {
-        $('.classInfo-err').text("Hãy thay đổi thông tin !");
+    } else if (newNumOfStudent != "" && !isInteger(newNumOfStudent)) {
+        $('.classInfo-err').text('Tổng sĩ số phải là số nguyên dương!');
+        return false;
+    } else if (newNumOfUnion != "" && !isInteger(newNumOfUnion)) {
+        $('.classInfo-err').text('Số đoàn viên phải là số nguyên dương!');
+        return false;
+    } else if (newNumOfUnion != "" && newNumOfStudent != "" && (parseInt(newNumOfStudent) < parseInt(newNumOfUnion))) {
+        $('.classInfo-err').text('Số đoàn viên phải nhỏ hơn Tổng sĩ số!');
+        return false;
+    } else if (newStatus == oldStatus && newClassIdentifier == oldIdentifierName && newNumOfStudent == oldNumOfStudent && newNumOfUnion == oldNumOfUnion) {
+        $('.classInfo-err').text("Hãy thay đổi thông tin!");
         return false;
     } else {
         if (newStatus != oldStatus) {
@@ -78,7 +95,9 @@ function editClass(e) {
     var editClass = {
         classId: editClassId,
         classIdentifier: newClassIdentifier,
-        status: newStatus.toString()
+        status: newStatus.toString(),
+        numOfStudent: newNumOfStudent,
+        numOfUnion: newNumOfUnion
     }
     e.preventDefault();
     $.ajax({
@@ -107,6 +126,8 @@ function editClass(e) {
                 }
                 $('#editInfoSuccess').modal('show');
                 oldIdentifierName = newClassIdentifier;
+                oldNumOfStudent = newNumOfStudent;
+                oldNumOfUnion = oldNumOfUnion;
                 oldStatus = newStatus;
             } else {
                 $('.classInfo-err').text(message);

@@ -33,6 +33,10 @@ public class Class {
     @ToString.Exclude
     private GiftedClass giftedClass;
 
+    @OneToOne
+    @JoinColumn(name="CLASS_ID")
+    private NumberOfStudent numberOfStudents;
+
     public Class() {
     }
 

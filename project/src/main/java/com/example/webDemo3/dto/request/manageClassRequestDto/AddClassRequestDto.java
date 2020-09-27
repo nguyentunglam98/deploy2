@@ -12,4 +12,6 @@ public class AddClassRequestDto {
     private Integer giftedClassId;
     private Boolean isRedStar;
     private Boolean isMonitor;
+    private Integer numOfStudent;
+    private Integer numOfUnion;
 }

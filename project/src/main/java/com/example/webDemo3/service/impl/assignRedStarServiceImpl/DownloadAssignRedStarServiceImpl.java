@@ -25,7 +25,7 @@ public class DownloadAssignRedStarServiceImpl implements DownloadAssignRedStarSe
     public ByteArrayInputStream download(DownloadAssignRedStarRequestDto data){
         //if(data.getClassId())
 
-        String[] COLUMNs = {"Lớp", "Sao đỏ 1", "Sao đỏ 2"};
+        String[] COLUMNs = {"Lớp", "Cờ đỏ 1", "Cờ đỏ 2"};
         try {
             List<ClassRedStar> assignList = classRedStarRepository.findAllByCondition(data.getClassId()
                     ,"",data.getFromDate());

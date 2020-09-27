@@ -33,7 +33,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0">
                     <div class="form-group text-left mb-1">
                         <label>Lớp:</label>
-                        <select class="combobox form-control w-75" id="classList"></select>
+                        <select class="combobox form-control w-75" id="classList" onchange="getNumOfClass()"></select>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0">
@@ -45,6 +45,13 @@
                 <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 px-0">
                     <div class="form-group text-right mb-1 mt-3">
                         <button class="btn btn-search m-0" id="search">Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-title-2">
+                <div class="col-md-12 px-0">
+                    <div class="form-group mb-1">
+                        <label id="numOfStudent"><span class="font-500">Tổng sĩ số: </span>Chưa cập nhật</label>
                     </div>
                 </div>
             </div>

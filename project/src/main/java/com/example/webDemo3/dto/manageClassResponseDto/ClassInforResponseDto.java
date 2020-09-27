@@ -9,5 +9,7 @@ public class ClassInforResponseDto {
     private Integer grade;
     private String giftedClassName;
     private Integer status;
+    private Integer numOfStudent;
+    private Integer numOfUnion;
     private MessageDTO message;
 }

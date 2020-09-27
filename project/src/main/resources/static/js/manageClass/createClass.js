@@ -1,4 +1,4 @@
-var grade, giftedClassId, classIdentifier, isRedStar, isMonitor;
+var grade, giftedClassId, classIdentifier, isRedStar, isMonitor, numOfStudent, numOfUnion;
 gradeCombobox();
 
 $.ajax({
@@ -31,6 +31,8 @@ $("#submit").click(function (e) {
     isRedStar = false;
     isMonitor = false;
     classIdentifier = $('#identifier').val().trim();
+    numOfStudent = $('#numOfStudent').val().trim();
+    numOfUnion = $('#numOfUnion').val().trim();
     if ($('#isRedStar').is(":checked")) {
         isRedStar = true;
     }
@@ -46,6 +48,18 @@ $("#submit").click(function (e) {
     } else if (classIdentifier == "") {
         $('.createClass-err').text("Hãy nhập tên định danh!");
         return false;
+    } else if (classIdentifier == "") {
+        $('.createClass-err').text("Hãy nhập tên định danh!");
+        return false;
+    } else if (numOfStudent != "" && !isInteger(numOfStudent)) {
+        $('.createClass-err').text('Tổng sĩ số phải là số nguyên dương!');
+        return false;
+    } else if (numOfUnion != "" && !isInteger(numOfUnion)) {
+        $('.createClass-err').text('Số đoàn viên phải là số nguyên dương!');
+        return false;
+    } else if (numOfUnion != "" && numOfStudent != "" && (parseInt(numOfStudent) < parseInt(numOfUnion))) {
+        $('.createClass-err').text('Số đoàn viên phải nhỏ hơn Tổng sĩ số!');
+        return false;
     } else {
         $('.createClass-err').text('');
         var addClass = {
@@ -53,7 +67,9 @@ $("#submit").click(function (e) {
             grade: grade,
             giftedClassId: giftedClassId,
             isRedStar: isRedStar,
-            isMonitor: isMonitor
+            isMonitor: isMonitor,
+            numOfStudent: numOfStudent,
+            numOfUnion: numOfUnion
         }
         e.preventDefault();
         $.ajax({

@@ -211,6 +211,7 @@ function search() {
                     editBtn()
                     historyBtn();
                     totalSubstractGrade();
+                    getNumOfClass();
                 } else {
                     $(".violation-by-date").html(`<h3 class="text-center mt-3">` + message + `</h3>`);
                     $('.violation-total-grade').addClass('hide');
@@ -226,6 +227,37 @@ function search() {
             $(".violation-by-date").html(`<h3 class="text-center mt-3">` + errMsg + `</h3>`);
             $('.violation-total-grade').addClass('hide');
             $('.violation-total-grade .totalGrade').text('');
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+}
+
+/*Get number of student of a class*/
+function getNumOfClass() {
+    var classId = $('#classList option:selected').val();
+    var request = {
+        classId: classId,
+    }
+    $.ajax({
+        url: '/api/emulation/numofstuandunion',
+        type: 'POST',
+        data: JSON.stringify(request),
+        success: function (data) {
+            var messageCode = data.message.messageCode;
+            if (messageCode == 0) {
+                var numOfStudent = data.numberOfStudent;
+                if (numOfStudent != null) {
+                    $("#numOfStudent").html(`<span class="font-500">Tổng sĩ số: </span>` + numOfStudent);
+                } else {
+                    $("#numOfStudent").html(`<span class="font-500">Tổng sĩ số: </span>Chưa cập nhật`);
+                }
+            } else {
+                $("#numOfStudent").html(`<span class="font-500">Tổng sĩ số: </span>Chưa cập nhật`);
+            }
+        },
+        failure: function (errMsg) {
+            $("#numOfStudent").html(`<span class="font-500">Tổng sĩ số: </span>Chưa cập nhật`);
         },
         dataType: "json",
         contentType: "application/json"

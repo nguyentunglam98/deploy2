@@ -97,7 +97,8 @@ $.ajax({
                 getClass();
                 increaseBtn();
                 decreaseBtn();
-                validateQuantity()
+                validateQuantity();
+                getNumOfClass();
             } else {
                 $(".panel-default").html(`<h5>Không có lỗi vi phạm.</h5>`);
             }
@@ -269,6 +270,46 @@ function getClass() {
             contentType: "application/json"
         });
     }
+}
+
+/*Get number of student and number of union of a class*/
+function getNumOfClass() {
+    var classId = $('#classList option:selected').val();
+    var request = {
+        classId: classId,
+    }
+    $.ajax({
+        url: '/api/emulation/numofstuandunion',
+        type: 'POST',
+        data: JSON.stringify(request),
+        success: function (data) {
+            var messageCode = data.message.messageCode;
+            var message = data.message.message;
+            if (messageCode == 0) {
+                var numOfStudent = data.numberOfStudent;
+                var numOfUnion = data.numberOfUnion;
+                if (numOfStudent != null) {
+                    $("#numOfStudent").html(`<span class="font-500">Tổng sĩ số: </span>` + numOfStudent);
+                } else {
+                    $("#numOfStudent").html(`<span class="font-500">Tổng sĩ số: </span>Chưa cập nhật`);
+                }
+                if (numOfUnion != null) {
+                    $("#numOfUnion").html(`<span class="font-500">Số đoàn viên: </span>` + numOfUnion);
+                } else {
+                    $("#numOfUnion").html(`<span class="font-500">Số đoàn viên: </span>Chưa cập nhật`);
+                }
+            } else {
+                $("#numOfStudent").html(`<span class="font-500">Tổng sĩ số: </span>Chưa cập nhật`);
+                $("#numOfUnion").html(`<span class="font-500">Số đoàn viên: </span>Chưa cập nhật`);
+            }
+        },
+        failure: function (errMsg) {
+            $("#numOfStudent").html(`<span class="font-500">Tổng sĩ số: </span>Chưa cập nhật`);
+            $("#numOfUnion").html(`<span class="font-500">Số đoàn viên: </span>Chưa cập nhật`);
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
 }
 
 /*Button Increase*/

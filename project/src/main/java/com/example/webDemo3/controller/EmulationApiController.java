@@ -163,4 +163,17 @@ public class EmulationApiController {
     {
         return violationOfClassService.getViolationClassFromTo(model);
     }
+
+    /**
+     * lamnt98
+     * 23/09
+     * view number of student and number of union
+     * @param model include classid
+     * @return ViewNumberOfStudentResponseDto
+     */
+    @PostMapping("/numofstuandunion")
+    public ViewNumberOfStudentResponseDto viewNumberOfStudentAndUnion(@RequestBody ViewNumberOfStudentRequestDto model)
+    {
+        return gradingEmulationService.viewNumberOfStudent(model);
+    }
 }

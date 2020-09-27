@@ -10,4 +10,6 @@ public class EditClassRequestDto {
     private Integer classId;
     private String classIdentifier;
     private Integer status;
+    private Integer numOfStudent;
+    private Integer numOfUnion;
 }

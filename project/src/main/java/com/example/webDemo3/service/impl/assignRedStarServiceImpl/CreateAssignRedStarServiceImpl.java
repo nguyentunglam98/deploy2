@@ -110,7 +110,7 @@ public class CreateAssignRedStarServiceImpl implements CreateAssignRedStarServic
             if(classList.size()*2 > redStarList.size()){
                 message = new MessageDTO();
                 message.setMessageCode(1);
-                message.setMessage("số lượng sao đỏ không đủ để phân công");
+                message.setMessage("số lượng cờ đỏ không đủ để phân công");
                 return message;
             }
             Date beforDate = classRedStarRepository.getBiggestClosetDate(fromDate);
@@ -278,7 +278,7 @@ public class CreateAssignRedStarServiceImpl implements CreateAssignRedStarServic
                 else {
                     populationFlag[i][classIndex] = 0;
                     flagCopy[classIndex][redStar] = 1;
-                    //2 sao đỏ cùng lớp không chấm cùng 1 lớp
+                    //2 cờ đỏ cùng lớp không chấm cùng 1 lớp
                     if(classIndex%2 == 0){
                         flagCopy[classIndex+1][redStar] = 1;
                         int classOfRedstar = indexClassOfRedStar[redStar];
@@ -288,7 +288,7 @@ public class CreateAssignRedStarServiceImpl implements CreateAssignRedStarServic
                     }
                     int k = 0;
                     if (classIndex != 0) k = classIndex/2;
-                    //sao đỏ của 2 lớp không chấm chéo nhau
+                    //cờ đỏ của 2 lớp không chấm chéo nhau
                     for (int redStarOfClass : indexRedStarOfClass[k]){
                         flagCopy[indexClassOfRedStar[redStar]*2][redStarOfClass] = 1;
                         flagCopy[indexClassOfRedStar[redStar]*2+1][redStarOfClass] = 1;
